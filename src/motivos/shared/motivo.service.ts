@@ -20,7 +20,7 @@ export class MotivoService {
     return await createdMotivo.save();
   }
   async update(id: string, motivo: Motivo) {
-    await this.motivoModel.updateOne({ _id: id, motivo }).exec();
+    await this.motivoModel.updateOne({ _id: id }, motivo).exec();
     return this.getByID(id);
   }
   async delete(id: string) {
