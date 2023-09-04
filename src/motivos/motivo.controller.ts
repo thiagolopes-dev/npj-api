@@ -29,10 +29,13 @@ export class MotivoController {
   async create(@Body() motivo: Motivo): Promise<Motivo> {
     return this.motivoService.create(motivo);
   }
-  
+
   @Put(':id')
-  async update(@Param('id') id: string, @Body() motivo: Motivo): Promise<Motivo> {
-      return this.motivoService.update(id, motivo);
+  async update(
+    @Param('id') id: string,
+    @Body() motivo: Motivo,
+  ): Promise<Motivo> {
+    return this.motivoService.update(id, motivo);
   }
 
   @Delete(':id')
