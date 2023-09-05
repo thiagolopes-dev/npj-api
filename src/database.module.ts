@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MotivoSchema } from './motivos/schema/motivo.schema';
-import { VaraSchema } from './varas/schema/varas';
+import { VaraSchema } from './varas/schema/vara.schema';
 
 @Module({
   imports: [

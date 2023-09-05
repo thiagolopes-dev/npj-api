@@ -5,11 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MotivoDTO } from '../dto/motivo.dto';
-import { MotivoDocument } from '../schema/motivo.schema';
+import { MotivoDTO } from './dto/motivo.dto';
+import { MotivoDocument } from './schema/motivo.schema';
 
 @Injectable()
-export class MotivoService {
+export class MotivosService {
   constructor(
     @InjectModel('Motivo') private readonly motivoModel: Model<MotivoDTO>,
   ) {}

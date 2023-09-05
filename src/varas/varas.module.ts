@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/database.module';
-import { VaraService } from './shared/vara.service';
-import { VaraController } from './vara.controller';
+
+import { VarasController } from './varas.controller';
+import { VarasService } from './varas.service';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [VaraController],
-  providers: [VaraService],
-  exports: [VaraService],
+  controllers: [VarasController],
+  providers: [VarasService],
+  exports: [VarasService],
 })
 export class VarasModule {}

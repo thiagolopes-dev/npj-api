@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Vara } from './vara';
+import { VaraDTO } from './dto/vara.dto';
 
 @Injectable()
-export class VaraService {
-  constructor(@InjectModel('Vara') private readonly varaModel: Model<Vara>) {}
+export class VarasService {
+  constructor(
+    @InjectModel('Vara') private readonly varaModel: Model<VaraDTO>,
+  ) {}
 
   async getAll() {
     return await this.varaModel.find().exec();
@@ -15,12 +17,12 @@ export class VaraService {
     return await this.varaModel.findById(id).exec();
   }
 
-  async create(vara: Vara) {
+  async create(vara: VaraDTO) {
     const createdVara = new this.varaModel(vara);
     return await createdVara.save();
   }
 
-  async update(id: string, vara: Vara) {
+  async update(id: string, vara: VaraDTO) {
     await this.varaModel.updateOne({ _id: id }, vara).exec();
     return this.getByID(id);
   }

@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/database.module';
-import { MotivoController } from './motivo.controller';
-import { MotivoService } from './shared/motivo.service';
+import { MotivosController } from './motivos.controller';
+import { MotivosService } from './motivos.service';
 
 @Module({
   imports: [
     DatabaseModule,
     // MongooseModule.forFeature([{ name: 'Motivo', schema: MotivoSchema }]),
   ],
-  controllers: [MotivoController],
-  providers: [MotivoService],
-  exports: [MotivoService],
+  controllers: [MotivosController],
+  providers: [MotivosService],
+  exports: [MotivosService],
 })
 export class MotivosModule {}

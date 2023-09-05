@@ -9,11 +9,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { MotivoDTO } from './dto/motivo.dto';
-import { MotivoService } from './shared/motivo.service';
+import { MotivosService } from './motivos.service';
 
 @Controller('motivos')
-export class MotivoController {
-  constructor(private motivoService: MotivoService) {}
+export class MotivosController {
+  constructor(private motivoService: MotivosService) {}
 
   @Get()
   async getAll(): Promise<MotivoDTO[]> {
