@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Motivo } from './shared/motivo';
+import { MotivoDTO } from './dto/motivo.dto';
 import { MotivoService } from './shared/motivo.service';
 
 @Controller('motivos')
@@ -16,25 +16,25 @@ export class MotivoController {
   constructor(private motivoService: MotivoService) {}
 
   @Get()
-  async getAll(): Promise<Motivo[]> {
+  async getAll(): Promise<MotivoDTO[]> {
     return this.motivoService.getAll();
   }
 
   @Get(':id')
-  async getByID(@Param('id') id: string): Promise<Motivo> {
+  async getByID(@Param('id') id: string): Promise<MotivoDTO> {
     return this.motivoService.getByID(id);
   }
 
   @Post()
-  async create(@Body() motivo: Motivo): Promise<Motivo> {
+  async create(@Body() motivo: MotivoDTO): Promise<MotivoDTO> {
     return this.motivoService.create(motivo);
   }
 
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() motivo: Motivo,
-  ): Promise<Motivo> {
+    @Body() motivo: MotivoDTO,
+  ): Promise<MotivoDTO> {
     return this.motivoService.update(id, motivo);
   }
 

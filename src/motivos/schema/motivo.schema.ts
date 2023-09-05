@@ -1,6 +1,15 @@
-import * as mongoose from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export const MotivoSchema = new mongoose.Schema({
-  descricao: String,
-  status: Boolean,
-});
+export type MotivoDocument = Motivo & Document;
+
+@Schema()
+export class Motivo {
+  @Prop({ required: true, unique: true })
+  descricao: string;
+
+  @Prop({ required: true })
+  status: boolean;
+}
+
+export const MotivoSchema = SchemaFactory.createForClass(Motivo);
