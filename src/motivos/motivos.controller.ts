@@ -30,6 +30,11 @@ export class MotivosController {
     return this.motivoService.create(motivo);
   }
 
+  // @Post()
+  // async create(@Body() motivo: Motivo): Promise<Motivo> {
+  //   return this.motivoService.create(motivo);
+  // }
+
   @Put(':id')
   async update(
     @Param('id') id: string,
