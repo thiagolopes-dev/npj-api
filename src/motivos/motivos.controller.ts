@@ -2,18 +2,17 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
-  Put,
+  Put
 } from '@nestjs/common';
 import { MotivoDTO } from './dto/motivo.dto';
 import { MotivosService } from './motivos.service';
 
 @Controller('motivos')
 export class MotivosController {
-  constructor(private motivoService: MotivosService) {}
+  constructor(private motivoService: MotivosService) { }
 
   @Get()
   async getAll(): Promise<MotivoDTO[]> {
@@ -43,8 +42,8 @@ export class MotivosController {
     return this.motivoService.update(id, motivo);
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return this.motivoService.delete(id);
-  }
+  // @Delete(':id')
+  // async delete(@Param('id') id: string) {
+  //   return this.motivoService.delete(id);
+  // }
 }

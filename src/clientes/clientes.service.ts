@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ClienteDTO } from './dto/cliente.dto';
@@ -7,7 +7,7 @@ import { ClienteDTO } from './dto/cliente.dto';
 export class ClientesService {
   constructor(
     @InjectModel('Cliente') private readonly clienteModel: Model<ClienteDTO>,
-  ) {}
+  ) { }
 
   async getAll() {
     return await this.clienteModel.find().exec();
@@ -17,9 +17,18 @@ export class ClientesService {
     return await this.clienteModel.findById(id).exec();
   }
 
-  async create(vara: ClienteDTO) {
-    const createdCliente = new this.clienteModel(vara);
-    return await createdCliente.save();
+  async create(cliente: ClienteDTO) {
+    const { cpf, rg, ...rest } = cliente;
+    const cpfRg = await this.findByCpfRG(cpf, rg);
+    if (cpfRg || rg) {
+      throw new ConflictException('CPF ou RG já cadastrado!');
+    }
+    const createdCliente = new this.clienteModel({
+      ...rest,
+      rg,
+      cpf
+    });
+    return createdCliente.save();
   }
 
   async update(id: string, vara: ClienteDTO) {
@@ -28,5 +37,9 @@ export class ClientesService {
   }
   async delete(id: string) {
     return await this.clienteModel.deleteOne({ _id: id }).exec();
+  }
+
+  async findByCpfRG(cpf: string, rg: string): Promise<any> {
+    return this.clienteModel.findOne({ cpf, rg }).exec();
   }
 }

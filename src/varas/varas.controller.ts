@@ -2,18 +2,17 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
-  Put,
+  Put
 } from '@nestjs/common';
 import { VaraDTO } from './dto/vara.dto';
 import { VarasService } from './varas.service';
 
 @Controller('varas')
 export class VarasController {
-  constructor(private varaService: VarasService) {}
+  constructor(private varaService: VarasService) { }
 
   @Get()
   async getAll(): Promise<VaraDTO[]> {
@@ -38,8 +37,8 @@ export class VarasController {
     return this.varaService.update(id, vara);
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return this.varaService.delete(id);
-  }
+  // @Delete(':id')
+  // async delete(@Param('id') id: string) {
+  //   return this.varaService.delete(id);
+  // }
 }

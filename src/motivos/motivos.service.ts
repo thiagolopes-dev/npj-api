@@ -8,7 +8,7 @@ import { MotivoDocument } from './schema/motivo.schema';
 export class MotivosService {
   constructor(
     @InjectModel('Motivo') private readonly motivoModel: Model<MotivoDTO>,
-  ) {}
+  ) { }
 
   async getAll() {
     return await this.motivoModel.find().exec();
@@ -33,7 +33,16 @@ export class MotivosService {
   }
 
   async update(id: string, motivo: MotivoDTO) {
-    await this.motivoModel.updateOne({ _id: id }, motivo).exec();
+    const { descricao, ...rest } = motivo;
+    const descExits = await this.findByDescricao(descricao);
+    if (descExits) {
+      throw new ConflictException('Motivo já cadastrado !');
+    }
+    const updatedMotivo = new this.motivoModel({
+      ...rest,
+      descricao,
+    });
+    await this.motivoModel.updateOne({ _id: id }, { $set: updatedMotivo }).exec();
     return this.getByID(id);
   }
 

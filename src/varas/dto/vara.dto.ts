@@ -1,8 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class VaraDTO {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'O campo descrição é obrigatório' })
   descricao: string;
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'O campo status é obrigatório' })
   status: boolean;
 }
