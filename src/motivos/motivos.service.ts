@@ -38,10 +38,11 @@ export class MotivosService {
     if (descExits) {
       throw new ConflictException('Motivo já cadastrado !');
     }
-    const updatedMotivo = new this.motivoModel({
+    const updatedMotivo = {
       ...rest,
       descricao,
-    });
+    };
+    
     await this.motivoModel.updateOne({ _id: id }, { $set: updatedMotivo }).exec();
     return this.getByID(id);
   }

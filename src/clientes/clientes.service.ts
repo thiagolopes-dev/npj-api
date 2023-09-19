@@ -19,10 +19,15 @@ export class ClientesService {
 
   async create(cliente: ClienteDTO) {
     const { cpf, rg, ...rest } = cliente;
-    const cpfRg = await this.findByCpfRG(cpf, rg);
-    if (cpfRg || rg) {
+    const cpfExistente = await this.findByCpf(cpf);
+    const rgExistente = await this.findByRg(rg)
+
+    if (cpfExistente || rgExistente) {
+      console.log("CPF: " + cpfExistente)
+      console.log("RG: " + rgExistente)
       throw new ConflictException('CPF ou RG já cadastrado!');
     }
+
     const createdCliente = new this.clienteModel({
       ...rest,
       rg,
@@ -39,7 +44,11 @@ export class ClientesService {
     return await this.clienteModel.deleteOne({ _id: id }).exec();
   }
 
-  async findByCpfRG(cpf: string, rg: string): Promise<any> {
-    return this.clienteModel.findOne({ cpf, rg }).exec();
+  async findByCpf(cpf: string): Promise<any> {
+    return this.clienteModel.findOne({ cpf }).exec();
+  }
+
+  async findByRg(rg: string): Promise<any> {
+    return this.clienteModel.findOne({ rg }).exec();
   }
 }

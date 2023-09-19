@@ -35,6 +35,7 @@ export class VarasService {
     await this.varaModel.updateOne({ _id: id }, vara).exec();
     return this.getByID(id);
   }
+  
   async delete(id: string) {
     return await this.varaModel.deleteOne({ _id: id }).exec();
   }
