@@ -1,0 +1,424 @@
+{
+	"info": {
+		"_postman_id": "b811b3e8-65ad-41f2-a67a-c8a5f27577ce",
+		"name": "NPJ-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8879755",
+		"_collection_link": "https://www.postman.com/lively-spaceship-3964/workspace/anhanguera/collection/8879755-b811b3e8-65ad-41f2-a67a-c8a5f27577ce?action=share&source=collection_link&creator=8879755"
+	},
+	"item": [
+		{
+			"name": "motivos",
+			"item": [
+				{
+					"name": "GetAll Motivos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/motivos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"motivos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID Motivo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/motivos/64ef40f31bec11cbb8b62995",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"motivos",
+								"64ef40f31bec11cbb8b62995"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Motivo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\" : \"BBBBB\",\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/motivos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"motivos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Motivo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/motivos/64ef422b71c631514b36d220",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"motivos",
+								"64ef422b71c631514b36d220"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Motivo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\" : \"AAAAA\",\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/motivos/65024ade36304a26568eb245",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"motivos",
+								"65024ade36304a26568eb245"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "clientes",
+			"item": [
+				{
+					"name": "GetAll Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clientes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID Cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clientes/65023ecabc52b85de359df51",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clientes",
+								"65023ecabc52b85de359df51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Thiago Lopes\",\n    \"cpf\": \"19191919191913\",\n    \"rg\": \"9191919191988\",\n    \"logradouro\": \"Rua Rola Espelho\",\n    \"cep\": \"86710000\",\n    \"bairro\": \"Jardim Vinte\", \n    \"numero\": \"22A\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrina\",\n    \"uf\": \"PR\",\n    \"telefone\": \"0987654321\",\n    \"whatsapp\": \"543216789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/clientes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clientes/65023ecabc52b85de359df51",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clientes",
+								"65023ecabc52b85de359df51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n         \"nome\": \"Thiago H Lopes\",\n    \"cpf\": \"1919191919191aa\",\n    \"rg\": \"91919191919aaa\",\n    \"logradouro\": \"Rua Rola a Espelho\",\n    \"cep\": \"86710000222\",\n    \"bairro\": \"Jardim Vinteddd\", \n    \"numero\": \"22Ass\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrinasdd\",\n    \"uf\": \"ssPR\",\n    \"telefone\": \"sss0987654321\",\n    \"whatsapp\": \"sss543216789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/clientes/65023ecabc52b85de359df51",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clientes",
+								"65023ecabc52b85de359df51"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "varas",
+			"item": [
+				{
+					"name": "GetAll Vara",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/varas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"varas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID Vara",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/varas/64f2763743463e1ffa9ccbca",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"varas",
+								"64f2763743463e1ffa9ccbca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vara",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Vara do Trabalho 2\",\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/varas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"varas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Vara",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Vara do Trabalho Update\",\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/varas/64f6632b3bd841173c26cf66",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"varas",
+								"64f6632b3bd841173c26cf66"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Vara",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/varas/64f2763743463e1ffa9ccbca",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"varas",
+								"64f2763743463e1ffa9ccbca"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "status",
+			"item": [
+				{
+					"name": "GetAll Status",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID Status",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Create Status",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"finalizado\",\n    \"status\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/status/650337d866d8d7679b8cef62",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"status",
+								"650337d866d8d7679b8cef62"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Status",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/status/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"status",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000"
+		}
+	]
+}
