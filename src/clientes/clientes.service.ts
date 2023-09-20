@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ClienteDTO } from './dto/cliente.dto';
@@ -19,13 +19,17 @@ export class ClientesService {
 
   async create(cliente: ClienteDTO) {
     const { cpf, rg, ...rest } = cliente;
-    const cpfExistente = await this.findByCpf(cpf);
-    const rgExistente = await this.findByRg(rg)
+
+    const [cpfExistente, rgExistente] = await Promise.all([
+      this.findByCpf(cpf),
+      this.findByRg(rg)
+    ]);
 
     if (cpfExistente) {
-      throw new ConflictException('CPF já cadastrado!');
-    } else if(rgExistente) {
-      throw new ConflictException('RG já cadastrado!');
+      throw new ConflictException('CPF já cadastrado');
+    }
+    if (rgExistente) {
+      throw new ConflictException('RG já cadastrado');
     }
 
     const createdCliente = new this.clienteModel({
@@ -33,7 +37,12 @@ export class ClientesService {
       rg,
       cpf
     });
-    return createdCliente.save();
+
+    try {
+      return await createdCliente.save();
+    } catch (error) {
+      throw new NotFoundException('Cliente não pôde ser criado', error.message);
+    }
   }
 
   async update(id: string, cliente: ClienteDTO) {

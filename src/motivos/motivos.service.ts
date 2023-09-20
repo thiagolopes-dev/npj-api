@@ -10,7 +10,7 @@ export class MotivosService {
     @InjectModel('Motivo') private readonly motivoModel: Model<MotivoDTO>,
   ) { }
 
-  async getAll() {
+  async getAll(): Promise<MotivoDTO[]> {
     return await this.motivoModel.find().exec();
   }
 
@@ -42,7 +42,7 @@ export class MotivosService {
       ...rest,
       descricao,
     };
-    
+
     await this.motivoModel.updateOne({ _id: id }, { $set: updatedMotivo }).exec();
     return this.getByID(id);
   }

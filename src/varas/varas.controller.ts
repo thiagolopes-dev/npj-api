@@ -7,9 +7,12 @@ import {
   Post,
   Put
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { VaraDTO } from './dto/vara.dto';
 import { VarasService } from './varas.service';
 
+
+@ApiTags('varas')
 @Controller('varas')
 export class VarasController {
   constructor(private varaService: VarasService) { }
