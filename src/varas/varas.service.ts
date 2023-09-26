@@ -24,8 +24,12 @@ export class VarasService {
     if (descExits) {
       throw new ConflictException('Descrição já existente!');
     }
+    const MaxId = await this.varaModel.findOne({}, 'codigo')
+      .sort({ codigo: -1 });
+    const nextId = MaxId ? MaxId.codigo + 1 : 1;
     const createdVara = new this.varaModel({
       ...rest,
+      codigo: nextId,
       descricao,
     });
     return createdVara.save();

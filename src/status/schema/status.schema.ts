@@ -10,6 +10,9 @@ export class Status {
 
   @Prop({ required: true })
   status: boolean;
+
+  @Prop({ required: true, unique: true })
+  codigo: number;
 }
 
 export const StatusSchema = SchemaFactory.createForClass(Status);

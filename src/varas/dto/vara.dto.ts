@@ -5,4 +5,6 @@ export class VaraDTO {
   descricao: string;
   @IsNotEmpty({ message: 'O campo status é obrigatório' })
   status: boolean;
+
+  codigo: number;
 }

@@ -41,6 +41,8 @@ export class Cliente {
   @Prop({ required: true })
   whatsapp: string;
   
+  @Prop({ required: true, unique: true })
+  codigo: number;
 }
 
 export const ClienteSchema = SchemaFactory.createForClass(Cliente);

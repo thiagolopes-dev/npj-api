@@ -1,6 +1,9 @@
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
 export class StatusDTO {
+
+  codigo: number;
+
   @IsNotEmpty(
     { message: 'O campo descrição é obrigatório' })
   @MinLength(4,

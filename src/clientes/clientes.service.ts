@@ -31,9 +31,12 @@ export class ClientesService {
     if (rgExistente) {
       throw new ConflictException('RG já cadastrado');
     }
-
+    const MaxId = await this.clienteModel.findOne({}, 'codigo')
+      .sort({ codigo: -1 });
+    const nextId = MaxId ? MaxId.codigo + 1 : 1;
     const createdCliente = new this.clienteModel({
       ...rest,
+      codigo: nextId,
       rg,
       cpf
     });

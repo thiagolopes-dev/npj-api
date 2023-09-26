@@ -28,4 +28,6 @@ export class ClienteDTO {
   telefone: string;
 
   whatsapp: string;
+
+  codigo: number;
 }

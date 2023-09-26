@@ -24,8 +24,12 @@ export class StatusService {
     if (descExits) {
       throw new ConflictException('Status já cadastrado !');
     }
+    const MaxId = await this.statusModel.findOne({}, 'codigo')
+      .sort({ codigo: -1 });
+    const nextId = MaxId ? MaxId.codigo + 1 : 1;
     const createdStatus = new this.statusModel({
       ...rest,
+      codigo: nextId,
       descricao,
     });
     return createdStatus.save();

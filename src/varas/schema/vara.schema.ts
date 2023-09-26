@@ -10,6 +10,10 @@ export class Vara {
 
   @Prop({ required: true })
   status: boolean;
+
+  @Prop({ required: true, unique: true })
+  codigo: number;
+
 }
 
 export const VaraSchema = SchemaFactory.createForClass(Vara);

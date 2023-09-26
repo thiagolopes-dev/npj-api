@@ -5,7 +5,7 @@ export type MotivoDocument = Motivo & Document;
 
 @Schema()
 export class Motivo {
-  @Prop({})
+  @Prop({ required: true, unique: true })
   codigo: number;
 
   @Prop({ required: true, unique: true })
