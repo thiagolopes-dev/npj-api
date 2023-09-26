@@ -15,6 +15,7 @@ export class MotivosService {
   }
 
   async getByID(id: string) {
+    console.log(id);
     return await this.motivoModel.findById(id).exec();
   }
 
@@ -25,8 +26,13 @@ export class MotivosService {
     if (descExits) {
       throw new ConflictException('Motivo já cadastrado !');
     }
+    //consulta no mongodb para obter o ultimo e maior valor
+    const MaxId = await this.motivoModel.findOne({}, 'codigo')
+      .sort({ codigo: -1 });
+    const nextId = MaxId ? MaxId.codigo + 1 : 1;
     const createdMotivo = new this.motivoModel({
       ...rest,
+      codigo: nextId,
       descricao,
     });
     return createdMotivo.save();
@@ -43,7 +49,9 @@ export class MotivosService {
       descricao,
     };
 
-    await this.motivoModel.updateOne({ _id: id }, { $set: updatedMotivo }).exec();
+    await this.motivoModel
+      .updateOne({ _id: id }, { $set: updatedMotivo })
+      .exec();
     return this.getByID(id);
   }
 

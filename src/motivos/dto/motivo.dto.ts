@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
 export class MotivoDTO {
+
+  codigo: number;
+
   @ApiProperty({
     description: 'Descrição é obrigatório',
     required: true

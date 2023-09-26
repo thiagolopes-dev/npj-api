@@ -6,7 +6,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-
+  app.enableCors({
+    origin: ['http://localhost:4200', 'https://app.npj.com.br'],
+    methods: 'GET, HEAD, PUT, PATCH,POST, DELETE',
+    allowedHeaders: 'Authoration, Content-type',
+    credentials: true,
+  });
   const config = new DocumentBuilder()
     .setTitle('NPJ API')
     .setDescription('API NPJ ANHANGUERA')
