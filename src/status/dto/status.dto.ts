@@ -1,9 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
 export class StatusDTO {
 
   codigo: number;
 
+  @ApiProperty({
+    description: 'Descrição é obrigatório',
+    required: true
+  })
   @IsNotEmpty(
     { message: 'O campo descrição é obrigatório' })
   @MinLength(4,
@@ -12,6 +17,10 @@ export class StatusDTO {
     { message: 'Máximo de 60 caracteres' })
   descricao: string;
 
+  @ApiProperty({
+    description: 'Status é obrigatório',
+    required: true
+  })
   @IsNotEmpty(
     { message: 'O campo status é obrigatório' })
   status: boolean;

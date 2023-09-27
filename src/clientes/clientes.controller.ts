@@ -27,16 +27,16 @@ export class ClientesController {
   }
 
   @Post()
-  async create(@Body() motivo: ClienteDTO): Promise<ClienteDTO> {
-    return this.clienteService.create(motivo);
+  async create(@Body() cliente: ClienteDTO): Promise<ClienteDTO> {
+    return this.clienteService.create(cliente);
   }
 
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() motivo: ClienteDTO,
+    @Body() cliente: ClienteDTO,
   ): Promise<ClienteDTO> {
-    return this.clienteService.update(id, motivo);
+    return this.clienteService.update(id, cliente);
   }
 
   // @Delete(':id')
