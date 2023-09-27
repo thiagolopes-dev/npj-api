@@ -15,7 +15,6 @@ export class MotivosService {
   }
 
   async getByID(id: string) {
-    console.log(id);
     return await this.motivoModel.findById(id).exec();
   }
 
