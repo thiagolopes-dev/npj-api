@@ -7,7 +7,7 @@ import {
   Post,
   Put
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { StatusDTO } from './dto/status.dto';
 import { StatusService } from './status.service';
 
@@ -16,16 +16,39 @@ import { StatusService } from './status.service';
 export class StatusController {
   constructor(private statusService: StatusService) { }
 
+  @ApiResponse({
+    status: 200,
+    type: StatusDTO,
+    isArray: true,
+    description: 'Lista de Status'
+  })
   @Get()
   async getAll(): Promise<StatusDTO[]> {
     return this.statusService.getAll();
   }
 
+  @ApiResponse({
+    status: 200,
+    type: StatusDTO,
+    isArray: false,
+    description: 'Get ByID de Status'
+  })
   @Get(':id')
   async getByID(@Param('id') id: string): Promise<StatusDTO> {
     return this.statusService.getByID(id);
   }
 
+  @ApiResponse({
+    status: 201,
+    description: 'Status cadastro com sucesso'
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Status já cadastrado'
+  })
+  @ApiForbiddenResponse({
+    description: 'Criação Negada'
+  })
   @Post()
   async create(@Body() status: StatusDTO): Promise<StatusDTO> {
     return this.statusService.create(status);
@@ -36,6 +59,14 @@ export class StatusController {
   //   return this.statusService.create(status);
   // }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Status atualizado'
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Status com descrição ja existente'
+  })
   @Put(':id')
   async update(
     @Param('id') id: string,

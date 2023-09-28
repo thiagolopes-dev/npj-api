@@ -36,7 +36,18 @@ export class VarasService {
   }
 
   async update(id: string, vara: VaraDTO) {
-    await this.varaModel.updateOne({ _id: id }, vara).exec();
+    const { descricao, ...rest } = vara;
+    const descExits = await this.findByDescricao(descricao);
+    if (descExits && vara.status != vara.status) {
+      throw new ConflictException('Vara  já cadastrada !');
+    }
+    
+    const updatedStatus = {
+      ...rest,
+      descricao,
+    };
+
+    await this.varaModel.updateOne({ _id: id }, { $set: updatedStatus }).exec();
     return this.getByID(id);
   }
   

@@ -38,7 +38,7 @@ export class StatusService {
   async update(id: string, status: StatusDTO) {
     const { descricao, ...rest } = status;
     const descExits = await this.findByDescricao(descricao);
-    if (descExits) {
+    if (descExits && status.status != status.status) {
       throw new ConflictException('Status já cadastrado !');
     }
     

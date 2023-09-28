@@ -40,7 +40,7 @@ export class MotivosService {
   async update(id: string, motivo: MotivoDTO) {
     const { descricao, ...rest } = motivo;
     const descExits = await this.findByDescricao(descricao);
-    if (descExits) {
+    if (descExits && motivo.status != motivo.status) {
       throw new ConflictException('Motivo já cadastrado !');
     }
     const updatedMotivo = {
