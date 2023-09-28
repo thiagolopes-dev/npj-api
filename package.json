@@ -22,9 +22,11 @@
   "dependencies": {
     "@nestjs/common": "9.0.0",
     "@nestjs/core": "9.0.0",
+    "@nestjs/jwt": "^10.1.1",
     "@nestjs/mongoose": "10.0.1",
     "@nestjs/platform-express": "9.0.0",
     "@nestjs/swagger": "7.1.11",
+    "argon2": "^0.31.1",
     "class-transformer": "0.5.1",
     "class-validator": "0.14.0",
     "mongoose": "7.5.0",
