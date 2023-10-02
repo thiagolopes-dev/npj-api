@@ -39,10 +39,18 @@ export class MotivosService {
 
   async update(id: string, motivo: MotivoDTO) {
     const { descricao, ...rest } = motivo;
-    const descExits = await this.findByDescricao(descricao);
-    if (descExits && motivo.status != motivo.status) {
-      throw new ConflictException('Motivo já cadastrado !');
+
+    // Verifique se há outros motivos com a mesma descrição e status true (exceto o motivo atual)
+    const descExists = await this.motivoModel.findOne({
+      descricao,
+      status: true,
+      _id: { $ne: id }, // exclua o motivo atual da consulta
+    });
+    console.log(descExists);
+    if (descExists) {
+      throw new ConflictException('Já existe um motivo com esta descrição!');
     }
+
     const updatedMotivo = {
       ...rest,
       descricao,
@@ -51,8 +59,10 @@ export class MotivosService {
     await this.motivoModel
       .updateOne({ _id: id }, { $set: updatedMotivo })
       .exec();
+
     return this.getByID(id);
   }
+
 
   async delete(id: string) {
     return await this.motivoModel.deleteOne({ _id: id }).exec();
