@@ -76,4 +76,10 @@ export class ClienteDTO {
   whatsapp: string;
 
   codigo: number;
+
+  @ApiProperty({
+    description: 'Status é obrigatório',
+    required: true
+  })
+  status: boolean;
 }

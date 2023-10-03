@@ -43,6 +43,9 @@ export class Cliente {
   
   @Prop({ required: true, unique: true })
   codigo: number;
+
+  @Prop({ required: true })
+  status: boolean;
 }
 
 export const ClienteSchema = SchemaFactory.createForClass(Cliente);
