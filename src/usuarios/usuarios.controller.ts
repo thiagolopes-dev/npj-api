@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiForbiddenResponse, ApiResponse } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AtualizarUsuarioDto } from './dto/update-usuario.dto';
 import { UsuarioDto } from './dto/usuario.dto';
 import { UsuariosService } from './usuarios.service';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
-
+@ApiTags('usuarios')
 @Controller('usuarios')
 export class UsuariosController {
 

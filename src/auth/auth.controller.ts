@@ -3,12 +3,13 @@ import { Request } from 'express';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('security')
 @Controller('oauth')
 export class AuthController {
   constructor(private authService: AuthService) { }
 
-  @UseGuards(AccessTokenGuard)
   @Post('token')
   login(@Body() data: AuthDto) {
     return this.authService.entrar(data);
