@@ -64,8 +64,7 @@ export class ClienteDTO {
   uf: string;
 
   @ApiProperty({
-    description: 'Telefone é obrigatório',
-    required: true
+    required: false
   })
   telefone: string;
 

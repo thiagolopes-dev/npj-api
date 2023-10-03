@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b811b3e8-65ad-41f2-a67a-c8a5f27577ce",
+		"_postman_id": "3b016eb7-010f-4e6c-a7ad-96d7c393abf0",
 		"name": "NPJ-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8879755",
-		"_collection_link": "https://www.postman.com/lively-spaceship-3964/workspace/anhanguera/collection/8879755-b811b3e8-65ad-41f2-a67a-c8a5f27577ce?action=share&source=collection_link&creator=8879755"
+		"_exporter_id": "29842498"
 	},
 	"item": [
 		{
@@ -12,9 +11,26 @@
 			"item": [
 				{
 					"name": "GetAll Motivos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzI5MDcsImV4cCI6MTY5Njk3NzcwN30.IagyNp-fwmAVAA0mHAPY1q7CnEFLfbQUXycBsE92rg0",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{url}}/motivos",
 							"host": [
@@ -31,15 +47,21 @@
 					"name": "GetByID Motivo",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{url}}/motivos/64ef40f31bec11cbb8b62995",
+							"raw": "{{url}}/motivos/651365b0ccd76ce594b6a04d",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"motivos",
-								"64ef40f31bec11cbb8b62995"
+								"651365b0ccd76ce594b6a04d"
 							]
 						}
 					},
@@ -52,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"descricao\" : \"BBBBB\",\n    \"status\": true\n}",
+							"raw": "{\n    \"descricao\" : \"MOTIVO B\",\n    \"status\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -72,31 +94,19 @@
 					"response": []
 				},
 				{
-					"name": "Delete Motivo",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/motivos/64ef422b71c631514b36d220",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"motivos",
-								"64ef422b71c631514b36d220"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Update Motivo",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"descricao\" : \"AAAAA\",\n    \"status\": true\n}",
+							"raw": "{\n    \"descricao\" : \"MOTIVO B\",\n    \"status\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -104,13 +114,133 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/motivos/65024ade36304a26568eb245",
+							"raw": "{{url}}/motivos/651b42e5d2f84313934b8e75",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"motivos",
-								"65024ade36304a26568eb245"
+								"651b42e5d2f84313934b8e75"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usuarios",
+			"item": [
+				{
+					"name": "GetAll Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/usuarios",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID Usuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/usuarios/651b4f2f2db45bf1408e1ff9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"usuarios",
+								"651b4f2f2db45bf1408e1ff9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Usuarios",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Thiago Lopes\",\n    \"username\": \"email2@teste.com\",\n    \"password\": \"123456\",\n    \"status\": true\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/usuarios",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Teste\",\n    \"password\": \"56789\",\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/usuarios/651b4f2f2db45bf1408e1ff9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"usuarios",
+								"651b4f2f2db45bf1408e1ff9"
 							]
 						}
 					},
@@ -125,14 +255,26 @@
 					"name": "GetAll Clientes",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{url}}/clientes",
+							"raw": "{{url}}/clientes?",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"clientes"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
 							]
 						}
 					},
@@ -142,7 +284,13 @@
 					"name": "GetByID Cliente",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{url}}/clientes/65023ecabc52b85de359df51",
 							"host": [
@@ -160,7 +308,13 @@
 					"name": "Create Cliente",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"nome\": \"Thiago Lopes\",\n    \"cpf\": \"19191919191913\",\n    \"rg\": \"9191919191988\",\n    \"logradouro\": \"Rua Rola Espelho\",\n    \"cep\": \"86710000\",\n    \"bairro\": \"Jardim Vinte\", \n    \"numero\": \"22A\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrina\",\n    \"uf\": \"PR\",\n    \"telefone\": \"0987654321\",\n    \"whatsapp\": \"543216789\"\n}",
@@ -183,28 +337,16 @@
 					"response": []
 				},
 				{
-					"name": "Delete Cliente",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/clientes/65023ecabc52b85de359df51",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"clientes",
-								"65023ecabc52b85de359df51"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Update Cliente",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": " {\n         \"nome\": \"Thiago H Lopes\",\n    \"cpf\": \"1919191919191aa\",\n    \"rg\": \"91919191919aaa\",\n    \"logradouro\": \"Rua Rola a Espelho\",\n    \"cep\": \"86710000222\",\n    \"bairro\": \"Jardim Vinteddd\", \n    \"numero\": \"22Ass\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrinasdd\",\n    \"uf\": \"ssPR\",\n    \"telefone\": \"sss0987654321\",\n    \"whatsapp\": \"sss543216789\"\n}",
@@ -236,7 +378,13 @@
 					"name": "GetAll Vara",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{url}}/varas",
 							"host": [
@@ -253,15 +401,27 @@
 					"name": "GetByID Vara",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{url}}/varas/64f2763743463e1ffa9ccbca",
+							"raw": "{{url}}/varas/65136806ccd76ce594b6a099?",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"varas",
-								"64f2763743463e1ffa9ccbca"
+								"65136806ccd76ce594b6a099"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
 							]
 						}
 					},
@@ -271,10 +431,16 @@
 					"name": "Create Vara",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"descricao\": \"Vara do Trabalho 2\",\n    \"status\": true\n}",
+							"raw": "{\n    \"descricao\": \"Vara Criminal\",\n    \"status\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -297,10 +463,16 @@
 					"name": "Update Vara",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"descricao\": \"Vara do Trabalho Update\",\n    \"status\": true\n}",
+							"raw": "{\n    \"descricao\": \"VARA DO TRABALHO\",\n    \"status\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -308,31 +480,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/varas/64f6632b3bd841173c26cf66",
+							"raw": "{{url}}/varas/651b40c54ef7f7573dcd8d87",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"varas",
-								"64f6632b3bd841173c26cf66"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Vara",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/varas/64f2763743463e1ffa9ccbca",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"varas",
-								"64f2763743463e1ffa9ccbca"
+								"651b40c54ef7f7573dcd8d87"
 							]
 						}
 					},
@@ -347,7 +501,22 @@
 					"name": "GetAll Status",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/status",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"status"
+							]
+						}
 					},
 					"response": []
 				},
@@ -355,7 +524,30 @@
 					"name": "GetByID Status",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/status/651369c5ccd76ce594b6a0c5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"status",
+								"651369c5ccd76ce594b6a0c5"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -363,42 +555,22 @@
 					"name": "Create Status",
 					"request": {
 						"method": "POST",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Update Status",
-					"request": {
-						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"descricao\": \"finalizado\",\n    \"status\": false\n}",
+							"raw": "{\n    \"descricao\": \"AAAA\",\n    \"status\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{url}}/status/650337d866d8d7679b8cef62",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"status",
-								"650337d866d8d7679b8cef62"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Status",
-					"request": {
-						"method": "DELETE",
-						"header": [],
 						"url": {
 							"raw": "{{url}}/status/",
 							"host": [
@@ -407,6 +579,82 @@
 							"path": [
 								"status",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"AAAA\",\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/status/651369c5ccd76ce594b6a0c5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"status",
+								"651369c5ccd76ce594b6a0c5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"thiago.lopes@thiagolopesdev.com.br\",\n    \"password\": \"123456\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/oauth/token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"oauth",
+								"token"
 							]
 						}
 					},
