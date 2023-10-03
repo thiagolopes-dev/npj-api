@@ -19,7 +19,6 @@ export class UsuariosService {
     ) { }
 
     async criar(criarUsuarioDto: UsuarioDto): Promise<UsuarioDocument> {
-        console.log('cheguei no service');
         const { username, password, ...rest } = criarUsuarioDto;
         const usuarioExiste = await this.buscarUsuarioNome(username);
         if (usuarioExiste) {
