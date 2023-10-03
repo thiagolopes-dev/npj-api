@@ -10,37 +10,37 @@ export class Cliente {
 
   @Prop({ required: true })
   cpf: string;
-  
+
   @Prop({ required: true })
   rg: string;
-  
+
   @Prop({ required: true })
   logradouro: string;
-  
+
   @Prop({ required: true })
   cep: string;
-  
+
   @Prop({ required: true })
   bairro: string;
-  
+
   @Prop({ required: true })
   numero: string;
-  
+
   @Prop({ required: true })
   complemento: string;
-  
+
   @Prop({ required: true })
   cidade: string;
-  
+
   @Prop({ required: true })
   uf: string;
-  
-  @Prop({ required: true })
+
+  @Prop({ required: false })
   telefone: string;
-  
+
   @Prop({ required: true })
   whatsapp: string;
-  
+
   @Prop({ required: true, unique: true })
   codigo: number;
 }
