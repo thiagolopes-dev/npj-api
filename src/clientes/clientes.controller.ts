@@ -7,7 +7,7 @@ import {
   Post,
   Put
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ClientesService } from './clientes.service';
 import { ClienteDTO } from './dto/cliente.dto';
 
@@ -16,21 +16,52 @@ import { ClienteDTO } from './dto/cliente.dto';
 export class ClientesController {
   constructor(private clienteService: ClientesService) { }
 
+  @ApiResponse({
+    status: 200,
+    type: ClienteDTO,
+    isArray: true,
+    description: 'Lista de Clientes'
+  })
   @Get()
   async getAll(): Promise<ClienteDTO[]> {
     return this.clienteService.getAll();
   }
 
+  @ApiResponse({
+    status: 200,
+    type: ClienteDTO,
+    isArray: false,
+    description: 'Get ByID de Clientes'
+  })
   @Get(':id')
   async getByID(@Param('id') id: string): Promise<ClienteDTO> {
     return this.clienteService.getByID(id);
   }
 
+  @ApiResponse({
+    status: 201,
+    description: 'Cliente cadastrado com sucesso'
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Cliente já cadastrado'
+  })
+  @ApiForbiddenResponse({
+    description: 'Criação Negada'
+  })
   @Post()
   async create(@Body() cliente: ClienteDTO): Promise<ClienteDTO> {
     return this.clienteService.create(cliente);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Cliente atualizado'
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Cliente com e-mail já existente'
+  })
   @Put(':id')
   async update(
     @Param('id') id: string,
