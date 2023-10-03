@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { MotivosModule } from './motivos/motivos.module';
 import { StatusModule } from './status/status.module';
-import { UsuarioModule } from './usuarios/usuario.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 import { VarasModule } from './varas/varas.module';
 
 @Module({
@@ -15,7 +15,7 @@ import { VarasModule } from './varas/varas.module';
     MotivosModule,
     VarasModule,
     ClientesModule,
-    UsuarioModule,
+    UsuariosModule,
     StatusModule,
     AgendamentosModule
   ],

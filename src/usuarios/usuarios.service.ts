@@ -13,12 +13,13 @@ import * as argon2 from 'argon2';
 import { AtualizarUsuarioDto } from './dto/update-usuario.dto';
 
 @Injectable()
-export class UsuarioService {
+export class UsuariosService {
     constructor(
         @InjectModel(Usuario.name) private usuarioModel: Model<UsuarioDocument>,
     ) { }
 
     async criar(criarUsuarioDto: UsuarioDto): Promise<UsuarioDocument> {
+        console.log('cheguei no service');
         const { username, password, ...rest } = criarUsuarioDto;
         const usuarioExiste = await this.buscarUsuarioNome(username);
         if (usuarioExiste) {
@@ -54,8 +55,8 @@ export class UsuarioService {
         return usuario;
     }
 
-    async buscarUsuarioNome(usuario: string): Promise<UsuarioDocument> {
-        return this.usuarioModel.findOne({ usuario }).exec();
+    async buscarUsuarioNome(username: string): Promise<UsuarioDocument> {
+        return this.usuarioModel.findOne({ username }).exec();
     }
 
     async atualizar(id: string, atualizarUsuarioDto: AtualizarUsuarioDto): Promise<UsuarioDocument> {

@@ -46,7 +46,6 @@ export class MotivosService {
       status: true,
       _id: { $ne: id }, // exclua o motivo atual da consulta
     });
-    console.log(descExists);
     if (descExists) {
       throw new ConflictException('Já existe um motivo com esta descrição!');
     }
