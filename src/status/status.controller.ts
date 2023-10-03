@@ -5,11 +5,13 @@ import {
   Get,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { StatusDTO } from './dto/status.dto';
 import { StatusService } from './status.service';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('status')
 @Controller('status')
@@ -22,6 +24,7 @@ export class StatusController {
     isArray: true,
     description: 'Lista de Status'
   })
+  @UseGuards(AccessTokenGuard)
   @Get()
   async getAll(): Promise<StatusDTO[]> {
     return this.statusService.getAll();
@@ -33,6 +36,7 @@ export class StatusController {
     isArray: false,
     description: 'Get ByID de Status'
   })
+  @UseGuards(AccessTokenGuard)
   @Get(':id')
   async getByID(@Param('id') id: string): Promise<StatusDTO> {
     return this.statusService.getByID(id);
@@ -49,6 +53,7 @@ export class StatusController {
   @ApiForbiddenResponse({
     description: 'Criação Negada'
   })
+  @UseGuards(AccessTokenGuard)
   @Post()
   async create(@Body() status: StatusDTO): Promise<StatusDTO> {
     return this.statusService.create(status);
@@ -67,6 +72,7 @@ export class StatusController {
     status: 409,
     description: 'Status com descrição ja existente'
   })
+  @UseGuards(AccessTokenGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,

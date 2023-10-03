@@ -5,11 +5,13 @@ import {
   Get,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ClientesService } from './clientes.service';
 import { ClienteDTO } from './dto/cliente.dto';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('clientes')
 @Controller('clientes')
@@ -22,6 +24,7 @@ export class ClientesController {
     isArray: true,
     description: 'Lista de Clientes'
   })
+  @UseGuards(AccessTokenGuard)
   @Get()
   async getAll(): Promise<ClienteDTO[]> {
     return this.clienteService.getAll();
@@ -33,6 +36,7 @@ export class ClientesController {
     isArray: false,
     description: 'Get ByID de Clientes'
   })
+  @UseGuards(AccessTokenGuard)
   @Get(':id')
   async getByID(@Param('id') id: string): Promise<ClienteDTO> {
     return this.clienteService.getByID(id);
@@ -49,6 +53,7 @@ export class ClientesController {
   @ApiForbiddenResponse({
     description: 'Criação Negada'
   })
+  @UseGuards(AccessTokenGuard)
   @Post()
   async create(@Body() cliente: ClienteDTO): Promise<ClienteDTO> {
     return this.clienteService.create(cliente);
@@ -62,6 +67,7 @@ export class ClientesController {
     status: 409,
     description: 'Cliente com e-mail já existente'
   })
+  @UseGuards(AccessTokenGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,

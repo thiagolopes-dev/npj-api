@@ -37,9 +37,13 @@ export class StatusService {
 
   async update(id: string, status: StatusDTO) {
     const { descricao, ...rest } = status;
-    const descExits = await this.findByDescricao(descricao);
-    if (descExits && status.status != status.status) {
-      throw new ConflictException('Status já cadastrado !');
+    const descExists = await this.statusModel.findOne({
+      descricao,
+      status: true,
+      _id: { $ne: id },
+    });
+    if (descExists) {
+      throw new ConflictException('Já existe um status com esta descrição!');
     }
     
     const updatedStatus = {

@@ -8,7 +8,7 @@ import { AuthDto } from './dto/auth.dto';
 export class AuthController {
   constructor(private authService: AuthService) { }
 
-
+  @UseGuards(AccessTokenGuard)
   @Post('token')
   login(@Body() data: AuthDto) {
     return this.authService.entrar(data);

@@ -5,11 +5,13 @@ import {
   Get,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { VaraDTO } from './dto/vara.dto';
 import { VarasService } from './varas.service';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 
 @ApiTags('varas')
@@ -23,6 +25,7 @@ export class VarasController {
     isArray: true,
     description: 'Lista de Varas'
   })
+  @UseGuards(AccessTokenGuard)
   @Get()
   async getAll(): Promise<VaraDTO[]> {
     return this.varaService.getAll();
@@ -34,6 +37,7 @@ export class VarasController {
     isArray: false,
     description: 'Get ByID de Varas'
   })
+  @UseGuards(AccessTokenGuard)
   @Get(':id')
   async getByID(@Param('id') id: string): Promise<VaraDTO> {
     return this.varaService.getByID(id);
@@ -50,6 +54,7 @@ export class VarasController {
   @ApiForbiddenResponse({
     description: 'Criação Negada'
   })
+  @UseGuards(AccessTokenGuard)
   @Post()
   async create(@Body() vara: VaraDTO): Promise<VaraDTO> {
     return this.varaService.create(vara);
@@ -63,6 +68,7 @@ export class VarasController {
     status: 409,
     description: 'Vara com descrição ja existente'
   })
+  @UseGuards(AccessTokenGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,
