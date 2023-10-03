@@ -9,8 +9,15 @@ export class Agendamento {
     cliente: string;
 
     @Prop({ required: true })
+    numeroprontuario: number;
+
+    @Prop({ required: true })
     dataatendimento: Date;
 
+    @Prop({ required: true })
+    status: string;
+
+    @Prop({ required: true })
     username: string;
 
 
