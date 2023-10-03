@@ -5,9 +5,11 @@ import {
   Get,
   Param,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { MotivoDTO } from './dto/motivo.dto';
 import { MotivosService } from './motivos.service';
 
@@ -22,6 +24,7 @@ export class MotivosController {
     isArray: true,
     description: 'Lista de Motivos'
   })
+  @UseGuards(AccessTokenGuard)
   @Get()
   async getAll(): Promise<MotivoDTO[]> {
     return this.motivoService.getAll();
@@ -33,6 +36,7 @@ export class MotivosController {
     isArray: false,
     description: 'Get ByID de Motivos'
   })
+  @UseGuards(AccessTokenGuard)
   @Get(':id')
   async getByID(@Param('id') id: string): Promise<MotivoDTO> {
     return this.motivoService.getByID(id);
@@ -49,6 +53,7 @@ export class MotivosController {
   @ApiForbiddenResponse({
     description: 'Criação Negada'
   })
+  @UseGuards(AccessTokenGuard)
   @Post()
   async create(@Body() motivo: MotivoDTO): Promise<MotivoDTO> {
     return this.motivoService.create(motivo);
@@ -62,6 +67,7 @@ export class MotivosController {
     status: 409,
     description: 'Motivo com descrição ja existente'
   })
+  @UseGuards(AccessTokenGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -71,6 +77,7 @@ export class MotivosController {
   }
 
   // @Delete(':id')
+  // @UseGuards(AccessTokenGuard)
   // async delete(@Param('id') id: string) {
   //   return this.motivoService.delete(id);
   // }

@@ -19,7 +19,7 @@ export class AuthService {
   async entrar(data: AuthDto) {
     // Check if user exists
     const user = await this.usersService.buscarUsuarioNome(data.username);
-    if (!user) throw new BadRequestException('E-mail não existe');
+    if (!user) throw new BadRequestException('E-mail  inválido');
 
     // Check if user status is active (true)
     if (!user.status) {
