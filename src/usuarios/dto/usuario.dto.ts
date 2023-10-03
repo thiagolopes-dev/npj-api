@@ -1,7 +1,21 @@
+import { IsBoolean, IsEmail, IsEmpty, IsNotEmpty } from "class-validator";
+
 export class UsuarioDto {
-    id?: string;
+
+    @IsNotEmpty()
     name?: string;
+
+    @IsEmail()
+    @IsNotEmpty()
     username?: string;
+
+    @IsNotEmpty()
     password?: string;
+
+    @IsNotEmpty()
+    @IsBoolean()
     status?: boolean;
+
+    @IsEmpty()
+    refreshToken?: string;
 }

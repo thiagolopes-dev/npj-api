@@ -1,55 +1,61 @@
-import { accessConstants } from './constants';
-
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
-import { AuthDto } from './dto/auth.dto';
-
 import * as argon2 from 'argon2';
+import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { accessConstants } from './constants';
+import { AuthDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
+  constructor(
+    private usersService: UsuariosService,
+    private jwtService: JwtService
+  ) { }
 
-    constructor(
-        private usuarioService: UsuariosService,
-        private jwtService: JwtService
-    ) { }
 
-    async login(data: AuthDto) {
-        const usuario = await this.usuarioService.buscarUsuarioNome(data.username);
-        if (!usuario) {
-            throw new BadRequestException('E-mail não existe');
-        }
-        if (!usuario.status) {
-            throw new BadRequestException('Usuário desativado, não é possível efetuar o login')
-        }
+  async entrar(data: AuthDto) {
+    // Check if user exists
+    const user = await this.usersService.buscarUsuarioNome(data.username);
+    if (!user) throw new BadRequestException('E-mail não existe');
 
-        const passwordMatches = await argon2.verify(usuario.password, data.password);
-        if (!passwordMatches) {
-            throw new BadRequestException('E-mail ou senha inválidos');
-        }
-
-        const tokens = await this.getTokens(usuario._id, usuario.username);
-        return tokens;
+    // Check if user status is active (true)
+    if (!user.status) {
+      throw new BadRequestException('Usuário desativado, não é possível efetuar o login.');
     }
 
-    async getTokens(userId: string, username: string) {
-        const [accessToken] = await Promise.all([
-            this.jwtService.signAsync(
-                {
-                    sub: userId,
-                    username,
-                },
-                {
-                    secret: accessConstants.secret,
-                    expiresIn: '7d',
-                }
-            )
-        ]);
-        return accessToken;
-    }
+    const passwordMatches = await argon2.verify(user.password, data.password);
+    if (!passwordMatches)
+      throw new BadRequestException('E-mail ou senha inválidos.');
 
-    logout(userId: string) {
-        console.log(userId);
-    }
+    const tokens = await this.getTokens(user._id, user.username);
+    //  await this.updateRefreshToken(user._id, tokens.refreshToken);
+    return tokens;
+  }
+
+
+  async logout(userId: string) {
+    this.usersService.atualizar(userId, { refreshToken: null });
+  }
+
+  async getTokens(userId: string, username: string) {
+    const [accessToken] = await Promise.all([
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: accessConstants.secret,
+          expiresIn: '7d',
+        },
+      )
+    ]);
+
+    return {
+      accessToken
+    };
+  }
 }

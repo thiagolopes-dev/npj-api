@@ -59,6 +59,7 @@ export class UsuariosService {
         return this.usuarioModel.findOne({ username }).exec();
     }
 
+
     async atualizar(id: string, atualizarUsuarioDto: AtualizarUsuarioDto): Promise<UsuarioDocument> {
         if (atualizarUsuarioDto.password) {
             atualizarUsuarioDto.password = await this.hashData(atualizarUsuarioDto.password);
@@ -97,11 +98,11 @@ export class UsuariosService {
     }
 
 
-    async deletar(id: string): Promise<UsuarioDocument> {
-        const usuario = await this.usuarioModel.findByIdAndDelete(id).exec();
-        if (!usuario) {
-            throw new NotFoundException(`Usuário com o ID ${id} não encontrado`);
-        }
-        return usuario;
-    }
+    // async deletar(id: string): Promise<UsuarioDocument> {
+    //     const usuario = await this.usuarioModel.findByIdAndDelete(id).exec();
+    //     if (!usuario) {
+    //         throw new NotFoundException(`Usuário com o ID ${id} não encontrado`);
+    //     }
+    //     return usuario;
+    // }
 }

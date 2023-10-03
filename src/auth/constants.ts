@@ -1,7 +1,4 @@
 export const accessConstants = {
-    secret: 'admin123'
+    secret: 'Ads09dasdq1e3dsaff',
 };
 
-// export const refreshConstants = {
-//     secret: 'admin123'
-// };
