@@ -1,4 +1,4 @@
 export const accessConstants = {
-    secret: 'Ads09dasdq1e3dsaff',
+    secret: 'ZGV2QG5wajIz',
 };
 

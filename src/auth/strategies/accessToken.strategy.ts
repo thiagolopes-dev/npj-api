@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
@@ -18,8 +18,15 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  validate(payload: JwtPayload) {
-    return payload;
+  async validate(payload: JwtPayload) {
+    const { sub: userId } = payload;
+    const user = await this.userService.buscarPorId(userId);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    return user; // O usuário autenticado é armazenado no objeto de solicitação (req.user) automaticamente pelo Passport
   }
 
 }

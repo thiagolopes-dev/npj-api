@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -55,8 +56,8 @@ export class MotivosController {
   })
   @UseGuards(AccessTokenGuard)
   @Post()
-  async create(@Body() motivo: MotivoDTO): Promise<MotivoDTO> {
-    return this.motivoService.create(motivo);
+  async create(@Body() motivo: MotivoDTO, @Req() req): Promise<MotivoDTO> {
+    return this.motivoService.create(motivo, req.user);
   }
 
   @ApiResponse({
@@ -72,8 +73,9 @@ export class MotivosController {
   async update(
     @Param('id') id: string,
     @Body() motivo: MotivoDTO,
+    @Req() req
   ): Promise<MotivoDTO> {
-    return this.motivoService.update(id, motivo);
+    return this.motivoService.update(id, motivo, req.user);
   }
 
   // @Delete(':id')

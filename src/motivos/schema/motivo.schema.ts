@@ -15,16 +15,16 @@ export class Motivo {
   status: boolean;
 
   @Prop()
-  usernamecreated?: string;
+  usuariocriacao?: string;
 
   @Prop()
-  datacreated?: Date;
+  datacriacao?: Date;
 
   @Prop()
-  usernameupdated?: string;
+  usuarioalteracao?: string;
 
   @Prop()
-  dateaupdated?: Date;
+  dataalteracao?: Date;
 }
 
 export const MotivoSchema = SchemaFactory.createForClass(Motivo);

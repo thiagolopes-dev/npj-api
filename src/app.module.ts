@@ -1,7 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import * as moment from 'moment';
 import { AgendamentosModule } from './agendamentos/agendamentos.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthMiddleware } from './auth/auth.middleware';
 import { AuthModule } from './auth/auth.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { MotivosModule } from './motivos/motivos.module';
@@ -23,7 +25,18 @@ import { VarasModule } from './varas/varas.module';
     AppController
   ],
   providers: [
-    AppService
+    AppService,
+    {
+      provide: 'MomentWrapper',
+      useValue: moment
+    },
   ],
 })
-export class AppModule { }
+export class AppModule {
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL }); // Aplica o middleware a todas as rotas e métodos
+  }
+}
