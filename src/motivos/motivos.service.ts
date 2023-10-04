@@ -12,8 +12,88 @@ export class MotivosService {
     @InjectModel('Motivo') private readonly motivoModel: Model<MotivoDTO>,
   ) { }
 
-  async getAll(): Promise<MotivoDTO[]> {
-    return await this.motivoModel.find().exec();
+  async getAll(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+    Promise<{ data: MotivoDTO[], totalCount: number, totalPages: number }> {
+    const query: any = {};
+    if (descricao) {
+      query.descricao = descricao;
+    }
+    if (usuariocriacao) {
+      query.usuariocriacao = usuariocriacao;
+    }
+    if (usuarioalteracao) {
+      query.usuarioalteracao = usuarioalteracao;
+    }
+
+    if (status) {
+      query.status = status;
+    }
+
+
+    if (datacriacaode && datacriacaoate) {
+      const startDateTime = new Date(datacriacaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      const endDateTime = new Date(datacriacaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.datacriacao = {
+        $gte: startDateTime,
+        $lt: endDateTime
+      };
+    } else if (datacriacaode) {
+      const startDateTime = new Date(datacriacaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      query.datacriacao = {
+        $gte: startDateTime
+      };
+    } else if (datacriacaoate) {
+      const endDateTime = new Date(datacriacaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.datacriacaoa = {
+        $lt: endDateTime
+      };
+    }
+
+    if (dataalteracaode && dataalteracaoate) {
+      const startDateTime = new Date(dataalteracaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      const endDateTime = new Date(dataalteracaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.dataalteracao = {
+        $gte: startDateTime,
+        $lt: endDateTime
+      };
+    } else if (dataalteracaode) {
+      const startDateTime = new Date(dataalteracaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      query.dataalteracao = {
+        $gte: startDateTime
+      };
+    } else if (dataalteracaoate) {
+      const endDateTime = new Date(dataalteracaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.dataalteracao = {
+        $lt: endDateTime
+      };
+    }
+
+    const totalItems = await this.motivoModel.countDocuments(query).exec();
+    const totalPages = Math.ceil(totalItems / perPage);
+    const skip = (page) * perPage;
+    const motivoDataArray: MotivoDocument[] = await this.motivoModel
+      .find(query)
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(perPage)
+      .exec();
+
+
+    return { data: motivoDataArray, totalCount: totalItems, totalPages };
   }
 
   async getByID(id: string) {

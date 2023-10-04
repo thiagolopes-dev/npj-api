@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Req,
   UseGuards
 } from '@nestjs/common';
@@ -27,8 +28,19 @@ export class MotivosController {
   })
   @UseGuards(AccessTokenGuard)
   @Get()
-  async getAll(): Promise<MotivoDTO[]> {
-    return this.motivoService.getAll();
+  async getAll(
+    @Query('page') page: number,
+    @Query('perPage') perPage: number,
+    @Query('descricao') descricao?: string,
+    @Query('status') status?: string,
+    @Query('usuariocriacao') usuariocriacao?: string,
+    @Query('datacriacaode') datacriacaode?: string,
+    @Query('datacriacaoate') datacriacaoate?: string,
+    @Query('usuarioalteracao') usuarioalteracao?: string,
+    @Query('dataalteracaode') dataalteracaode?: string,
+    @Query('dataalteracaoate') dataalteracaoate?: string,
+  ): Promise<{ data: MotivoDTO[], totalCount: number, totalPages: number }> {
+    return this.motivoService.getAll(page, perPage, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
   }
 
   @ApiResponse({
