@@ -3,22 +3,55 @@ import { Document } from 'mongoose';
 
 export type AgendamentoDocument = Agendamento & Document;
 
+export class ClienteAgenda {
+    codigo: number;
+    nome: string;
+
+}
+
+export class StatusAgenda {
+    codigo: number;
+    descricao: string;
+}
+
+export class MotivoAgenda {
+    codigo: number;
+    descricao: string;
+}
+
+
 @Schema()
 export class Agendamento {
-    @Prop({ required: true })
-    cliente: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true })
+    atendimento: number;
+
+    @Prop({ required: false })
     numeroprontuario: number;
 
     @Prop({ required: true })
     dataatendimento: Date;
 
-    @Prop({ required: true })
-    status: string;
+    @Prop({ required: true, })
+    cliente: ClienteAgenda;
 
     @Prop({ required: true })
-    username: string;
+    status: StatusAgenda;
+
+    @Prop({ required: true })
+    motivo: MotivoAgenda;
+
+    @Prop()
+    usuariocriacao?: string;
+
+    @Prop()
+    datacriacao?: Date;
+
+    @Prop()
+    usuarioalteracao?: string;
+
+    @Prop()
+    dataalteracao?: Date;
 
 
 }

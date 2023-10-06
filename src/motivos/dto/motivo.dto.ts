@@ -24,4 +24,10 @@ export class MotivoDTO {
   @IsNotEmpty(
     { message: 'O campo status é obrigatório' })
   status: boolean;
+
+
+  usuariocriacao?: string;
+  datacriacao?: Date;
+  usuarioalteracao?: string;
+  dataalteracao?: Date;
 }

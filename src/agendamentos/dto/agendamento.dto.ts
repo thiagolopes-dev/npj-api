@@ -1,10 +1,35 @@
-import { Cliente } from 'src/clientes/schema/cliente.schema';
-import { Status } from 'src/status/schema/status.schema';
+import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { ClienteAgenda, MotivoAgenda, StatusAgenda } from '../schema/agendamento.schema';
 
 export class AgendamentoDTO {
-    numeroprontuario: string;
+
+
+    atendimento: number;
+
+    @IsEmpty()
+    numeroprontuario: number;
+
+    @IsNotEmpty()
     dataatendimento: Date;
-    status = new Status();
-    cliente = new Cliente();
-    username: string;
+
+    @IsNotEmpty()
+    cliente = new ClienteAgenda();
+
+    @IsNotEmpty()
+    status = new StatusAgenda();
+
+    @IsNotEmpty()
+    motivo = new MotivoAgenda();
+
+    @IsNotEmpty()
+    usuariocriacao?: string;
+
+    @IsNotEmpty()
+    datacriacao?: Date;
+
+    @IsNotEmpty()
+    usuarioalteracao?: string;
+
+    @IsNotEmpty()
+    dataalteracao?: Date;
 }

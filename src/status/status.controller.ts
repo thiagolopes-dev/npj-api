@@ -9,9 +9,9 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { StatusDTO } from './dto/status.dto';
 import { StatusService } from './status.service';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('status')
 @Controller('status')
@@ -59,11 +59,6 @@ export class StatusController {
     return this.statusService.create(status);
   }
 
-  // @Post()
-  // async create(@Body() status: Status): Promise<Status> {
-  //   return this.statusService.create(status);
-  // }
-
   @ApiResponse({
     status: 200,
     description: 'Status atualizado'
@@ -81,8 +76,4 @@ export class StatusController {
     return this.statusService.update(id, status);
   }
 
-  // @Delete(':id')
-  // async delete(@Param('id') id: string) {
-  //   return this.statusService.delete(id);
-  // }
 }
