@@ -27,9 +27,9 @@ export class AgendamentoDTO {
     @IsNotEmpty()
     datacriacao?: Date;
 
-    @IsNotEmpty()
+    @IsEmpty()
     usuarioalteracao?: string;
 
-    @IsNotEmpty()
+    @IsEmpty()
     dataalteracao?: Date;
 }

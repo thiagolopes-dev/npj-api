@@ -27,7 +27,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzI5MDcsImV4cCI6MTY5Njk3NzcwN30.IagyNp-fwmAVAA0mHAPY1q7CnEFLfbQUXycBsE92rg0",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY0MzY3MTUsImV4cCI6MTY5NzA0MTUxNX0.PvdBUX6tVr7E4Bmj1XWQ__v1qbANGg9wMMlMeSNyeic",
 								"type": "text"
 							}
 						],
@@ -44,24 +44,84 @@
 					"response": []
 				},
 				{
+					"name": "GetAll Motivos Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY0MzY3MTUsImV4cCI6MTY5NzA0MTUxNX0.PvdBUX6tVr7E4Bmj1XWQ__v1qbANGg9wMMlMeSNyeic",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/motivos?page=0&perPage=10&status=true&datacriacaode=2023-10-09&datacriacaoate=2023-10-09&descricao=MOTIVO A",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"motivos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "true"
+								},
+								{
+									"key": "datacriacaode",
+									"value": "2023-10-09"
+								},
+								{
+									"key": "datacriacaoate",
+									"value": "2023-10-09"
+								},
+								{
+									"key": "descricao",
+									"value": "MOTIVO A"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetByID Motivo",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY0MzY3MTUsImV4cCI6MTY5NzA0MTUxNX0.PvdBUX6tVr7E4Bmj1XWQ__v1qbANGg9wMMlMeSNyeic",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{url}}/motivos/651365b0ccd76ce594b6a04d",
+							"raw": "{{url}}/motivos/651d933720da5c173aae480b",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"motivos",
-								"651365b0ccd76ce594b6a04d"
+								"651d933720da5c173aae480b"
 							]
 						}
 					},
@@ -71,10 +131,16 @@
 					"name": "Create Motivo",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY0MzY3MTUsImV4cCI6MTY5NzA0MTUxNX0.PvdBUX6tVr7E4Bmj1XWQ__v1qbANGg9wMMlMeSNyeic",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"descricao\" : \"MOTIVO B\",\n    \"status\": true\n}",
+							"raw": "{\n    \"descricao\" : \"MOTIVO G\",\n    \"status\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -100,7 +166,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY0MzY3MTUsImV4cCI6MTY5NzA0MTUxNX0.PvdBUX6tVr7E4Bmj1XWQ__v1qbANGg9wMMlMeSNyeic",
 								"type": "text"
 							}
 						],
@@ -114,13 +180,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/motivos/651b42e5d2f84313934b8e75",
+							"raw": "{{url}}/motivos/6524854a60f2ce96c6a7dd2a",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"motivos",
-								"651b42e5d2f84313934b8e75"
+								"6524854a60f2ce96c6a7dd2a"
 							]
 						}
 					},
@@ -254,27 +320,32 @@
 				{
 					"name": "GetAll Clientes",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY4OTM2MjMsImV4cCI6MTY5NzQ5ODQyM30.laM68BYkGrujlEZ3VHFPgmLvSXRPeiG553lJYKEENng",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
-								"type": "text"
+								"value": "Bearer {{authToken}}",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
-							"raw": "{{url}}/clientes?",
+							"raw": "{{url}}/clientes",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"clientes"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": null
-								}
 							]
 						}
 					},
@@ -292,13 +363,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/clientes/65023ecabc52b85de359df51",
+							"raw": "{{url}}/clientes/651ca7e6701e9702c1f6cff6",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"clientes",
-								"65023ecabc52b85de359df51"
+								"651ca7e6701e9702c1f6cff6"
 							]
 						}
 					},
@@ -311,13 +382,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTYzNzQxNjgsImV4cCI6MTY5Njk3ODk2OH0.jqgMi0KVAmhD7raGYV1JTqy1larDeg97TCx1nPipvBQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY2MDUwOTYsImV4cCI6MTY5NzIwOTg5Nn0.03qNOzWq3MonzkJB9t0bhgcBOJ6mfGUmIPSatbCfxWQ",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Thiago Lopes\",\n    \"cpf\": \"19191919191913\",\n    \"rg\": \"9191919191988\",\n    \"logradouro\": \"Rua Rola Espelho\",\n    \"cep\": \"86710000\",\n    \"bairro\": \"Jardim Vinte\", \n    \"numero\": \"22A\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrina\",\n    \"uf\": \"PR\",\n    \"telefone\": \"0987654321\",\n    \"whatsapp\": \"543216789\"\n}",
+							"raw": "{\n    \"nome\": \"Thiago Lopes\",\n    \"cpf\": \"12345678902\",\n    \"rg\": \"9191919191986\",\n    \"logradouro\": \"Rua Rola Espelho\",\n    \"cep\": \"86710000\",\n    \"bairro\": \"Jardim Vinte\", \n    \"numero\": \"22A\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrina\",\n    \"uf\": \"PR\",\n    \"status\": true,\n    \"whatsapp\": \"543216789\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -349,7 +420,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": " {\n         \"nome\": \"Thiago H Lopes\",\n    \"cpf\": \"1919191919191aa\",\n    \"rg\": \"91919191919aaa\",\n    \"logradouro\": \"Rua Rola a Espelho\",\n    \"cep\": \"86710000222\",\n    \"bairro\": \"Jardim Vinteddd\", \n    \"numero\": \"22Ass\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrinasdd\",\n    \"uf\": \"ssPR\",\n    \"telefone\": \"sss0987654321\",\n    \"whatsapp\": \"sss543216789\"\n}",
+							"raw": " {\n     \"nome\": \"Thiago H Lopes Update\",\n    \"cpf\": \"12345678902\",\n    \"rg\": \"91919191919aaa\",\n    \"logradouro\": \"Rua Rola a Espelho\",\n    \"cep\": \"86710000222\",\n    \"bairro\": \"Jardim Vinteddd\", \n    \"numero\": \"22Ass\",\n    \"complemento\": \"aaa\",\n    \"cidade\": \"Londrinasdd\",\n    \"uf\": \"ssPR\",\n    \"telefone\": \"sss0987654321\",\n    \"whatsapp\": \"sss543216789\",\n    \"status\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -357,13 +428,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/clientes/65023ecabc52b85de359df51",
+							"raw": "{{url}}/clientes/651ca7e6701e9702c1f6cff6",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"clientes",
-								"65023ecabc52b85de359df51"
+								"651ca7e6701e9702c1f6cff6"
 							]
 						}
 					},
@@ -629,7 +700,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var token = pm.response.headers.get('accessToken');",
+									"pm.environment.set(\"authToken\", token);"
 								],
 								"type": "text/javascript"
 							}
@@ -661,6 +733,127 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "agendamentos",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY2MDEzMTgsImV4cCI6MTY5NzIwNjExOH0.ckPj6QcTAkw-vho3Uf6jwFzy2hTLqAi5jVNxvUeCUUw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/agendamentos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agendamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll byID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY2MDEzMTgsImV4cCI6MTY5NzIwNjExOH0.ckPj6QcTAkw-vho3Uf6jwFzy2hTLqAi5jVNxvUeCUUw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/agendamentos/65248c790aeac291a458832e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agendamentos",
+								"65248c790aeac291a458832e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Agendamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY2MDEzMTgsImV4cCI6MTY5NzIwNjExOH0.ckPj6QcTAkw-vho3Uf6jwFzy2hTLqAi5jVNxvUeCUUw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dataatendimento\": \"2023-10-09T10:00:00.000Z\",\n  \"cliente\": {\n    \"codigo\": 1010,\n    \"nome\": \"Thiago Henrique Lopes\"\n  },\n  \"status\": {\n    \"codigo\": 1,\n    \"descricao\": \"Aberto\"\n  },\n  \"motivo\": {\n    \"codigo\": 1,\n    \"descricao\": \"Atendimento Juridico\"\n  },\n  \"usuariocriacao\": \"thiago.lopes@daringtech.com.br\",\n  \"datacriacao\": \"2023-10-06T08:00:00.000Z\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agendamentos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agendamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Agendamento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTFiNGVjMzJkYjQ1YmYxNDA4ZTFmZjIiLCJ1c2VybmFtZSI6InRoaWFnby5sb3Blc0B0aGlhZ29sb3Blc2Rldi5jb20uYnIiLCJpYXQiOjE2OTY2MDEzMTgsImV4cCI6MTY5NzIwNjExOH0.ckPj6QcTAkw-vho3Uf6jwFzy2hTLqAi5jVNxvUeCUUw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dataatendimento\": \"2023-10-09T10:00:00.000Z\",\n  \"cliente\": {\n    \"codigo\": 1010,\n    \"nome\": \"Thiago Henrique Lopes\"\n  },\n  \"status\": {\n    \"codigo\": 1,\n    \"descricao\": \"Atendimento Aprovado\"\n  },\n  \"motivo\": {\n    \"codigo\": 1,\n    \"descricao\": \"Atendimento Juridico\"\n  },\n  \"usuariocriacao\": \"thiago.lopes@daringtech.com.br\",\n  \"datacriacao\": \"2023-10-06T08:00:00.000Z\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/agendamentos/65248c790aeac291a458832e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"agendamentos",
+								"65248c790aeac291a458832e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "acomp. Juridico",
+			"item": []
 		}
 	],
 	"variable": [
