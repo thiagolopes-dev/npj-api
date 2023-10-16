@@ -10,30 +10,29 @@ import { MotivosModule } from './motivos/motivos.module';
 import { StatusModule } from './status/status.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { VarasModule } from './varas/varas.module';
+import { AcompanhamentosModule } from './acompanhamento/acompanhamentos.module';
 
 @Module({
   imports: [
+    AcompanhamentosModule,
     AuthModule,
     MotivosModule,
     VarasModule,
     ClientesModule,
     UsuariosModule,
     StatusModule,
-    AgendamentosModule
+    AgendamentosModule,
   ],
-  controllers: [
-    AppController
-  ],
-  providers: [
-    AppService,
+  controllers: [AppController],
+  providers: [AppService,
     {
       provide: 'MomentWrapper',
-      useValue: moment
+      useValue: moment,
     },
   ],
 })
-export class AppModule {
 
+export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
