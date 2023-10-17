@@ -1,16 +1,9 @@
-import { IsEmpty, IsNotEmpty } from "class-validator";
-import { ClienteAcompanhamento, VaraAcompanhamento } from "../schema/acompanhamento.schema";
+import { IsArray, IsEmpty, IsNotEmpty } from "class-validator";
+import { ClienteAcompanhamento, MotivoAcompanhamento, ProcessoAcompanhamento, StatusAcompanhamento, VaraAcompanhamento } from "../schema/acompanhamento.schema";
 
 export class AcompanhamentoDTO {
 
-    @IsNotEmpty()
-    numeroProcesso: string;
-
-    @IsNotEmpty()
-    datainicio: Date;
-
-    @IsEmpty()
-    informacoes: string;
+    numeroprocesso: number;
 
     @IsNotEmpty()
     cliente = new ClienteAcompanhamento();
@@ -19,15 +12,10 @@ export class AcompanhamentoDTO {
     vara = new VaraAcompanhamento();
 
     @IsNotEmpty()
-    usuariocriacao?: string;
+    motivo = new MotivoAcompanhamento();
 
     @IsNotEmpty()
-    datacriacao?: Date;
+    status = new StatusAcompanhamento();
 
-    @IsEmpty()
-    usuarioalteracao?: string;
-
-    @IsEmpty()
-    dataalteracao?: Date;
-
+    processoacompanhamento = new ProcessoAcompanhamento();
 }

@@ -6,6 +6,7 @@ import { MotivoSchema } from './motivos/schema/motivo.schema';
 import { StatusSchema } from './status/schema/status.schema';
 import { UsuarioSchema } from './usuarios/schemas/usuario.schema';
 import { VaraSchema } from './varas/schema/vara.schema';
+import { AcompanhamentoSchema } from './acompanhamento/schema/acompanhamento.schema';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { VaraSchema } from './varas/schema/vara.schema';
     MongooseModule.forFeature([{ name: 'Cliente', schema: ClienteSchema }]),
     MongooseModule.forFeature([{ name: 'Status', schema: StatusSchema }]),
     MongooseModule.forFeature([{ name: 'Usuario', schema: UsuarioSchema }]),
-    MongooseModule.forFeature([{ name: 'Agendamento', schema: AgendamentoSchema }])
+    MongooseModule.forFeature([{ name: 'Agendamento', schema: AgendamentoSchema }]),
+    MongooseModule.forFeature([{ name: 'Acompanhamento', schema: AcompanhamentoSchema }])
   ],
   exports: [MongooseModule],
 })

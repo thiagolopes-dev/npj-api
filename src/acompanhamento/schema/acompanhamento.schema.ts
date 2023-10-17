@@ -1,6 +1,9 @@
-import { Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { MaxLength } from "class-validator";
+import { Document } from 'mongoose';
+import { type } from "os";
 
-export type AgendamentoDocument = Acompanhamento & Document;
+export type AcompanhamentoDocument = Acompanhamento & Document;
 
 export class ClienteAcompanhamento {
     codigo: number;
@@ -12,34 +15,44 @@ export class VaraAcompanhamento {
     codigo: number;
 }
 
+export class MotivoAcompanhamento {
+    descricao: string;
+    codigo: number;
+}
+
+export class StatusAcompanhamento {
+    descricao: string;
+    codigo: number;
+}
+
+export class ProcessoAcompanhamento {
+    @MaxLength(6000)
+    informacao: string;
+    codigo: number;
+    usuariocriacao: string;
+    datacricacao: Date;
+}
+
+@Schema()
 export class Acompanhamento {
 
-    @Prop({ required: true, unique: true })
-    numeroProcesso: string;
+    @Prop({ unique: true })
+    numeroprocesso: number;
 
-    @Prop({ required: true })
-    datainicio: Date;
-
-    @Prop({})
-    informacoes: string;
-
-    @Prop({ required: true })
+    @Prop({ required: true, type: ClienteAcompanhamento })
     cliente = new ClienteAcompanhamento();
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: VaraAcompanhamento })
     vara = new VaraAcompanhamento();
 
-    @Prop({})
-    usuariocriacao?: string;
+    @Prop({ required: true, type: MotivoAcompanhamento })
+    motivo = new MotivoAcompanhamento();
 
-    @Prop({})
-    datacriacao?: Date;
+    @Prop({ required: true, type: StatusAcompanhamento })
+    status = new StatusAcompanhamento();
 
-    @Prop({})
-    usuarioalteracao?: string;
-
-    @Prop({})
-    dataalteracao?: Date;
+    @Prop([])
+    processoacompanhamento = new ProcessoAcompanhamento();
 
 }
 
