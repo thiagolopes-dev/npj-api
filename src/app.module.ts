@@ -7,14 +7,13 @@ import { AuthMiddleware } from './auth/auth.middleware';
 import { AuthModule } from './auth/auth.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { MotivosModule } from './motivos/motivos.module';
+import { ProcessosModule } from './processos/processos.module';
 import { StatusModule } from './status/status.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { VarasModule } from './varas/varas.module';
-import { AcompanhamentosModule } from './acompanhamento/acompanhamentos.module';
 
 @Module({
   imports: [
-    AcompanhamentosModule,
     AuthModule,
     MotivosModule,
     VarasModule,
@@ -22,6 +21,7 @@ import { AcompanhamentosModule } from './acompanhamento/acompanhamentos.module';
     UsuariosModule,
     StatusModule,
     AgendamentosModule,
+    ProcessosModule
   ],
   controllers: [AppController],
   providers: [AppService,
