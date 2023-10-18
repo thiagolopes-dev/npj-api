@@ -26,11 +26,16 @@ export class StatusProcesso {
 }
 
 export class ItensProcesso {
+    codigo: number;
+
     @MaxLength(6000)
     informacao: string;
-    codigo: number;
-    usuariocriacao: string;
-    datacricacao: Date;
+
+    @Prop()
+    itensusuariocriacao: string;
+
+    @Prop()
+    itensdatacriacao: Date;
 }
 
 @Schema()
@@ -50,6 +55,12 @@ export class Processo {
 
     @Prop({ required: true, type: StatusProcesso })
     status = new StatusProcesso();
+
+    @Prop()
+    usuariocriacao: string;
+
+    @Prop()
+    datacriacao: Date;
 
     @Prop({ type: ItensProcesso })
     itensprocesso = new Array<ItensProcesso>();

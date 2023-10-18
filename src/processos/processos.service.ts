@@ -81,24 +81,25 @@ export class ProcessosService {
 
     async create(processoDTO: ProcessoDTO, user: UsuarioDto): Promise<ProcessoDocument> {
         const { numeroprocesso, ...rest } = processoDTO;
-        //TODO Validação de cadastro
-        // const descExits = await this.findByDescricao(numeroprontuario);
-        // if (descExits) {
-        //   throw new ConflictException('Agendamento já cadastrado !');
-        // }
         const currentDate = moment.utc();
         const utcMinus3 = currentDate.clone().subtract(3, 'hours');
         const MaxId = await this.processoModel.findOne({}, 'numeroprocesso')
             .sort({ numeroprocesso: -1 });
         const nextId = MaxId ? MaxId.numeroprocesso + 1 : 1;
+        // Mapear os itens do processo para adicionar o usuário
+        const itensProcessoComUsuario = processoDTO.itensprocesso.map((item) => ({
+            ...item,
+            itensusuariocriacao: user.username,
+            itensdatacriacao: utcMinus3.toISOString(),
+        }));
         const createdProcesso = new this.processoModel({
             ...rest,
             numeroprocesso: nextId,
             status: 'AGUARDANDO DESPACHO',
             usuariocriacao: user.username,
             datacriacao: utcMinus3,
+            itensprocesso: itensProcessoComUsuario,
         });
-        console.log(createdProcesso);
         return createdProcesso.save();
     }
 

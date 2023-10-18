@@ -1,7 +1,7 @@
 
 export class AtualizarProcessoDto {
-    informacao: string;
     codigo: number;
+    informacao: string;
     usuariocriacao: string;
     datacricacao: Date;
 }

@@ -17,5 +17,8 @@ export class ProcessoDTO {
     @IsNotEmpty()
     status = new StatusProcesso();
 
+    usuariocriacao: string;
+    datacriacao: Date;
+
     itensprocesso = new Array<ItensProcesso>();
 }
