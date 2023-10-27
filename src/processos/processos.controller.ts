@@ -41,9 +41,9 @@ export class ProcessosController {
     }
 
     @UseGuards(AccessTokenGuard)
-    @Put(':id')
-    atualizarProcesso(@Param('id') id: string, @Body() atualizarProcesso: AtualizarProcessoDto) {
-        return this.processoService.atualizar(id, atualizarProcesso);
+    @Post(':id')
+    atualizarProcesso(@Param('id') id: string, @Body() atualizarProcesso: AtualizarProcessoDto, @Req() req) {
+        return this.processoService.atualizarInfo(id, atualizarProcesso, req.user);
     }
 
 
