@@ -5,8 +5,7 @@ import { Model } from 'mongoose';
 import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 import { AtualizarProcessoDto } from './dto/atualizar-processo.dto';
 import { ProcessoDTO } from './dto/processo.dto';
-import { ItensProcesso, ProcessoDocument } from './schema/processo.schema';
-import { nextTick } from 'process';
+import { ProcessoDocument } from './schema/processo.schema';
 
 @Injectable()
 export class ProcessosService {
@@ -14,7 +13,7 @@ export class ProcessosService {
     @InjectModel('Processo') private readonly processoModel: Model<ProcessoDTO>,
     @InjectModel('Processo')
     private readonly itensProcessoModel: Model<AtualizarProcessoDto>,
-  ) {}
+  ) { }
 
   async getAll(
     page: number,
@@ -103,8 +102,8 @@ export class ProcessosService {
     // Mapear os itens do processo para adicionar o usuário
     const itensProcessoComUsuario = processoDTO.itensprocesso.map((item) => ({
       ...item,
-      itensusuariocriacao: user.username,
-      itensdatacriacao: utcMinus3.toISOString(),
+      itemusuariocriacao: user.username,
+      itemdatacriacao: utcMinus3.toISOString(),
       codigo: nextId,
     }));
     const createdProcesso = new this.processoModel({
@@ -122,21 +121,21 @@ export class ProcessosService {
     id: string,
     atualizarProcessoDto: AtualizarProcessoDto,
     user: UsuarioDto,
-): Promise<ProcessoDocument> {
+  ): Promise<ProcessoDocument> {
     const { informacao, ...rest } = atualizarProcessoDto;
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
 
     const pipeline = [
-        {
-            $unwind: "$itensprocesso"
-        },
-        {
-            $group: {
-                _id: null,
-                maxCodigo: { $max: "$itensprocesso.codigo" }
-            }
+      {
+        $unwind: "$itensprocesso"
+      },
+      {
+        $group: {
+          _id: null,
+          maxCodigo: { $max: "$itensprocesso.codigo" }
         }
+      }
     ];
 
     const result = await this.processoModel.aggregate(pipeline);
@@ -147,8 +146,8 @@ export class ProcessosService {
 
     const newItem = new AtualizarProcessoDto();
 
-    newItem.itensusuariocriacao = user.username;
-    newItem.itensdatacriacao = utcMinus3.toDate();
+    newItem.itemusuariocriacao = user.username;
+    newItem.itemdatacriacao = utcMinus3.toDate();
     newItem.informacao = informacao;
     newItem.codigo = nextId;
 
@@ -159,7 +158,7 @@ export class ProcessosService {
     obj.itensprocesso = itensProcessoCopy;
 
     return obj.save();
-}
+  }
 
   async getByID(id: string) {
     return this.processoModel.findById(id).exec();

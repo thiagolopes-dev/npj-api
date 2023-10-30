@@ -1,6 +1,6 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { IsEmpty, IsNotEmpty, MaxLength } from "class-validator";
+import { MaxLength } from "class-validator";
 import { Document } from 'mongoose';
 
 export type ProcessoDocument = Processo & Document;
@@ -34,10 +34,10 @@ export class ItensProcesso {
     informacao: string;
 
     @Prop()
-    itensusuariocriacao: string;
+    itemusuariocriacao: string;
 
     @Prop()
-    itensdatacriacao: Date;
+    itemdatacriacao: Date;
 }
 
 @Schema()
