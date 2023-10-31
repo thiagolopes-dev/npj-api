@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin: ['http://localhost:4200', 'https://app.npj.com.br'],
     methods: 'GET, HEAD, PUT, PATCH,POST, DELETE',
-    allowedHeaders: 'Authoration, Content-type',
+    allowedHeaders: 'Authorization, Content-type',
     credentials: true,
   });
   const config = new DocumentBuilder()

@@ -30,6 +30,7 @@ export class UsuariosService {
             username,
             password: hash,
         });
+        console.log(novoUsuario);
         return novoUsuario.save();
     }
 

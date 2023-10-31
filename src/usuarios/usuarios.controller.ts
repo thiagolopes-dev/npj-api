@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, InternalServerErrorException, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { AtualizarUsuarioDto } from './dto/update-usuario.dto';
@@ -50,6 +50,21 @@ export class UsuariosController {
     @Put(':id')
     atualizarUsuario(@Param('id') id: string, @Body() atualizarUsuario: AtualizarUsuarioDto) {
         return this.usuarioService.atualizar(id, atualizarUsuario);
+    }
+
+    @Put('alterarsenha')
+    @UseGuards(AccessTokenGuard) // Protege a rota com o guard de autenticação JWT
+    async updatePassword(@Request() req: any, @Body('password') newPassword: string) {
+        if (!newPassword) {
+            throw new BadRequestException('Nova senha não fornecida.');
+        }
+        try {
+            const user = req.user;
+            const updatedUser = await this.usuarioService.atualizarSenha(user.sub, { password: newPassword });
+            return updatedUser;
+        } catch (error) {
+            throw new InternalServerErrorException('Erro ao atualizar a senha do usuário.');
+        }
     }
 
 }

@@ -31,6 +31,7 @@ export class MotivosController {
   async getAll(
     @Query('page') page: number,
     @Query('perPage') perPage: number,
+    @Query('codigo') codigo?: string,
     @Query('descricao') descricao?: string,
     @Query('status') status?: string,
     @Query('usuariocriacao') usuariocriacao?: string,
@@ -40,7 +41,7 @@ export class MotivosController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: MotivoDTO[], totalCount: number, totalPages: number }> {
-    return this.motivoService.getAll(page, perPage, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+    return this.motivoService.getAll(page, perPage, codigo, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
   }
 
   @ApiResponse({

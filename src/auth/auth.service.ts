@@ -4,6 +4,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
+import { Permissao } from 'src/usuarios/dto/usuario.dto';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { accessConstants } from './constants';
 import { AuthDto } from './dto/auth.dto';
@@ -30,7 +31,7 @@ export class AuthService {
     if (!passwordMatches)
       throw new BadRequestException('E-mail ou senha inválidos.');
 
-    const tokens = await this.getTokens(user._id, user.username);
+    const tokens = await this.getTokens(user._id, user.username, user.permissao);
     //  await this.updateRefreshToken(user._id, tokens.refreshToken);
     return tokens;
   }
@@ -40,12 +41,13 @@ export class AuthService {
     this.usersService.atualizar(userId, { refreshToken: null });
   }
 
-  async getTokens(userId: string, username: string) {
+  async getTokens(userId: string, username: string, permissao: Permissao) {
     const [accessToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
           username,
+          permissao
         },
         {
           secret: accessConstants.secret,

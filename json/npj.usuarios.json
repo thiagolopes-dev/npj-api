@@ -1,10 +1,19 @@
 [{
   "_id": {
-    "$oid": "652dbd11d27eee8d7f1ee74f"
+    "$oid": "65414e9f46841e896cff34bf"
   },
   "name": "Admin",
-  "username": "admin@npj.com.br",
-  "password": "$argon2id$v=19$m=65536,t=3,p=4$qZVkwmHJXLuq7wI22VSw+w$LcksYJcOQEAI7Vk1tDsOGFpjZW2DiSUp9Pwa/gEXXhA",
+  "username": "admin@admin.com.br",
+  "password": "$argon2id$v=19$m=65536,t=3,p=4$RT6E937/l3Ma5Fe29TmySQ$t0dPC/mrHFKr+AEse9w5GKEsBdPMOWbxdHPX9sZDr30",
   "status": true,
+  "permissao": {
+    "motivos": true,
+    "varas": true,
+    "status": true,
+    "clientes": true,
+    "agendamentos": true,
+    "processos": true,
+    "usuarios": true
+  },
   "__v": 0
 }]

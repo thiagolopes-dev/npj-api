@@ -12,17 +12,20 @@ export class MotivosService {
     @InjectModel('Motivo') private readonly motivoModel: Model<MotivoDTO>,
   ) { }
 
-  async getAll(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+  async getAll(page: number, perPage: number, codigo: string, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
     Promise<{ data: MotivoDTO[], totalCount: number, totalPages: number }> {
     const query: any = {};
+    if (codigo) {
+      query.codigo = codigo;
+    }
     if (descricao) {
-      query.descricao = descricao;
+      query.descricao = { $regex: descricao, $options: 'i' };
     }
     if (usuariocriacao) {
-      query.usuariocriacao = usuariocriacao;
+      query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
     }
     if (usuarioalteracao) {
-      query.usuarioalteracao = usuarioalteracao;
+      query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
     }
 
     if (status) {

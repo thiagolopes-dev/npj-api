@@ -23,8 +23,7 @@ export class Motivo {
   @Prop()
   usuarioalteracao?: string;
 
-  @Prop()
-  dataalteracao?: Date;
+
 }
 
 export const MotivoSchema = SchemaFactory.createForClass(Motivo);
