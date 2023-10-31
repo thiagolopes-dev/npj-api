@@ -105,7 +105,7 @@ export class ProcessosService {
       ...item,
       itensusuariocriacao: user.username,
       itensdatacriacao: utcMinus3.toISOString(),
-      codigo: nextId,
+      codigo: 1,
     }));
     const createdProcesso = new this.processoModel({
       ...rest,
@@ -122,31 +122,23 @@ export class ProcessosService {
     id: string,
     atualizarProcessoDto: AtualizarProcessoDto,
     user: UsuarioDto,
-): Promise<ProcessoDocument> {
+  ): Promise<ProcessoDocument> {
     const { informacao, ...rest } = atualizarProcessoDto;
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
 
-    const pipeline = [
-        {
-            $unwind: "$itensprocesso"
-        },
-        {
-            $group: {
-                _id: null,
-                maxCodigo: { $max: "$itensprocesso.codigo" }
-            }
-        }
-    ];
+    const obj = await this.processoModel.findById(id).exec();
 
-    const result = await this.processoModel.aggregate(pipeline);
+    let maxCodigo = 0;
+    for (const item of obj.itensprocesso) {
+      if (item.codigo > maxCodigo) {
+        maxCodigo = item.codigo;
+      }
+    }
 
-    const nextId = result.length > 0 ? result[0].maxCodigo + 1 : 1;
-
-    let obj = await this.processoModel.findById(id).exec();
+    const nextId = maxCodigo + 1;
 
     const newItem = new AtualizarProcessoDto();
-
     newItem.itensusuariocriacao = user.username;
     newItem.itensdatacriacao = utcMinus3.toDate();
     newItem.informacao = informacao;
@@ -159,7 +151,7 @@ export class ProcessosService {
     obj.itensprocesso = itensProcessoCopy;
 
     return obj.save();
-}
+  }
 
   async getByID(id: string) {
     return this.processoModel.findById(id).exec();
