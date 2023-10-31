@@ -123,6 +123,7 @@ export class ProcessosService {
     atualizarProcessoDto: AtualizarProcessoDto,
     user: UsuarioDto,
   ): Promise<ProcessoDocument> {
+  ): Promise<ProcessoDocument> {
     const { informacao, ...rest } = atualizarProcessoDto;
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
@@ -139,8 +140,8 @@ export class ProcessosService {
     const nextId = maxCodigo + 1;
 
     const newItem = new AtualizarProcessoDto();
-    newItem.itensusuariocriacao = user.username;
-    newItem.itensdatacriacao = utcMinus3.toDate();
+    newItem.itemusuariocriacao = user.username;
+    newItem.itemdatacriacao = utcMinus3.toDate();
     newItem.informacao = informacao;
     newItem.codigo = nextId;
 
@@ -151,6 +152,7 @@ export class ProcessosService {
     obj.itensprocesso = itensProcessoCopy;
 
     return obj.save();
+  }
   }
 
   async getByID(id: string) {
