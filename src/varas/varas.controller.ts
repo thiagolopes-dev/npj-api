@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -25,10 +26,20 @@ export class VarasController {
     isArray: true,
     description: 'Lista de Varas'
   })
-  @UseGuards(AccessTokenGuard)
   @Get()
-  async getAll(): Promise<VaraDTO[]> {
-    return this.varaService.getAll();
+  async getAll(
+    @Query('page') page: number,
+    @Query('perPage') perPage: number,
+    @Query('descricao') descricao?: string,
+    @Query('status') status?: string,
+    @Query('usuariocriacao') usuariocriacao?: string,
+    @Query('datacriacaode') datacriacaode?: string,
+    @Query('datacriacaoate') datacriacaoate?: string,
+    @Query('usuarioalteracao') usuarioalteracao?: string,
+    @Query('dataalteracaode') dataalteracaode?: string,
+    @Query('dataalteracaoate') dataalteracaoate?: string,
+  ): Promise<{ data: VaraDTO[], totalCount: number, totalPages: number }> {
+    return this.varaService.getAll(page, perPage, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
   }
 
   @ApiResponse({

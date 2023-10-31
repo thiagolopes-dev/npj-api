@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -26,9 +27,33 @@ export class ClientesController {
   })
   @UseGuards(AccessTokenGuard)
   @Get()
-  async getAll(): Promise<ClienteDTO[]> {
-    return this.clienteService.getAll();
+  async getAll(
+    @Query('page') page: number,
+    @Query('perPage') perPage: number,
+    @Query('nome') nome: string,
+    @Query('cpf') cpf: string,
+    @Query('rg') rg: string,
+    @Query('cep') cep: string,
+    @Query('logradouro') logradouro: string,
+    @Query('bairro') bairro: string,
+    @Query('cidade') cidade: string,
+    @Query('uf') uf: string,
+    @Query('telefone') telefone: string,
+    @Query('whatsapp') whatsapp: string,
+    @Query('status') status: string,
+    @Query('usuariocriacao') usuariocriacao?: string,
+    @Query('datacriacaode') datacriacaode?: string,
+    @Query('datacriacaoate') datacriacaoate?: string,
+    @Query('usuarioalteracao') usuarioalteracao?: string,
+    @Query('dataalteracaode') dataalteracaode?: string,
+    @Query('dataalteracaoate') dataalteracaoate?: string,
+  ): Promise<{ data: ClienteDTO[], totalCount: number, totalPages: number }> {
+    return this.clienteService.getAll(page, perPage, nome, cpf, rg, 
+      cep, logradouro, bairro, cidade, uf, telefone, whatsapp, status, usuariocriacao, 
+      datacriacaode, datacriacaoate, usuarioalteracao, 
+       dataalteracaode, dataalteracaoate);
   }
+
 
   @ApiResponse({
     status: 200,

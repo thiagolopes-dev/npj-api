@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { AgendamentosService } from './agendamentos.service';
@@ -19,9 +19,23 @@ export class AgendamentosController {
     })
     @UseGuards(AccessTokenGuard)
     @Get()
-    async getAll(): Promise<AgendamentoDTO[]> {
-        return this.agendaService.getAll();
-    }
+    async getAll(
+        @Query('page') page: number,
+        @Query('perPage') perPage: number,
+        @Query('atendimento') atendimento: string,
+        @Query('numeroprontuario') numeroprontuario: string,
+        @Query('cliente') cliente: string,
+        @Query('status') status: string,
+        @Query('motivo') motivo: string,
+        @Query('usuariocriacao') usuariocriacao?: string,
+        @Query('datacriacaode') datacriacaode?: string,
+        @Query('datacriacaoate') datacriacaoate?: string,
+        @Query('usuarioalteracao') usuarioalteracao?: string,
+        @Query('dataalteracaode') dataalteracaode?: string,
+        @Query('dataalteracaoate') dataalteracaoate?: string,
+      ): Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
+        return this.agendaService.getAll(page, perPage, atendimento, numeroprontuario, cliente, status, motivo , usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+      }
 
     @ApiResponse({
         status: 200,
