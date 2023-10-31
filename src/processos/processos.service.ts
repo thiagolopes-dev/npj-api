@@ -116,13 +116,12 @@ export class ProcessosService {
       itensprocesso: itensProcessoComUsuario,
     });
     return createdProcesso.save();
-  }
+  } 
 
   async atualizarInfo(
     id: string,
     atualizarProcessoDto: AtualizarProcessoDto,
     user: UsuarioDto,
-  ): Promise<ProcessoDocument> {
   ): Promise<ProcessoDocument> {
     const { informacao, ...rest } = atualizarProcessoDto;
     const currentDate = moment.utc();
@@ -152,7 +151,6 @@ export class ProcessosService {
     obj.itensprocesso = itensProcessoCopy;
 
     return obj.save();
-  }
   }
 
   async getByID(id: string) {
