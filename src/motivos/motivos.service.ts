@@ -147,7 +147,7 @@ export class MotivosService {
       ...rest,
       descricao,
       usuarioalteracao: user.username,
-      dataalteracao: utcMinus3,
+      dataalteracao: utcMinus3.toDate(),
     };
 
     await this.motivoModel

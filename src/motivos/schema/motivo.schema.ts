@@ -21,6 +21,9 @@ export class Motivo {
   datacriacao?: Date;
 
   @Prop()
+  dataalteracao?: Date;
+
+  @Prop()
   usuarioalteracao?: string;
 
 
