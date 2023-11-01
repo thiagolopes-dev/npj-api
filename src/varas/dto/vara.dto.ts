@@ -18,4 +18,9 @@ export class VaraDTO {
   status: boolean;
 
   codigo: number;
+
+  usuariocriacao?: string;
+  datacriacao?: Date;
+  usuarioalteracao?: string;
+  dataalteracao?: Date;
 }

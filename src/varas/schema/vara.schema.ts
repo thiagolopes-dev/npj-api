@@ -14,6 +14,17 @@ export class Vara {
   @Prop({ required: true, unique: true })
   codigo: number;
 
+  @Prop()
+  usuariocriacao?: string;
+
+  @Prop()
+  datacriacao?: Date;
+
+  @Prop()
+  dataalteracao?: Date;
+
+  @Prop()
+  usuarioalteracao?: string;
 }
 
 export const VaraSchema = SchemaFactory.createForClass(Vara);
