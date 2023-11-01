@@ -14,13 +14,13 @@ export class VarasService {
   Promise<{ data: VaraDTO[], totalCount: number, totalPages: number }> {
   const query: any = {};
   if (descricao) {
-    query.descricao = descricao;
+    query.descricao = { $regex: descricao, $options: 'i' };
   }
   if (usuariocriacao) {
-    query.usuariocriacao = usuariocriacao;
+    query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
   }
   if (usuarioalteracao) {
-    query.usuarioalteracao = usuarioalteracao;
+    query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
   }
 
   if (status) {

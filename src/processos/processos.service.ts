@@ -31,22 +31,22 @@ export class ProcessosService {
     const query: any = {};
 
     if (numeroprocesso) {
-      query.numeroprocesso = numeroprocesso;
+      query.numeroprocesso = { $regex: numeroprocesso, $options: 'i' };
     }
     if (cliente) {
-      query.cliente = cliente;
+      query.cliente = { $regex: cliente, $options: 'i' };
     }
     if (vara) {
-      query.vara = vara;
+      query.vara = { $regex: vara, $options: 'i' };
     }
     if (motivo) {
-      query.motivo = motivo;
+      query.motivo = { $regex: motivo, $options: 'i' };
     }
     if (status) {
       query.status = status;
     }
     if (processoacompanhamento) {
-      query.processoacompanhamento = processoacompanhamento;
+      query.processoacompanhamento = { $regex: processoacompanhamento, $options: 'i' };
     }
 
     if (datacriacaode && datacriacaoate) {

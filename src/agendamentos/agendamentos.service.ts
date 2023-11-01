@@ -21,19 +21,19 @@ export class AgendamentosService {
     query.numeroprontuario = numeroprontuario;
   }
   if (cliente) {
-    query.cliente = cliente;
+    query.cliente = { $regex: cliente, $options: 'i' };
   }
   if (status) {
     query.status = status;
   }
   if (motivo) {
-    query.motivo = motivo;
+    query.motivo = { $regex: motivo, $options: 'i' };
   }
   if (usuariocriacao) {
-    query.usuariocriacao = usuariocriacao;
+    query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
   }
   if (usuarioalteracao) {
-    query.usuarioalteracao = usuarioalteracao;
+    query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
   }
 
   if (datacriacaode && datacriacaoate) {

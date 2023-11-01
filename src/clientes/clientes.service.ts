@@ -19,7 +19,7 @@ export class ClientesService {
   const query: any = {};
 
   if (nome) {
-    query.nome = nome;
+    query.nome = { $regex: nome, $options: 'i' };
   }
   if(cpf) {
     query.cpf = cpf;
@@ -31,28 +31,31 @@ export class ClientesService {
     query.cep = cep;
   }
   if(logradouro) {
-    query.logradouro = logradouro;
+    query.logradouro = { $regex: logradouro, $options: 'i' };
   }
   if(bairro) {
-    query.bairro = bairro;
+    query.bairro = { $regex: bairro, $options: 'i' };
   }
   if(cidade) {
-    query.cidade = cidade;
+    query.cidade = { $regex: cidade, $options: 'i' };
   }
   if(uf) {
-    query.uf = uf;
+    query.uf = { $regex: uf, $options: 'i' };
   }
   if(telefone) {
     query.telefone = telefone;
+  }
+  if(whatsapp) {
+    query.whatsapp = whatsapp;
   }
   if (status) {
     query.status = status;
   }
   if (usuariocriacao) {
-    query.usuariocriacao = usuariocriacao;
+    query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
   }
   if (usuarioalteracao) {
-    query.usuarioalteracao = usuarioalteracao;
+    query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
   }
 
   
