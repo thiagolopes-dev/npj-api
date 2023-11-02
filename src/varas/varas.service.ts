@@ -121,7 +121,7 @@ export class VarasService {
     return createdVara.save();
   }
 
-  async update(id: string, vara: VaraDTO) {
+  async update(id: string, vara: VaraDTO, user: UsuarioDto) {
     const { descricao, ...rest } = vara;
     const descExists = await this.varaModel.findOne({
       descricao,
@@ -131,10 +131,13 @@ export class VarasService {
     if (descExists) {
       throw new ConflictException('Já existe uma vara com esta descrição!');
     }
-    
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const updatedVara = {
       ...rest,
       descricao,
+      usuarioalteracao: user.username,
+      dataalteracao: utcMinus3.toDate(),
     };
 
     await this.varaModel.updateOne({ _id: id }, { $set: updatedVara }).exec();

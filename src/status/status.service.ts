@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { StatusDTO } from './dto/status.dto';
 import { StatusDocument } from './schema/status.schema';
+import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
+import moment from 'moment';
 
 @Injectable()
 export class StatusService {
@@ -98,12 +100,14 @@ export class StatusService {
     return await this.statusModel.findById(id).exec();
   }
 
-  async create(statusDTO: StatusDTO): Promise<StatusDocument> {
+  async create(statusDTO: StatusDTO, user: UsuarioDto): Promise<StatusDocument> {
     const { descricao, ...rest } = statusDTO;
     const descExits = await this.findByDescricao(descricao);
     if (descExits) {
       throw new ConflictException('Status já cadastrado !');
     }
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const MaxId = await this.statusModel.findOne({}, 'codigo')
       .sort({ codigo: -1 });
     const nextId = MaxId ? MaxId.codigo + 1 : 1;
@@ -111,11 +115,13 @@ export class StatusService {
       ...rest,
       codigo: nextId,
       descricao,
+      usuariocriacao: user.username,
+      datacriacao: utcMinus3,
     });
     return createdStatus.save();
   }
 
-  async update(id: string, status: StatusDTO) {
+  async update(id: string, status: StatusDTO, user: UsuarioDto) {
     const { descricao, ...rest } = status;
     const descExists = await this.statusModel.findOne({
       descricao,
@@ -126,9 +132,13 @@ export class StatusService {
       throw new ConflictException('Já existe um status com esta descrição!');
     }
     
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const updatedStatus = {
       ...rest,
       descricao,
+      usuarioalteracao: user.username,
+      dataalteracao: utcMinus3.toDate(),
     };
 
     await this.statusModel.updateOne({ _id: id }, { $set: updatedStatus }).exec();

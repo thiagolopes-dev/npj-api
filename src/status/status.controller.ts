@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -67,8 +68,8 @@ export class StatusController {
   })
   @UseGuards(AccessTokenGuard)
   @Post()
-  async create(@Body() status: StatusDTO): Promise<StatusDTO> {
-    return this.statusService.create(status);
+  async create(@Body() status: StatusDTO, @Req() req): Promise<StatusDTO> {
+    return this.statusService.create(status, req.user);
   }
 
   @ApiResponse({
@@ -84,8 +85,9 @@ export class StatusController {
   async update(
     @Param('id') id: string,
     @Body() status: StatusDTO,
+    @Req() req
   ): Promise<StatusDTO> {
-    return this.statusService.update(id, status);
+    return this.statusService.update(id, status, req.user);
   }
 
 }

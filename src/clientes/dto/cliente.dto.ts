@@ -81,4 +81,9 @@ export class ClienteDTO {
     required: true
   })
   status: boolean;
+
+  usuariocriacao?: string;
+  datacriacao?: Date;
+  usuarioalteracao?: string;
+  dataalteracao?: Date;
 }

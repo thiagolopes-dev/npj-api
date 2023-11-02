@@ -46,6 +46,18 @@ export class Cliente {
 
   @Prop({ required: true })
   status: boolean;
+
+  @Prop()
+  usuariocriacao?: string;
+
+  @Prop()
+  datacriacao?: Date;
+
+  @Prop()
+  dataalteracao?: Date;
+
+  @Prop()
+  usuarioalteracao?: string;
 }
 
 export const ClienteSchema = SchemaFactory.createForClass(Cliente);

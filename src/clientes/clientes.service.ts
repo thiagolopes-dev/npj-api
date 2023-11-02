@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ClienteDTO } from './dto/cliente.dto';
 import { ClienteDocument } from './schema/cliente.schema';
+import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
+import moment from 'moment';
 
 @Injectable()
 export class ClientesService {
@@ -131,7 +133,7 @@ export class ClientesService {
     return await this.clienteModel.findById(id).exec();
   }
 
-  async create(cliente: ClienteDTO) {
+  async create(cliente: ClienteDTO, user: UsuarioDto) {
     const { cpf, rg, ...rest } = cliente;
 
     const [cpfExistente, rgExistente] = await Promise.all([
@@ -145,6 +147,8 @@ export class ClientesService {
     if (rgExistente) {
       throw new ConflictException('RG já cadastrado');
     }
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const MaxId = await this.clienteModel.findOne({}, 'codigo')
       .sort({ codigo: -1 });
     const nextId = MaxId ? MaxId.codigo + 1 : 1;
@@ -152,7 +156,9 @@ export class ClientesService {
       ...rest,
       codigo: nextId,
       rg,
-      cpf
+      cpf,
+      usuariocriacao: user.username,
+      datacriacao: utcMinus3,
     });
 
     try {

@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -80,8 +81,8 @@ export class ClientesController {
   })
   @UseGuards(AccessTokenGuard)
   @Post()
-  async create(@Body() cliente: ClienteDTO): Promise<ClienteDTO> {
-    return this.clienteService.create(cliente);
+  async create(@Body() cliente: ClienteDTO, @Req() req): Promise<ClienteDTO> {
+    return this.clienteService.create(cliente, req.user);
   }
 
   @ApiResponse({

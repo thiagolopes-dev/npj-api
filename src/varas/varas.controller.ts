@@ -85,8 +85,9 @@ export class VarasController {
   async update(
     @Param('id') id: string,
     @Body() vara: VaraDTO,
+    @Req() req
   ): Promise<VaraDTO> {
-    return this.varaService.update(id, vara);
+    return this.varaService.update(id, vara, req.user);
   }
 
   // @Delete(':id')
