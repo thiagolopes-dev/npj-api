@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { VaraDTO } from './dto/vara.dto';
 import { VaraDocument } from './schema/vara.schema';
+import * as moment from 'moment-timezone';
+import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 
 @Injectable()
 export class VarasService {
@@ -98,12 +100,14 @@ export class VarasService {
     return await this.varaModel.findById(id).exec();
   }
 
-  async create(vara: VaraDTO): Promise<VaraDocument> {
+  async create(vara: VaraDTO,  user: UsuarioDto): Promise<VaraDocument> {
     const { descricao, ...rest } = vara;
     const descExits = await this.findByDescricao(descricao);
     if (descExits) {
       throw new ConflictException('Descrição já existente!');
     }
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const MaxId = await this.varaModel.findOne({}, 'codigo')
       .sort({ codigo: -1 });
     const nextId = MaxId ? MaxId.codigo + 1 : 1;
@@ -111,6 +115,8 @@ export class VarasService {
       ...rest,
       codigo: nextId,
       descricao,
+      usuariocriacao: user.username,
+      datacriacao: utcMinus3,
     });
     return createdVara.save();
   }
