@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -67,8 +68,8 @@ export class VarasController {
   })
   @UseGuards(AccessTokenGuard)
   @Post()
-  async create(@Body() vara: VaraDTO): Promise<VaraDTO> {
-    return this.varaService.create(vara);
+  async create(@Body() vara: VaraDTO,  @Req() req): Promise<VaraDTO> {
+    return this.varaService.create(vara, req.user);
   }
 
   @ApiResponse({
