@@ -1,12 +1,11 @@
-import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 import { ClienteAgenda, MotivoAgenda, StatusAgenda } from '../schema/agendamento.schema';
 
 export class AgendamentoDTO {
 
-
     atendimento: number;
 
-    @IsEmpty()
+    @IsOptional()
     numeroprontuario: number;
 
     @IsNotEmpty()
@@ -21,15 +20,15 @@ export class AgendamentoDTO {
     @IsNotEmpty()
     motivo = new MotivoAgenda();
 
-    @IsNotEmpty()
+    @IsOptional()
     usuariocriacao?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     datacriacao?: Date;
 
-    @IsEmpty()
+    @IsOptional()
     usuarioalteracao?: string;
 
-    @IsEmpty()
+    @IsOptional()
     dataalteracao?: Date;
 }

@@ -1,155 +1,161 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as moment from 'moment-timezone';
 import { Model } from 'mongoose';
+import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 import { AgendamentoDTO } from './dto/agendamento.dto';
 import { AgendamentoDocument } from './schema/agendamento.schema';
 
 @Injectable()
 export class AgendamentosService {
-    constructor(
-        @InjectModel('Agendamento') private readonly agendaModel: Model<AgendamentoDTO>,
-    ) { }
+  constructor(
+    @InjectModel('Agendamento') private readonly agendaModel: Model<AgendamentoDTO>,
+  ) { }
 
-    async getAll(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, status: string, motivo: string,
-         usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
-  Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
-  const query: any = {};
-  if (atendimento) {
-    query.atendimento = atendimento;
-  }
-  if (numeroprontuario) {
-    query.numeroprontuario = numeroprontuario;
-  }
-  if (cliente) {
-    query.cliente = { $regex: cliente, $options: 'i' };
-  }
-  if (status) {
-    query.status = status;
-  }
-  if (motivo) {
-    query.motivo = { $regex: motivo, $options: 'i' };
-  }
-  if (usuariocriacao) {
-    query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
-  }
-  if (usuarioalteracao) {
-    query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
-  }
-
-  if (datacriacaode && datacriacaoate) {
-    const startDateTime = new Date(datacriacaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    const endDateTime = new Date(datacriacaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-    query.datacriacao = {
-      $gte: startDateTime,
-      $lt: endDateTime
-    };
-  } else if (datacriacaode) {
-    const startDateTime = new Date(datacriacaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    query.datacriacao = {
-      $gte: startDateTime
-    };
-  } else if (datacriacaoate) {
-    const endDateTime = new Date(datacriacaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-
-    query.datacriacaoa = {
-      $lt: endDateTime
-    };
-  }
-
-  if (dataalteracaode && dataalteracaoate) {
-    const startDateTime = new Date(dataalteracaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    const endDateTime = new Date(dataalteracaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-    query.dataalteracao = {
-      $gte: startDateTime,
-      $lt: endDateTime
-    };
-  } else if (dataalteracaode) {
-    const startDateTime = new Date(dataalteracaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    query.dataalteracao = {
-      $gte: startDateTime
-    };
-  } else if (dataalteracaoate) {
-    const endDateTime = new Date(dataalteracaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-
-    query.dataalteracao = {
-      $lt: endDateTime
-    };
-  }
-
-  const totalItems = await this.agendaModel.countDocuments(query).exec();
-  const totalPages = Math.ceil(totalItems / perPage);
-  const skip = (page) * perPage;
-  const agendamentoDataArray: AgendamentoDocument[] = await this.agendaModel
-    .find(query)
-    .sort({ _id: -1 })
-    .skip(skip)
-    .limit(perPage)
-    .exec();
-
-
-  return { data: agendamentoDataArray, totalCount: totalItems, totalPages };
-}
-
-    async getByID(id: string) {
-        return await this.agendaModel.findById(id).exec();
+  async getAll(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, status: string, motivo: string,
+    usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+    Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
+    const query: any = {};
+    if (atendimento) {
+      query.atendimento = atendimento;
+    }
+    if (numeroprontuario) {
+      query.numeroprontuario = numeroprontuario;
+    }
+    if (cliente) {
+      query.cliente = { $regex: cliente, $options: 'i' };
+    }
+    if (status) {
+      query.status = status;
+    }
+    if (motivo) {
+      query.motivo = { $regex: motivo, $options: 'i' };
+    }
+    if (usuariocriacao) {
+      query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
+    }
+    if (usuarioalteracao) {
+      query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
     }
 
-    async create(agendaDTO: AgendamentoDTO): Promise<AgendamentoDocument> {
-        const { numeroprontuario, ...rest } = agendaDTO;
-        //TODO Validação de cadastro
-        // const descExits = await this.findByDescricao(numeroprontuario);
-        // if (descExits) {
-        //   throw new ConflictException('Agendamento já cadastrado !');
-        // }
-        const MaxId = await this.agendaModel.findOne({}, 'atendimento')
-            .sort({ atendimento: -1 });
-        const nextId = MaxId ? MaxId.atendimento + 1 : 1;
-        const createdAgenda = new this.agendaModel({
-            ...rest,
-            atendimento: nextId,
-            numeroprontuario: agendaDTO.cliente.codigo,
-        });
-        return createdAgenda.save();
+    if (datacriacaode && datacriacaoate) {
+      const startDateTime = new Date(datacriacaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      const endDateTime = new Date(datacriacaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.datacriacao = {
+        $gte: startDateTime,
+        $lt: endDateTime
+      };
+    } else if (datacriacaode) {
+      const startDateTime = new Date(datacriacaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      query.datacriacao = {
+        $gte: startDateTime
+      };
+    } else if (datacriacaoate) {
+      const endDateTime = new Date(datacriacaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.datacriacaoa = {
+        $lt: endDateTime
+      };
     }
 
-    async update(id: string, status: AgendamentoDTO) {
-        const { numeroprontuario, ...rest } = status;
-        const descExists = await this.agendaModel.findOne({
-            numeroprontuario,
-            status: true,
-            _id: { $ne: id },
-        });
-        if (descExists) {
-            throw new ConflictException('Já existe uma agenda com esta descrição!');
-        }
+    if (dataalteracaode && dataalteracaoate) {
+      const startDateTime = new Date(dataalteracaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
 
-        const updatedStatus = {
-            ...rest,
-            numeroprontuario,
-        };
+      const endDateTime = new Date(dataalteracaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.dataalteracao = {
+        $gte: startDateTime,
+        $lt: endDateTime
+      };
+    } else if (dataalteracaode) {
+      const startDateTime = new Date(dataalteracaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
 
-        await this.agendaModel.updateOne({ _id: id }, { $set: updatedStatus }).exec();
-        return this.getByID(id);
+      query.dataalteracao = {
+        $gte: startDateTime
+      };
+    } else if (dataalteracaoate) {
+      const endDateTime = new Date(dataalteracaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.dataalteracao = {
+        $lt: endDateTime
+      };
     }
 
-    async delete(id: string) {
-        return await this.agendaModel.deleteOne({ _id: id }).exec();
+    const totalItems = await this.agendaModel.countDocuments(query).exec();
+    const totalPages = Math.ceil(totalItems / perPage);
+    const skip = (page) * perPage;
+    const agendamentoDataArray: AgendamentoDocument[] = await this.agendaModel
+      .find(query)
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(perPage)
+      .exec();
+
+
+    return { data: agendamentoDataArray, totalCount: totalItems, totalPages };
+  }
+
+  async getByID(id: string) {
+    return await this.agendaModel.findById(id).exec();
+  }
+
+  async create(agendaDTO: AgendamentoDTO, user: UsuarioDto): Promise<AgendamentoDocument> {
+    const { numeroprontuario, ...rest } = agendaDTO;
+    //TODO Validação de cadastro
+    // const descExits = await this.findByDescricao(numeroprontuario);
+    // if (descExits) {
+    //   throw new ConflictException('Agendamento já cadastrado !');
+    // }
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
+    const MaxId = await this.agendaModel.findOne({}, 'atendimento')
+      .sort({ atendimento: -1 });
+    const nextId = MaxId ? MaxId.atendimento + 1 : 1;
+    const createdAgenda = new this.agendaModel({
+      ...rest,
+      atendimento: nextId,
+      numeroprontuario: agendaDTO.cliente.codigo,
+      usuariocriacao: user.username,
+      datacriacao: utcMinus3,
+    });
+    return createdAgenda.save();
+  }
+
+  async update(id: string, status: AgendamentoDTO) {
+    const { numeroprontuario, ...rest } = status;
+    const descExists = await this.agendaModel.findOne({
+      numeroprontuario,
+      status: true,
+      _id: { $ne: id },
+    });
+    if (descExists) {
+      throw new ConflictException('Já existe uma agenda com esta descrição!');
     }
 
-    async findByProntuario(numeroprontuario: number): Promise<AgendamentoDocument> {
-        return this.agendaModel.findOne({ numeroprontuario }).exec();
-    }
+    const updatedStatus = {
+      ...rest,
+      numeroprontuario,
+    };
+
+    await this.agendaModel.updateOne({ _id: id }, { $set: updatedStatus }).exec();
+    return this.getByID(id);
+  }
+
+  async delete(id: string) {
+    return await this.agendaModel.deleteOne({ _id: id }).exec();
+  }
+
+  async findByProntuario(numeroprontuario: number): Promise<AgendamentoDocument> {
+    return this.agendaModel.findOne({ numeroprontuario }).exec();
+  }
 }
 

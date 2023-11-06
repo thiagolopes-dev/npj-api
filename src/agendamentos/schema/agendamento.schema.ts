@@ -4,17 +4,19 @@ import { Document } from 'mongoose';
 export type AgendamentoDocument = Agendamento & Document;
 
 export class ClienteAgenda {
+    @Prop({ unique: false })
     codigo: number;
     nome: string;
-
 }
 
 export class StatusAgenda {
+    @Prop({ unique: false })
     codigo: number;
     descricao: string;
 }
 
 export class MotivoAgenda {
+    @Prop({ unique: false })
     codigo: number;
     descricao: string;
 }
@@ -35,7 +37,7 @@ export class Agendamento {
     @Prop({ required: true, })
     cliente: ClienteAgenda;
 
-    @Prop({ required: true })
+    @Prop({ required: false })
     status: StatusAgenda;
 
     @Prop({ required: true })
