@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { StatusDTO } from './dto/status.dto';
 import { StatusDocument } from './schema/status.schema';
 import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
-import moment from 'moment';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class StatusService {
@@ -116,7 +116,7 @@ export class StatusService {
       codigo: nextId,
       descricao,
       usuariocriacao: user.username,
-      datacriacao: utcMinus3,
+      datacriacao: utcMinus3.toDate(),
     });
     return createdStatus.save();
   }
