@@ -14,6 +14,17 @@ export class Status {
   @Prop({ required: true })
   status: boolean;
 
+  @Prop()
+  usuariocriacao?: string;
+
+  @Prop()
+  datacriacao?: Date;
+
+  @Prop()
+  dataalteracao?: Date;
+
+  @Prop()
+  usuarioalteracao?: string;
 
 }
 
