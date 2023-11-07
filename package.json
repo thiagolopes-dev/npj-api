@@ -1,17 +1,18 @@
 {
   "name": "npj-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Aplicativo para gerência do NPJ da Faculdade Anhanguera",
+  "author": "Prof Thiago Lopes e Alunos do 4º Semestre de Análise e Desenvolvimento de Sistemas Turma 2023",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "NODE_ENV=production nest start --watch",
+    "start:homolog": "NODE_ENV=hml nest start --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -20,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/config": "3.0.0",
     "@nestjs/common": "9.0.0",
     "@nestjs/core": "9.0.0",
     "@nestjs/jwt": "10.1.1",

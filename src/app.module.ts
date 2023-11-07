@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import * as moment from 'moment';
 import { AgendamentosModule } from './agendamentos/agendamentos.module';
 import { AppController } from './app.controller';
@@ -14,6 +15,10 @@ import { VarasModule } from './varas/varas.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // Para tornar as configurações disponíveis globalmente em todo o módulo
+      envFilePath: ['.env.dev', '.env.production'],
+    }),
     AuthModule,
     MotivosModule,
     VarasModule,

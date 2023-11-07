@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AgendamentoSchema } from './agendamentos/schema/agendamento.schema';
 import { ClienteSchema } from './clientes/schema/cliente.schema';
@@ -11,7 +12,15 @@ import { VaraSchema } from './varas/schema/vara.schema';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/npj'),
+    ConfigModule.forRoot({
+      envFilePath: `.env.${process.env.NODE_ENV || 'dev'}`,
+    }),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('DB_CONNECTION_STRING'),
+      })
+    }),
     MongooseModule.forFeature([{ name: 'Motivo', schema: MotivoSchema }]),
     MongooseModule.forFeature([{ name: 'Vara', schema: VaraSchema }]),
     MongooseModule.forFeature([{ name: 'Cliente', schema: ClienteSchema }]),
