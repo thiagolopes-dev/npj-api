@@ -26,7 +26,7 @@ export class Cliente {
   @Prop({ required: true })
   numero: string;
 
-  @Prop({ required: true })
+  @Prop({})
   complemento: string;
 
   @Prop({ required: true })

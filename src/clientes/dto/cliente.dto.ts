@@ -1,17 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
 
 export class ClienteDTO {
   @ApiProperty({
     description: 'Nome é obrigatório',
     required: true
   })
-  @IsNotEmpty()
   nome: string;
 
-  @MinLength(11, { message: 'O CPF deve conter 11 digitos' })
-  @MaxLength(11, { message: 'O CPF deve conter apenas 11 digitos' })
-  @IsNotEmpty()
   @ApiProperty({
     description: 'CPF é obrigatório',
     required: true
@@ -82,8 +78,12 @@ export class ClienteDTO {
   })
   status: boolean;
 
+  @IsOptional()
   usuariocriacao?: string;
+  @IsOptional()
   datacriacao?: Date;
+  @IsOptional()
   usuarioalteracao?: string;
+  @IsOptional()
   dataalteracao?: Date;
 }

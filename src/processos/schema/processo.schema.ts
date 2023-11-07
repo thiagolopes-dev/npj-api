@@ -6,23 +6,27 @@ import { Document } from 'mongoose';
 export type ProcessoDocument = Processo & Document;
 
 export class ClienteProcesso {
+    @Prop({ unique: false })
     codigo: number;
     nome: string;
 }
 
 export class VaraProcesso {
-    descricao: string;
+    @Prop({ unique: false })
     codigo: number;
+    descricao: string;
 }
 
 export class MotivoProcesso {
-    descricao: string;
+    @Prop({ unique: false })
     codigo: number;
+    descricao: string;
 }
 
 export class StatusProcesso {
-    descricao: string;
+    @Prop({ unique: false })
     codigo: number;
+    descricao: string;
 }
 
 export class ItensProcesso {

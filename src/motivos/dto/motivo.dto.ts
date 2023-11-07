@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
 
 export class MotivoDTO {
 
@@ -25,9 +25,13 @@ export class MotivoDTO {
     { message: 'O campo status é obrigatório' })
   status: boolean;
 
+  @IsOptional()
   usuariocriacao?: string;
+  @IsOptional()
   datacriacao?: Date;
+  @IsOptional()
   usuarioalteracao?: string;
+  @IsOptional()
   dataalteracao?: Date;
 }
 

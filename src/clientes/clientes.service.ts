@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import moment from 'moment';
+import * as moment from 'moment-timezone';
 import { Model } from 'mongoose';
 import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 import { ClienteDTO } from './dto/cliente.dto';
@@ -147,6 +147,11 @@ export class ClientesService {
     if (rgExistente) {
       throw new ConflictException('RG já cadastrado');
     }
+
+    if(cliente.cpf.length > 11 || cliente.cpf.length < 11) {
+      throw new ConflictException('CPF deve conter 11 digitos')
+    }
+    
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const MaxId = await this.clienteModel.findOne({}, 'codigo')
@@ -168,10 +173,23 @@ export class ClientesService {
     }
   }
 
-  async update(id: string, cliente: ClienteDTO) {
-    await this.clienteModel.updateOne({ _id: id }, cliente).exec();
+  async update(id: string, cliente: ClienteDTO, user: UsuarioDto) {
+    const { nome, ...rest } = cliente
+
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
+
+    const updatedCliente = {
+      ...rest,
+      nome,
+      usuarioalteracao: user.username,
+      dataalteracao: utcMinus3
+    }
+
+    await this.clienteModel.updateOne({ _id: id }, { $set: updatedCliente }).exec();
     return this.getByID(id);
   }
+
   async delete(id: string) {
     return await this.clienteModel.deleteOne({ _id: id }).exec();
   }

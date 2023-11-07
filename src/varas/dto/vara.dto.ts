@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class VaraDTO {
 
@@ -19,8 +19,12 @@ export class VaraDTO {
 
   codigo: number;
 
+  @IsOptional()
   usuariocriacao?: string;
+  @IsOptional()
   datacriacao?: Date;
+  @IsOptional()
   usuarioalteracao?: string;
+  @IsOptional()
   dataalteracao?: Date;
 }

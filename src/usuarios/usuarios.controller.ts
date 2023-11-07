@@ -37,7 +37,6 @@ export class UsuariosController {
     @Get()
     buscarTodos() {
         return this.usuarioService.buscarTodos();
-
     }
 
     @UseGuards(AccessTokenGuard)

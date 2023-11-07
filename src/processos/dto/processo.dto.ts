@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { ClienteProcesso, ItensProcesso, MotivoProcesso, StatusProcesso, VaraProcesso } from "../schema/processo.schema";
 
 export class ProcessoDTO {
@@ -17,7 +17,9 @@ export class ProcessoDTO {
     @IsNotEmpty()
     status = new StatusProcesso();
 
+    @IsOptional()
     usuariocriacao: string;
+    @IsOptional()
     datacriacao: Date;
 
     itensprocesso = new Array<ItensProcesso>();

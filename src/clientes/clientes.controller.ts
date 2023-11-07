@@ -98,8 +98,9 @@ export class ClientesController {
   async update(
     @Param('id') id: string,
     @Body() cliente: ClienteDTO,
+    @Req() req
   ): Promise<ClienteDTO> {
-    return this.clienteService.update(id, cliente);
+    return this.clienteService.update(id, cliente, req.user);
   }
 
   // @Delete(':id')
