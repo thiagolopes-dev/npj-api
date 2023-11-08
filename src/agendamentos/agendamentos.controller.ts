@@ -15,11 +15,23 @@ export class AgendamentosController {
         status: 200,
         type: AgendamentoDTO,
         isArray: true,
-        description: 'Lista de Status'
+        description: 'Lista de Agendamentos'
+    })
+      @UseGuards(AccessTokenGuard)
+      @Get('all')
+      async getAll(): Promise<AgendamentoDTO[]> {
+        return this.agendaService.getAll();
+    }
+
+    @ApiResponse({
+        status: 200,
+        type: AgendamentoDTO,
+        isArray: true,
+        description: 'Lista de Agendamentos Paginada'
     })
     @UseGuards(AccessTokenGuard)
     @Get()
-    async getAll(
+    async getPagination(
         @Query('page') page: number,
         @Query('perPage') perPage: number,
         @Query('atendimento') atendimento: string,
@@ -34,7 +46,7 @@ export class AgendamentosController {
         @Query('dataalteracaode') dataalteracaode?: string,
         @Query('dataalteracaoate') dataalteracaoate?: string,
     ): Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
-        return this.agendaService.getAll(page, perPage, atendimento, numeroprontuario, cliente, status, motivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+        return this.agendaService.getPagination(page, perPage, atendimento, numeroprontuario, cliente, status, motivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
     }
 
     @ApiResponse({

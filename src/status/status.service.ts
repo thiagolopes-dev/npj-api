@@ -12,7 +12,11 @@ export class StatusService {
     @InjectModel('Status') private readonly statusModel: Model<StatusDTO>,
   ) { }
 
-  async getAll(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+  async getAll() {
+    return this.statusModel.find().exec();
+  }
+
+  async getPagination(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
   Promise<{ data: StatusDTO[], totalCount: number, totalPages: number }> {
   const query: any = {};
   if (descricao) {

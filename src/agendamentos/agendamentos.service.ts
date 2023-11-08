@@ -12,7 +12,11 @@ export class AgendamentosService {
     @InjectModel('Agendamento') private readonly agendaModel: Model<AgendamentoDTO>,
   ) { }
 
-  async getAll(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, status: string, motivo: string,
+  async getAll() {
+    return this.agendaModel.find().exec();
+  }
+
+  async getPagination(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, status: string, motivo: string,
     usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
     Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
     const query: any = {};

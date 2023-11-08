@@ -27,8 +27,20 @@ export class ClientesController {
     description: 'Lista de Clientes'
   })
   @UseGuards(AccessTokenGuard)
+  @Get('all')
+  async getAll(): Promise<ClienteDTO[]> {
+    return this.clienteService.getAll();
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: ClienteDTO,
+    isArray: true,
+    description: 'Lista de Clientes Paginada'
+  })
+  @UseGuards(AccessTokenGuard)
   @Get()
-  async getAll(
+  async getPagination(
     @Query('page') page: number,
     @Query('perPage') perPage: number,
     @Query('nome') nome: string,
@@ -49,7 +61,7 @@ export class ClientesController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: ClienteDTO[], totalCount: number, totalPages: number }> {
-    return this.clienteService.getAll(page, perPage, nome, cpf, rg, 
+    return this.clienteService.getPagination(page, perPage, nome, cpf, rg, 
       cep, logradouro, bairro, cidade, uf, telefone, whatsapp, status, usuariocriacao, 
       datacriacaode, datacriacaoate, usuarioalteracao, 
        dataalteracaode, dataalteracaoate);

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { AtualizarProcessoDto } from './dto/atualizar-processo.dto';
 import { ProcessoDTO } from './dto/processo.dto';
@@ -10,9 +10,27 @@ import { ProcessosService } from './processos.service';
 export class ProcessosController {
     constructor(private processoService: ProcessosService) { }
 
+    @ApiResponse({
+        status: 200,
+        type: ProcessoDTO,
+        isArray: true,
+        description: 'Lista de Processos'
+    })
+      @UseGuards(AccessTokenGuard)
+      @Get('all')
+      async getAll(): Promise<ProcessoDTO[]> {
+        return this.processoService.getAll();
+    }
+
+    @ApiResponse({
+        status: 200,
+        type: ProcessoDTO,
+        isArray: true,
+        description: 'Lista de Processos Paginada'
+    })
     @UseGuards(AccessTokenGuard)
     @Get()
-    async getAll(
+    async getPagination(
         @Query('page') page: number,
         @Query('perPage') perPage: number,
         @Query('numeroprocesso') numeroprocesso?: string,
@@ -24,16 +42,33 @@ export class ProcessosController {
         @Query('datacriacaode') datacriacaode?: string,
         @Query('datacriacaoate') datacriacaoate?: string,
     ): Promise<{ data: ProcessoDTO[], totalCount: number, totalPages: number }> {
-        return this.processoService.getAll(page, perPage, numeroprocesso, cliente, vara,
+        return this.processoService.getPagination(page, perPage, numeroprocesso, cliente, vara,
             motivo, status, processoProcesso, datacriacaode, datacriacaoate)
     }
 
+    @ApiResponse({
+        status: 200,
+        type: ProcessoDTO,
+        isArray: false,
+        description: 'Get ByID de Processos'
+      })
     @UseGuards(AccessTokenGuard)
     @Get(':id')
     async getById(@Param('id') id: string): Promise<ProcessoDTO> {
         return this.processoService.getByID(id);
     }
 
+    @ApiResponse({
+        status: 201,
+        description: 'Processo cadastro com sucesso'
+      })
+      @ApiResponse({
+        status: 409,
+        description: 'Processo já cadastrado'
+      })
+      @ApiForbiddenResponse({
+        description: 'Criação Negada'
+    })
     @UseGuards(AccessTokenGuard)
     @Post()
     async create(@Body() processo: ProcessoDTO, @Req() req) {

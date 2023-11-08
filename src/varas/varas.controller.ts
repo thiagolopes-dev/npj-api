@@ -27,8 +27,21 @@ export class VarasController {
     isArray: true,
     description: 'Lista de Varas'
   })
+  @UseGuards(AccessTokenGuard)
+  @Get('all')
+  async getAll(): Promise<VaraDTO[]> {
+    return this.varaService.getAll();
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: VaraDTO,
+    isArray: true,
+    description: 'Lista de Varas Paginada'
+  })
+  @UseGuards(AccessTokenGuard)
   @Get()
-  async getAll(
+  async getPagination(
     @Query('page') page: number,
     @Query('perPage') perPage: number,
     @Query('descricao') descricao?: string,
@@ -40,7 +53,7 @@ export class VarasController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: VaraDTO[], totalCount: number, totalPages: number }> {
-    return this.varaService.getAll(page, perPage, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+    return this.varaService.getPagination(page, perPage, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
   }
 
   @ApiResponse({

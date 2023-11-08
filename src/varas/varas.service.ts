@@ -12,7 +12,11 @@ export class VarasService {
     @InjectModel('Vara') private readonly varaModel: Model<VaraDTO>,
   ) { }
 
-  async getAll(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+  async getAll() {
+    return this.varaModel.find().exec();
+  }
+
+  async getPagination(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
   Promise<{ data: VaraDTO[], totalCount: number, totalPages: number }> {
   const query: any = {};
   if (descricao) {

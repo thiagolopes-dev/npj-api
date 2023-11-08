@@ -5,18 +5,19 @@ import { Model } from 'mongoose';
 import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 import { AtualizarProcessoDto } from './dto/atualizar-processo.dto';
 import { ProcessoDTO } from './dto/processo.dto';
-import { ItensProcesso, ProcessoDocument } from './schema/processo.schema';
-import { nextTick } from 'process';
+import { ProcessoDocument } from './schema/processo.schema';
 
 @Injectable()
 export class ProcessosService {
   constructor(
     @InjectModel('Processo') private readonly processoModel: Model<ProcessoDTO>,
-    @InjectModel('Processo')
-    private readonly itensProcessoModel: Model<AtualizarProcessoDto>,
   ) {}
 
-  async getAll(
+  async getAll() {
+    return this.processoModel.find().exec();
+  }
+
+  async getPagination(
     page: number,
     perPage: number,
     numeroprocesso: string,

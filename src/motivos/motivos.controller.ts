@@ -27,8 +27,20 @@ export class MotivosController {
     description: 'Lista de Motivos'
   })
   @UseGuards(AccessTokenGuard)
+  @Get('all')
+  async getAll(): Promise<MotivoDTO[]> {
+    return this.motivoService.getAll();
+  }
+ 
+  @ApiResponse({
+    status: 200,
+    type: MotivoDTO,
+    isArray: true,
+    description: 'Lista de Motivos Paginada'
+  })
+  @UseGuards(AccessTokenGuard)
   @Get()
-  async getAll(
+  async getPagination(
     @Query('page') page: number,
     @Query('perPage') perPage: number,
     @Query('codigo') codigo?: string,
@@ -41,7 +53,7 @@ export class MotivosController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: MotivoDTO[], totalCount: number, totalPages: number }> {
-    return this.motivoService.getAll(page, perPage, codigo, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+    return this.motivoService.getPagination(page, perPage, codigo, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
   }
 
   @ApiResponse({

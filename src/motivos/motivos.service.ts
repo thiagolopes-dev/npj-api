@@ -10,10 +10,25 @@ import { MotivoDocument } from './schema/motivo.schema';
 export class MotivosService {
   constructor(
     @InjectModel('Motivo') private readonly motivoModel: Model<MotivoDTO>,
-  ) { }
+  ) {}
 
-  async getAll(page: number, perPage: number, codigo: string, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
-    Promise<{ data: MotivoDTO[], totalCount: number, totalPages: number }> {
+  async getAll() {
+    return await this.motivoModel.find().exec();
+  }
+
+  async getPagination(
+    page: number,
+    perPage: number,
+    codigo: string,
+    descricao: string,
+    status: string,
+    usuariocriacao: string,
+    datacriacaode: string,
+    datacriacaoate: string,
+    usuarioalteracao: string,
+    dataalteracaode: string,
+    dataalteracaoate: string,
+  ): Promise<{ data: MotivoDTO[]; totalCount: number; totalPages: number }> {
     const query: any = {};
     if (codigo) {
       query.codigo = codigo;
@@ -32,7 +47,6 @@ export class MotivosService {
       query.status = status;
     }
 
-
     if (datacriacaode && datacriacaoate) {
       const startDateTime = new Date(datacriacaode);
       startDateTime.setUTCHours(0, 0, 0, 0);
@@ -41,21 +55,21 @@ export class MotivosService {
       endDateTime.setUTCHours(23, 59, 59, 999);
       query.datacriacao = {
         $gte: startDateTime,
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     } else if (datacriacaode) {
       const startDateTime = new Date(datacriacaode);
       startDateTime.setUTCHours(0, 0, 0, 0);
 
       query.datacriacao = {
-        $gte: startDateTime
+        $gte: startDateTime,
       };
     } else if (datacriacaoate) {
       const endDateTime = new Date(datacriacaoate);
       endDateTime.setUTCHours(23, 59, 59, 999);
 
       query.datacriacaoa = {
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     }
 
@@ -67,34 +81,33 @@ export class MotivosService {
       endDateTime.setUTCHours(23, 59, 59, 999);
       query.dataalteracao = {
         $gte: startDateTime,
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     } else if (dataalteracaode) {
       const startDateTime = new Date(dataalteracaode);
       startDateTime.setUTCHours(0, 0, 0, 0);
 
       query.dataalteracao = {
-        $gte: startDateTime
+        $gte: startDateTime,
       };
     } else if (dataalteracaoate) {
       const endDateTime = new Date(dataalteracaoate);
       endDateTime.setUTCHours(23, 59, 59, 999);
 
       query.dataalteracao = {
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     }
 
     const totalItems = await this.motivoModel.countDocuments(query).exec();
     const totalPages = Math.ceil(totalItems / perPage);
-    const skip = (page) * perPage;
+    const skip = page * perPage;
     const motivoDataArray: MotivoDocument[] = await this.motivoModel
       .find(query)
       .sort({ _id: -1 })
       .skip(skip)
       .limit(perPage)
       .exec();
-
 
     return { data: motivoDataArray, totalCount: totalItems, totalPages };
   }
@@ -103,8 +116,10 @@ export class MotivosService {
     return await this.motivoModel.findById(id).exec();
   }
 
-
-  async create(motivoDTO: MotivoDTO, user: UsuarioDto): Promise<MotivoDocument> {
+  async create(
+    motivoDTO: MotivoDTO,
+    user: UsuarioDto,
+  ): Promise<MotivoDocument> {
     const { descricao, ...rest } = motivoDTO;
     // Verificar se a descrição já existe
     const descExists = await this.findByDescricao(descricao);
@@ -115,7 +130,8 @@ export class MotivosService {
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     //consulta no mongodb para obter o ultimo e maior valor
-    const MaxId = await this.motivoModel.findOne({}, 'codigo')
+    const MaxId = await this.motivoModel
+      .findOne({}, 'codigo')
       .sort({ codigo: -1 });
     const nextId = MaxId ? MaxId.codigo + 1 : 1;
 
@@ -156,7 +172,6 @@ export class MotivosService {
 
     return this.getByID(id);
   }
-
 
   async delete(id: string) {
     return await this.motivoModel.deleteOne({ _id: id }).exec();

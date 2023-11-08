@@ -12,7 +12,11 @@ export class ClientesService {
     @InjectModel('Cliente') private readonly clienteModel: Model<ClienteDTO>,
   ) { }
 
-  async getAll(page: number, perPage: number, nome: string, cpf: string, rg: string, cep: string,
+  async getAll() {
+    return this.clienteModel.find().exec();
+  }
+
+  async getPagination(page: number, perPage: number, nome: string, cpf: string, rg: string, cep: string,
     logradouro: string, bairro: string, cidade: string, uf: string,
     telefone: string, whatsapp: string, status: string, usuariocriacao: string,
     datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
