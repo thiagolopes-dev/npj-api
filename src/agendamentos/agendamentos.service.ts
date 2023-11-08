@@ -13,7 +13,7 @@ export class AgendamentosService {
   ) { }
 
   async getAll() {
-    return this.agendaModel.find().exec();
+    return this.agendaModel.find({ status: true }).exec();
   }
 
   async getPagination(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, status: string, motivo: string,

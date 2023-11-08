@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, InternalServerErrorException, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, InternalServerErrorException, Param, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { AtualizarUsuarioDto } from './dto/update-usuario.dto';
@@ -12,6 +12,42 @@ export class UsuariosController {
     constructor(
         private readonly usuarioService: UsuariosService
     ) { }
+
+    @ApiResponse({
+        status: 200,
+        type: UsuarioDto,
+        isArray: true,
+        description: 'Lista de Usuarios'
+      })
+      @UseGuards(AccessTokenGuard)
+      @Get('all')
+      async getAll(): Promise<UsuarioDto[]> {
+        return this.usuarioService.getAll();
+      }
+
+    @ApiResponse({
+        status: 200,
+        type: UsuarioDto,
+        isArray: true,
+        description: 'Lista de Usuários Paginada'
+      })
+      @UseGuards(AccessTokenGuard)
+      @Get()
+      async getPagination(
+        @Query('page') page: number,
+        @Query('perPage') perPage: number,
+        @Query('descricao') name?: string,
+        @Query('username') username?: string,
+        @Query('status') status?: string,
+        @Query('usuariocriacao') usuariocriacao?: string,
+        @Query('datacriacaode') datacriacaode?: string,
+        @Query('datacriacaoate') datacriacaoate?: string,
+        @Query('usuarioalteracao') usuarioalteracao?: string,
+        @Query('dataalteracaode') dataalteracaode?: string,
+        @Query('dataalteracaoate') dataalteracaoate?: string,
+      ): Promise<{ data: UsuarioDto[], totalCount: number, totalPages: number }> {
+        return this.usuarioService.getPagination(page, perPage, name, username, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+      }
 
     @ApiResponse({
         description: 'Usuário criado com sucesso',
@@ -31,12 +67,6 @@ export class UsuariosController {
     @Post()
     criarUsuario(@Body() criarDto: UsuarioDto) {
         return this.usuarioService.criar(criarDto);
-    }
-
-    @UseGuards(AccessTokenGuard)
-    @Get()
-    buscarTodos() {
-        return this.usuarioService.buscarTodos();
     }
 
     @UseGuards(AccessTokenGuard)

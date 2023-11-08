@@ -13,7 +13,7 @@ export class ClientesService {
   ) { }
 
   async getAll() {
-    return this.clienteModel.find().exec();
+    return this.clienteModel.find({ status: true }).exec();
   }
 
   async getPagination(page: number, perPage: number, nome: string, cpf: string, rg: string, cep: string,

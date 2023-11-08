@@ -13,7 +13,7 @@ export class MotivosService {
   ) {}
 
   async getAll() {
-    return await this.motivoModel.find().exec();
+    return await this.motivoModel.find({ status: true }).exec();
   }
 
   async getPagination(

@@ -13,7 +13,7 @@ export class VarasService {
   ) { }
 
   async getAll() {
-    return this.varaModel.find().exec();
+    return this.varaModel.find({ status: true }).exec();
   }
 
   async getPagination(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):

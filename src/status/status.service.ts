@@ -13,7 +13,7 @@ export class StatusService {
   ) { }
 
   async getAll() {
-    return this.statusModel.find().exec();
+    return this.statusModel.find({ status: true }).exec();
   }
 
   async getPagination(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):

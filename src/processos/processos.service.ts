@@ -14,7 +14,7 @@ export class ProcessosService {
   ) {}
 
   async getAll() {
-    return this.processoModel.find().exec();
+    return this.processoModel.find({ status: true }).exec();
   }
 
   async getPagination(

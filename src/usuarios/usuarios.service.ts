@@ -17,6 +17,101 @@ export class UsuariosService {
     constructor(
         @InjectModel(Usuario.name) private usuarioModel: Model<UsuarioDocument>,
     ) { }
+    
+    async getAll(): Promise<UsuarioDto[]> {
+        return this.usuarioModel.find({ status: true }).exec()
+    }
+
+    async getPagination(page: number, perPage: number, name: string, username: string , status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+  Promise<{ data: UsuarioDto[], totalCount: number, totalPages: number }> {
+  const query: any = {};
+  if(name) {
+    query.name = { $regex: name, $options: 'i' };
+  }
+
+  if(username) {
+    query.username = { $regex: username, $options: 'i' };
+  }
+
+  if (status) {
+    query.status = status;
+  }
+
+  if (usuariocriacao) {
+    query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
+  }
+  if (usuarioalteracao) {
+    query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
+  }
+
+  
+
+
+  if (datacriacaode && datacriacaoate) {
+    const startDateTime = new Date(datacriacaode);
+    startDateTime.setUTCHours(0, 0, 0, 0);
+
+    const endDateTime = new Date(datacriacaoate);
+    endDateTime.setUTCHours(23, 59, 59, 999);
+    query.datacriacao = {
+      $gte: startDateTime,
+      $lt: endDateTime
+    };
+  } else if (datacriacaode) {
+    const startDateTime = new Date(datacriacaode);
+    startDateTime.setUTCHours(0, 0, 0, 0);
+
+    query.datacriacao = {
+      $gte: startDateTime
+    };
+  } else if (datacriacaoate) {
+    const endDateTime = new Date(datacriacaoate);
+    endDateTime.setUTCHours(23, 59, 59, 999);
+
+    query.datacriacaoa = {
+      $lt: endDateTime
+    };
+  }
+
+  if (dataalteracaode && dataalteracaoate) {
+    const startDateTime = new Date(dataalteracaode);
+    startDateTime.setUTCHours(0, 0, 0, 0);
+
+    const endDateTime = new Date(dataalteracaoate);
+    endDateTime.setUTCHours(23, 59, 59, 999);
+    query.dataalteracao = {
+      $gte: startDateTime,
+      $lt: endDateTime
+    };
+  } else if (dataalteracaode) {
+    const startDateTime = new Date(dataalteracaode);
+    startDateTime.setUTCHours(0, 0, 0, 0);
+
+    query.dataalteracao = {
+      $gte: startDateTime
+    };
+  } else if (dataalteracaoate) {
+    const endDateTime = new Date(dataalteracaoate);
+    endDateTime.setUTCHours(23, 59, 59, 999);
+
+    query.dataalteracao = {
+      $lt: endDateTime
+    };
+  }
+
+  const totalItems = await this.usuarioModel.countDocuments(query).exec();
+  const totalPages = Math.ceil(totalItems / perPage);
+  const skip = (page) * perPage;
+  const usuarioDataArray: UsuarioDocument[] = await this.usuarioModel
+    .find(query)
+    .sort({ _id: -1 })
+    .skip(skip)
+    .limit(perPage)
+    .exec();
+
+
+  return { data: usuarioDataArray, totalCount: totalItems, totalPages };
+}
 
     async criar(criarUsuarioDto: UsuarioDto): Promise<UsuarioDocument> {
         const { username, password, ...rest } = criarUsuarioDto;
@@ -35,15 +130,6 @@ export class UsuariosService {
 
     hashData(value: string) {
         return argon2.hash(value);
-    }
-
-    async buscarTodos(): Promise<UsuarioDto[]> {
-        const usuarios: UsuarioDto[] = await this.usuarioModel
-            .find({
-                username: { $ne: 'developer@anhanguera.com.br' },
-            })
-            .exec();
-        return usuarios;
     }
 
     async buscarPorId(id: string): Promise<UsuarioDocument> {
