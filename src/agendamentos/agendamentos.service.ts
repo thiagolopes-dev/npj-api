@@ -16,7 +16,7 @@ export class AgendamentosService {
     return this.agendaModel.find({ status: true }).exec();
   }
 
-  async getPagination(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, status: string, motivo: string,
+  async getPagination(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, statusopcao: string, status: string, motivo: string,
     usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
     Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
     const query: any = {};
@@ -28,6 +28,9 @@ export class AgendamentosService {
     }
     if (cliente) {
       query.cliente = { $regex: cliente, $options: 'i' };
+    }
+    if (statusopcao) {
+      query.statusopcao = { $regex: statusopcao, $options: 'i' };
     }
     if (status) {
       query.status = status;
@@ -130,27 +133,35 @@ export class AgendamentosService {
       numeroprontuario: agendaDTO.cliente.codigo,
       usuariocriacao: user.username,
       datacriacao: utcMinus3,
+      status: true
     });
     return createdAgenda.save();
   }
 
-  async update(id: string, status: AgendamentoDTO) {
+  async update(id: string, status: AgendamentoDTO, user: UsuarioDto) {
     const { numeroprontuario, ...rest } = status;
     const descExists = await this.agendaModel.findOne({
       numeroprontuario,
       status: true,
       _id: { $ne: id },
     });
+
+    const currentDate = moment.utc();
+    const utcMinus3 = currentDate.clone().subtract(3, 'hours');
+
     if (descExists) {
       throw new ConflictException('Já existe uma agenda com esta descrição!');
     }
 
-    const updatedStatus = {
+    const updatedAgendamento = {
       ...rest,
       numeroprontuario,
+      status: true,
+      usuarioalteracao: user.username,
+      dataalteracao: utcMinus3
     };
 
-    await this.agendaModel.updateOne({ _id: id }, { $set: updatedStatus }).exec();
+    await this.agendaModel.updateOne({ _id: id }, { $set: updatedAgendamento }).exec();
     return this.getByID(id);
   }
 

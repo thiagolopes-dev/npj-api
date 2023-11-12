@@ -38,7 +38,7 @@ export class Agendamento {
     cliente: ClienteAgenda;
 
     @Prop({ required: false })
-    status: StatusAgenda;
+    statusopcao: StatusAgenda;
 
     @Prop({ required: true })
     motivo: MotivoAgenda;
@@ -55,6 +55,8 @@ export class Agendamento {
     @Prop()
     dataalteracao?: Date;
 
+    @Prop()
+    status: boolean;
 
 }
 

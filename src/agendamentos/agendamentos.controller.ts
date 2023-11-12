@@ -37,6 +37,7 @@ export class AgendamentosController {
         @Query('atendimento') atendimento: string,
         @Query('numeroprontuario') numeroprontuario: string,
         @Query('cliente') cliente: string,
+        @Query('statusopcao') statusopcao: string,
         @Query('status') status: string,
         @Query('motivo') motivo: string,
         @Query('usuariocriacao') usuariocriacao?: string,
@@ -46,7 +47,7 @@ export class AgendamentosController {
         @Query('dataalteracaode') dataalteracaode?: string,
         @Query('dataalteracaoate') dataalteracaoate?: string,
     ): Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
-        return this.agendaService.getPagination(page, perPage, atendimento, numeroprontuario, cliente, status, motivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+        return this.agendaService.getPagination(page, perPage, atendimento, numeroprontuario, cliente, statusopcao, status, motivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
     }
 
     @ApiResponse({
@@ -91,8 +92,9 @@ export class AgendamentosController {
     async update(
         @Param('id') id: string,
         @Body() agenda: AgendamentoDTO,
+        @Req() req
     ): Promise<AgendamentoDTO> {
-        return this.agendaService.update(id, agenda);
+        return this.agendaService.update(id, agenda, req.user);
     }
 
 }
