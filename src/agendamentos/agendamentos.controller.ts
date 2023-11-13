@@ -3,6 +3,7 @@ import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { AgendamentosService } from './agendamentos.service';
 import { AgendamentoDTO } from './dto/agendamento.dto';
+import { FlatAgendamentoDTO } from './dto/flat-agendamento.dto';
 
 @ApiTags('agendamento')
 
@@ -17,9 +18,9 @@ export class AgendamentosController {
         isArray: true,
         description: 'Lista de Agendamentos'
     })
-      @UseGuards(AccessTokenGuard)
-      @Get('all')
-      async getAll(): Promise<AgendamentoDTO[]> {
+    @UseGuards(AccessTokenGuard)
+    @Get('all')
+    async getAll(): Promise<AgendamentoDTO[]> {
         return this.agendaService.getAll();
     }
 
@@ -35,19 +36,17 @@ export class AgendamentosController {
         @Query('page') page: number,
         @Query('perPage') perPage: number,
         @Query('atendimento') atendimento: string,
-        @Query('numeroprontuario') numeroprontuario: string,
-        @Query('cliente') cliente: string,
-        @Query('statusopcao') statusopcao: string,
-        @Query('status') status: string,
-        @Query('motivo') motivo: string,
+        @Query('deccliente') desccliente: string,
+        @Query('descstatus') descstatus: string,
+        @Query('descmotivo') descmotivo: string,
         @Query('usuariocriacao') usuariocriacao?: string,
         @Query('datacriacaode') datacriacaode?: string,
         @Query('datacriacaoate') datacriacaoate?: string,
         @Query('usuarioalteracao') usuarioalteracao?: string,
         @Query('dataalteracaode') dataalteracaode?: string,
         @Query('dataalteracaoate') dataalteracaoate?: string,
-    ): Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
-        return this.agendaService.getPagination(page, perPage, atendimento, numeroprontuario, cliente, statusopcao, status, motivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+    ): Promise<{ data: FlatAgendamentoDTO[], totalCount: number, totalPages: number }> {
+        return this.agendaService.getPagination(page, perPage, atendimento, desccliente, descstatus, descmotivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
     }
 
     @ApiResponse({

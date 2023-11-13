@@ -1,9 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as moment from 'moment-timezone';
 import { Model } from 'mongoose';
 import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 import { AgendamentoDTO } from './dto/agendamento.dto';
+import { FlatAgendamentoDTO } from './dto/flat-agendamento.dto';
 import { AgendamentoDocument } from './schema/agendamento.schema';
 
 @Injectable()
@@ -16,27 +17,22 @@ export class AgendamentosService {
     return this.agendaModel.find({ status: true }).exec();
   }
 
-  async getPagination(page: number, perPage: number, atendimento: string, numeroprontuario: string, cliente: string, statusopcao: string, status: string, motivo: string,
+  async getPagination(page: number, perPage: number, atendimento: string, desccliente: string, descstatus: string, descmotivo: string,
     usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
-    Promise<{ data: AgendamentoDTO[], totalCount: number, totalPages: number }> {
+    Promise<{ data: FlatAgendamentoDTO[], totalCount: number, totalPages: number }> {
     const query: any = {};
     if (atendimento) {
       query.atendimento = atendimento;
     }
-    if (numeroprontuario) {
-      query.numeroprontuario = numeroprontuario;
+
+    if (desccliente) {
+      query.desccliente = { $regex: desccliente, $options: 'i' };
     }
-    if (cliente) {
-      query.cliente = { $regex: cliente, $options: 'i' };
+    if (descstatus) {
+      query.descstatus = { $regex: descstatus, $options: 'i' };
     }
-    if (statusopcao) {
-      query.statusopcao = { $regex: statusopcao, $options: 'i' };
-    }
-    if (status) {
-      query.status = status;
-    }
-    if (motivo) {
-      query.motivo = { $regex: motivo, $options: 'i' };
+    if (descmotivo) {
+      query.descmotivo = { $regex: descmotivo, $options: 'i' };
     }
     if (usuariocriacao) {
       query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
@@ -106,9 +102,29 @@ export class AgendamentosService {
       .skip(skip)
       .limit(perPage)
       .exec();
+    const flatDataArray: FlatAgendamentoDTO[] = [];
 
+    // Percorre os dados do XML (NFE e CTE)
+    for (const agendaData of agendamentoDataArray) {
+      // Realiza a junção dos dados em formato FLAT
+      const flatData: FlatAgendamentoDTO = {
+        _id: agendaData._id,
+        atendimento: agendaData.atendimento,
+        numeroprontuario: agendaData.numeroprontuario,
+        dataatendimento: agendaData.dataatendimento,
+        desccliente: agendaData.cliente.nome,
+        descmotivo: agendaData.motivo.descricao,
+        descstatus: agendaData.status.descricao,
+        usuariocriacao: agendaData.usuariocriacao,
+        datacriacao: agendaData.datacriacao,
+        usuarioalteracao: agendaData.usuarioalteracao,
+        dataalteracao: agendaData.dataalteracao
+      };
 
-    return { data: agendamentoDataArray, totalCount: totalItems, totalPages };
+      flatDataArray.push(flatData);
+    }
+    return { data: flatDataArray, totalCount: totalItems, totalPages };
+    // return { data: agendamentoDataArray, totalCount: totalItems, totalPages };
   }
 
   async getByID(id: string) {
@@ -117,11 +133,6 @@ export class AgendamentosService {
 
   async create(agendaDTO: AgendamentoDTO, user: UsuarioDto): Promise<AgendamentoDocument> {
     const { numeroprontuario, ...rest } = agendaDTO;
-    //TODO Validação de cadastro
-    // const descExits = await this.findByDescricao(numeroprontuario);
-    // if (descExits) {
-    //   throw new ConflictException('Agendamento já cadastrado !');
-    // }
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const MaxId = await this.agendaModel.findOne({}, 'atendimento')
@@ -132,31 +143,18 @@ export class AgendamentosService {
       atendimento: nextId,
       numeroprontuario: agendaDTO.cliente.codigo,
       usuariocriacao: user.username,
-      datacriacao: utcMinus3,
-      status: true
+      datacriacao: utcMinus3
     });
     return createdAgenda.save();
   }
 
   async update(id: string, status: AgendamentoDTO, user: UsuarioDto) {
-    const { numeroprontuario, ...rest } = status;
-    const descExists = await this.agendaModel.findOne({
-      numeroprontuario,
-      status: true,
-      _id: { $ne: id },
-    });
-
+    const { atendimento, ...rest } = status;
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
-
-    if (descExists) {
-      throw new ConflictException('Já existe uma agenda com esta descrição!');
-    }
-
     const updatedAgendamento = {
       ...rest,
-      numeroprontuario,
-      status: true,
+      atendimento,
       usuarioalteracao: user.username,
       dataalteracao: utcMinus3
     };

@@ -15,7 +15,7 @@ export class AgendamentoDTO {
     cliente = new ClienteAgenda();
 
     @IsNotEmpty()
-    statusopcao = new StatusAgenda();
+    status = new StatusAgenda();
 
     @IsNotEmpty()
     motivo = new MotivoAgenda();
@@ -31,6 +31,4 @@ export class AgendamentoDTO {
 
     @IsOptional()
     dataalteracao?: Date;
-
-    status: boolean;
 }
