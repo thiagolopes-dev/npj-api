@@ -11,7 +11,7 @@ export class Cliente {
   @Prop({ required: true })
   cpf: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   rg: string;
 
   @Prop({ required: true })
@@ -38,7 +38,7 @@ export class Cliente {
   @Prop({ required: false })
   telefone: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   whatsapp: string;
 
   @Prop({ required: true, unique: true })

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export class ClienteDTO {
   @ApiProperty({
@@ -15,8 +15,8 @@ export class ClienteDTO {
   cpf: string;
 
   @ApiProperty({
-    description: 'RG é obrigatório',
-    required: true
+    description: 'RG é opcional',
+    required: false
   })
   rg: string;
 
@@ -65,8 +65,8 @@ export class ClienteDTO {
   telefone: string;
 
   @ApiProperty({
-    description: 'Whatsapp é obrigatório',
-    required: true
+    description: 'Whatsapp é opcional',
+    required: false
   })
   whatsapp: string;
 
