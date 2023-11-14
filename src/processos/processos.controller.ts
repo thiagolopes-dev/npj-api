@@ -4,6 +4,7 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { AtualizarProcessoDto } from './dto/atualizar-processo.dto';
 import { ProcessoDTO } from './dto/processo.dto';
 import { ProcessosService } from './processos.service';
+import { FlatProcessoDTO } from './dto/flat-processo.dto';
 
 @ApiTags('processo')
 @Controller('processos')
@@ -34,16 +35,16 @@ export class ProcessosController {
         @Query('page') page: number,
         @Query('perPage') perPage: number,
         @Query('numeroprocesso') numeroprocesso?: string,
-        @Query('cliente') cliente?: string,
-        @Query('vara') vara?: string,
-        @Query('motivo') motivo?: string,
-        @Query('status') status?: string,
+        @Query('cliente') descliente?: string,
+        @Query('vara') descvara?: string,
+        @Query('motivo') descmotivo?: string,
+        @Query('status') descstatus?: string,
         @Query('processoProcesso') processoProcesso?: string,
         @Query('datacriacaode') datacriacaode?: string,
         @Query('datacriacaoate') datacriacaoate?: string,
-    ): Promise<{ data: ProcessoDTO[], totalCount: number, totalPages: number }> {
-        return this.processoService.getPagination(page, perPage, numeroprocesso, cliente, vara,
-            motivo, status, processoProcesso, datacriacaode, datacriacaoate)
+    ): Promise<{ data: FlatProcessoDTO[], totalCount: number, totalPages: number }> {
+        return this.processoService.getPagination(page, perPage, numeroprocesso, descliente, descvara,
+            descmotivo, descstatus, processoProcesso, datacriacaode, datacriacaoate)
     }
 
     @ApiResponse({

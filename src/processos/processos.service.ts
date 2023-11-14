@@ -5,7 +5,8 @@ import { Model } from 'mongoose';
 import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 import { AtualizarProcessoDto } from './dto/atualizar-processo.dto';
 import { ProcessoDTO } from './dto/processo.dto';
-import { ProcessoDocument } from './schema/processo.schema';
+import { ProcessoDocument, ItensProcesso } from './schema/processo.schema';
+import { FlatProcessoDTO } from './dto/flat-processo.dto';
 
 @Injectable()
 export class ProcessosService {
@@ -21,33 +22,40 @@ export class ProcessosService {
     page: number,
     perPage: number,
     numeroprocesso: string,
-    cliente: string,
-    vara: string,
-    motivo: string,
-    status: string,
+    desccliente: string,
+    descvara: string,
+    descmotivo: string,
+    descstatus: string,
     processoacompanhamento: string,
     datacriacaode: string,
     datacriacaoate: string,
-  ): Promise<{ data: ProcessoDTO[]; totalCount: number; totalPages: number }> {
+  ): Promise<{
+    data: FlatProcessoDTO[];
+    totalCount: number;
+    totalPages: number;
+  }> {
     const query: any = {};
 
     if (numeroprocesso) {
       query.numeroprocesso = { $regex: numeroprocesso, $options: 'i' };
     }
-    if (cliente) {
-      query.cliente = { $regex: cliente, $options: 'i' };
+    if (desccliente) {
+      query.desccliente = { $regex: desccliente, $options: 'i' };
     }
-    if (vara) {
-      query.vara = { $regex: vara, $options: 'i' };
+    if (descvara) {
+      query.descvara = { $regex: descvara, $options: 'i' };
     }
-    if (motivo) {
-      query.motivo = { $regex: motivo, $options: 'i' };
+    if (descmotivo) {
+      query.descmotivo = { $regex: descmotivo, $options: 'i' };
     }
-    if (status) {
-      query.status = status;
+    if (descstatus) {
+      query.descstatus = { $regex: descstatus, $options: 'i' };
     }
     if (processoacompanhamento) {
-      query.processoacompanhamento = { $regex: processoacompanhamento, $options: 'i' };
+      query.processoacompanhamento = {
+        $regex: processoacompanhamento,
+        $options: 'i',
+      };
     }
 
     if (datacriacaode && datacriacaoate) {
@@ -86,8 +94,35 @@ export class ProcessosService {
       .skip(skip)
       .limit(perPage)
       .exec();
+    const flatDataArray: FlatProcessoDTO[] = [];
 
-    return { data: processoDataArray, totalCount: totalItems, totalPages };
+    for (const processoData of processoDataArray) {
+      const flatData: FlatProcessoDTO = {
+        _id: processoData._id,
+        numeroprocesso: processoData.numeroprocesso,
+        desccliente: processoData.cliente.nome,
+        descvara: processoData.vara.descricao,
+        descmotivo: processoData.motivo.descricao,
+        descstatus: processoData.status.descricao,
+        usuariocriacao: processoData.usuariocriacao,
+        datacriacao: processoData.datacriacao,
+        codigointensproc: null,
+        infoitensproc: '',
+        itemusuariocriacao: '',
+        itemdatacriacao: undefined,
+      };
+
+      for (const itemProcesso of processoData.itensprocesso) {
+        flatData.codigointensproc = itemProcesso.codigo;
+        flatData.infoitensproc = itemProcesso.informacao;
+        flatData.itemusuariocriacao = itemProcesso.itemusuariocriacao;
+        flatData.itemdatacriacao = itemProcesso.itemdatacriacao;
+      }
+
+      flatDataArray.push(flatData);
+    }
+
+    return { data: flatDataArray, totalCount: totalItems, totalPages };
   }
 
   async create(
@@ -117,7 +152,7 @@ export class ProcessosService {
       itensprocesso: itensProcessoComUsuario,
     });
     return createdProcesso.save();
-  } 
+  }
 
   async atualizarInfo(
     id: string,
