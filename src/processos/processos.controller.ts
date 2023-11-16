@@ -1,10 +1,9 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { AtualizarProcessoDto } from './dto/atualizar-processo.dto';
+import { FlatProcessoDTO } from './dto/flat-processo.dto';
 import { ProcessoDTO } from './dto/processo.dto';
 import { ProcessosService } from './processos.service';
-import { FlatProcessoDTO } from './dto/flat-processo.dto';
 
 @ApiTags('processo')
 @Controller('processos')
@@ -17,9 +16,9 @@ export class ProcessosController {
         isArray: true,
         description: 'Lista de Processos'
     })
-      @UseGuards(AccessTokenGuard)
-      @Get('all')
-      async getAll(): Promise<ProcessoDTO[]> {
+    @UseGuards(AccessTokenGuard)
+    @Get('all')
+    async getAll(): Promise<ProcessoDTO[]> {
         return this.processoService.getAll();
     }
 
@@ -52,7 +51,7 @@ export class ProcessosController {
         type: ProcessoDTO,
         isArray: false,
         description: 'Get ByID de Processos'
-      })
+    })
     @UseGuards(AccessTokenGuard)
     @Get(':id')
     async getById(@Param('id') id: string): Promise<ProcessoDTO> {
@@ -62,12 +61,12 @@ export class ProcessosController {
     @ApiResponse({
         status: 201,
         description: 'Processo cadastro com sucesso'
-      })
-      @ApiResponse({
+    })
+    @ApiResponse({
         status: 409,
         description: 'Processo já cadastrado'
-      })
-      @ApiForbiddenResponse({
+    })
+    @ApiForbiddenResponse({
         description: 'Criação Negada'
     })
     @UseGuards(AccessTokenGuard)
@@ -77,8 +76,8 @@ export class ProcessosController {
     }
 
     @UseGuards(AccessTokenGuard)
-    @Post(':id')
-    atualizarProcesso(@Param('id') id: string, @Body() atualizarProcesso: AtualizarProcessoDto, @Req() req) {
+    @Put(':id')
+    atualizarProcesso(@Param('id') id: string, @Body() atualizarProcesso: ProcessoDTO, @Req() req) {
         return this.processoService.atualizarInfo(id, atualizarProcesso, req.user);
     }
 
