@@ -2,7 +2,7 @@ import { ItensProcesso } from "../schema/processo.schema";
 
 export class AtualizarProcessoDto extends ItensProcesso {
     codigo: number;
-    informacao: string;
-    itemusuariocriacao: string;
-    itemdatacriacao: Date;
+    informacoes: string;
+    usuariocriacao: string;
+    datacriacao: Date;
 }

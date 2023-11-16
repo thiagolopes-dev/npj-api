@@ -3,16 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as moment from 'moment-timezone';
 import { Model } from 'mongoose';
 import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
-import { AtualizarProcessoDto } from './dto/atualizar-processo.dto';
-import { ProcessoDTO } from './dto/processo.dto';
-import { ProcessoDocument, ItensProcesso } from './schema/processo.schema';
 import { FlatProcessoDTO } from './dto/flat-processo.dto';
+import { ProcessoDTO } from './dto/processo.dto';
+import { ProcessoDocument } from './schema/processo.schema';
 
 @Injectable()
 export class ProcessosService {
   constructor(
     @InjectModel('Processo') private readonly processoModel: Model<ProcessoDTO>,
-  ) {}
+  ) { }
 
   async getAll() {
     return this.processoModel.find({ status: true }).exec();
@@ -114,7 +113,7 @@ export class ProcessosService {
 
       for (const itemProcesso of processoData.itensprocesso) {
         flatData.codigointensproc = itemProcesso.codigo;
-        flatData.infoitensproc = itemProcesso.informacao;
+        flatData.infoitensproc = itemProcesso.informacoes;
         flatData.itemusuariocriacao = itemProcesso.itemusuariocriacao;
         flatData.itemdatacriacao = itemProcesso.itemdatacriacao;
       }
@@ -137,56 +136,31 @@ export class ProcessosService {
       .sort({ numeroprocesso: -1 });
     const nextId = MaxId ? MaxId.numeroprocesso + 1 : 1;
     // Mapear os itens do processo para adicionar o usuário
-    const itensProcessoComUsuario = processoDTO.itensprocesso.map((item) => ({
+    const itensprocesso = processoDTO.itensprocesso.map((item) => ({
       ...item,
-      itensusuariocriacao: user.username,
-      itensdatacriacao: utcMinus3.toISOString(),
-      codigo: 1,
     }));
     const createdProcesso = new this.processoModel({
       ...rest,
       numeroprocesso: nextId,
-      status: 'AGUARDANDO DESPACHO',
       usuariocriacao: user.username,
-      datacriacao: utcMinus3,
-      itensprocesso: itensProcessoComUsuario,
+      // datacriacao: utcMinus3,
+      itensprocesso: itensprocesso,
     });
     return createdProcesso.save();
   }
 
-  async atualizarInfo(
-    id: string,
-    atualizarProcessoDto: AtualizarProcessoDto,
-    user: UsuarioDto,
-  ): Promise<ProcessoDocument> {
-    const { informacao, ...rest } = atualizarProcessoDto;
+  async atualizarInfo(id: string, obj: ProcessoDTO, user: UsuarioDto) {
+    const { numeroprocesso, ...rest } = obj;
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
-
-    const obj = await this.processoModel.findById(id).exec();
-
-    let maxCodigo = 0;
-    for (const item of obj.itensprocesso) {
-      if (item.codigo > maxCodigo) {
-        maxCodigo = item.codigo;
-      }
-    }
-
-    const nextId = maxCodigo + 1;
-
-    const newItem = new AtualizarProcessoDto();
-    newItem.itemusuariocriacao = user.username;
-    newItem.itemdatacriacao = utcMinus3.toDate();
-    newItem.informacao = informacao;
-    newItem.codigo = nextId;
-
-    const itensProcessoCopy = [...obj.itensprocesso];
-
-    itensProcessoCopy.push(newItem);
-
-    obj.itensprocesso = itensProcessoCopy;
-
-    return obj.save();
+    const updatedInfo = {
+      ...rest,
+      numeroprocesso,
+      usuarioalteracao: user.username,
+      dataalteracao: utcMinus3
+    };
+    await this.processoModel.updateOne({ _id: id }, { $set: updatedInfo }).exec();
+    return this.getByID(id);
   }
 
   async getByID(id: string) {

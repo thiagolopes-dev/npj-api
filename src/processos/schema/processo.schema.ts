@@ -1,6 +1,5 @@
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { MaxLength } from "class-validator";
 import { Document } from 'mongoose';
 
 export type ProcessoDocument = Processo & Document;
@@ -34,8 +33,8 @@ export class ItensProcesso {
     codigo: number;
 
     @Prop()
-    @MaxLength(6000)
-    informacao: string;
+    // @MaxLength(6000)
+    informacoes: string;
 
     @Prop()
     itemusuariocriacao: string;
