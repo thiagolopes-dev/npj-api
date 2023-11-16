@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -8,7 +9,7 @@ async function bootstrap() {
   require('dotenv').config({ path: `.env.${process.env.NODE_ENV || 'dev'}` });
 
   const app = await NestFactory.create(AppModule);
-  // app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe());
   const configService = app.get(ConfigService);
   const config = new DocumentBuilder()
     .setTitle('Aplicativo NPJ')
