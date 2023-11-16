@@ -44,6 +44,7 @@ export class VarasController {
   async getPagination(
     @Query('page') page: number,
     @Query('perPage') perPage: number,
+    @Query('codigo') codigo: string,
     @Query('descricao') descricao?: string,
     @Query('status') status?: string,
     @Query('usuariocriacao') usuariocriacao?: string,
@@ -53,7 +54,7 @@ export class VarasController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: VaraDTO[], totalCount: number, totalPages: number }> {
-    return this.varaService.getPagination(page, perPage, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+    return this.varaService.getPagination(page, perPage, codigo, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
   }
 
   @ApiResponse({

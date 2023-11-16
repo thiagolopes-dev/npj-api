@@ -43,6 +43,7 @@ export class ClientesController {
   async getPagination(
     @Query('page') page: number,
     @Query('perPage') perPage: number,
+    @Query('codigo') codigo: string,
     @Query('nome') nome: string,
     @Query('cpf') cpf: string,
     @Query('rg') rg: string,
@@ -61,7 +62,7 @@ export class ClientesController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: ClienteDTO[], totalCount: number, totalPages: number }> {
-    return this.clienteService.getPagination(page, perPage, nome, cpf, rg, 
+    return this.clienteService.getPagination(page, perPage, codigo, nome, cpf, rg, 
       cep, logradouro, bairro, cidade, uf, telefone, whatsapp, status, usuariocriacao, 
       datacriacaode, datacriacaoate, usuarioalteracao, 
        dataalteracaode, dataalteracaoate);

@@ -16,7 +16,7 @@ export class ClientesService {
     return this.clienteModel.find({ status: true }).exec();
   }
 
-  async getPagination(page: number, perPage: number, nome: string, cpf: string, rg: string, cep: string,
+  async getPagination(page: number, perPage: number, codigo: string, nome: string, cpf: string, rg: string, cep: string,
     logradouro: string, bairro: string, cidade: string, uf: string,
     telefone: string, whatsapp: string, status: string, usuariocriacao: string,
     datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
@@ -24,6 +24,9 @@ export class ClientesService {
 
     const query: any = {};
 
+    if(codigo) {
+      query.codigo = codigo;
+    }
     if (nome) {
       query.nome = { $regex: nome, $options: 'i' };
     }

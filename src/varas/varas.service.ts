@@ -16,9 +16,12 @@ export class VarasService {
     return this.varaModel.find({ status: true }).exec();
   }
 
-  async getPagination(page: number, perPage: number, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+  async getPagination(page: number, perPage: number, codigo: string, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
   Promise<{ data: VaraDTO[], totalCount: number, totalPages: number }> {
   const query: any = {};
+  if(codigo) {
+    query.codigo = codigo;
+  }
   if (descricao) {
     query.descricao = { $regex: descricao, $options: 'i' };
   }
