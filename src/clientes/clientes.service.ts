@@ -24,7 +24,7 @@ export class ClientesService {
 
     const query: any = {};
 
-    if(codigo) {
+    if (codigo) {
       query.codigo = codigo;
     }
     if (nome) {
@@ -141,24 +141,24 @@ export class ClientesService {
   }
 
   async create(cliente: ClienteDTO, user: UsuarioDto) {
-    const { cpf, rg, ...rest } = cliente;
+    const { cpf, ...rest } = cliente;
 
-    const [cpfExistente, rgExistente] = await Promise.all([
+    const [cpfExistente] = await Promise.all([
       this.findByCpf(cpf),
-      this.findByRg(rg)
+      this.findByRg({ rg: { $ne: null } })
     ]);
 
     if (cpfExistente) {
       throw new ConflictException('CPF já cadastrado');
     }
-    if (rgExistente) {
-      throw new ConflictException('RG já cadastrado');
-    }
+    // if (rgExistente && rgExistente.rg !== null) {
+    //   throw new ConflictException('RG já cadastrado');
+    // }
 
-    if(cliente.cpf.length > 11 || cliente.cpf.length < 11) {
+    if (cliente.cpf.length > 11 || cliente.cpf.length < 11) {
       throw new ConflictException('CPF deve conter 11 digitos')
     }
-    
+
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const MaxId = await this.clienteModel.findOne({}, 'codigo')
@@ -167,7 +167,6 @@ export class ClientesService {
     const createdCliente = new this.clienteModel({
       ...rest,
       codigo: nextId,
-      rg,
       cpf,
       usuariocriacao: user.username,
       datacriacao: utcMinus3,
@@ -205,7 +204,10 @@ export class ClientesService {
     return this.clienteModel.findOne({ cpf }).exec();
   }
 
-  async findByRg(rg: string): Promise<any> {
-    return this.clienteModel.findOne({ rg }).exec();
+  // async findByRg(rg: string): Promise<any> {
+  //   return this.clienteModel.findOne({ rg }).exec();
+  // }
+  async findByRg(conditions: any): Promise<ClienteDTO | null> {
+    return this.clienteModel.findOne(conditions).exec();
   }
 }
