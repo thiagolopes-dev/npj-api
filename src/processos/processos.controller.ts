@@ -34,7 +34,7 @@ export class ProcessosController {
         @Query('page') page: number,
         @Query('perPage') perPage: number,
         @Query('numeroprocesso') numeroprocesso?: string,
-        @Query('desccliente') descliente?: string,
+        @Query('desccliente') desccliente?: string,
         @Query('descvara') descvara?: string,
         @Query('descmotivo') descmotivo?: string,
         @Query('descstatus') descstatus?: string,
@@ -42,7 +42,7 @@ export class ProcessosController {
         @Query('datacriacaode') datacriacaode?: string,
         @Query('datacriacaoate') datacriacaoate?: string,
     ): Promise<{ data: FlatProcessoDTO[], totalCount: number, totalPages: number }> {
-        return this.processoService.getPagination(page, perPage, numeroprocesso, descliente, descvara,
+        return this.processoService.getPagination(page, perPage, numeroprocesso, desccliente, descvara,
             descmotivo, descstatus, processoProcesso, datacriacaode, datacriacaoate)
     }
 

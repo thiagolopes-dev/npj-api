@@ -143,7 +143,7 @@ export class ProcessosService {
       ...rest,
       numeroprocesso: nextId,
       usuariocriacao: user.username,
-      // datacriacao: utcMinus3,
+      datacriacao: utcMinus3,
       itensprocesso: itensprocesso,
     });
     return createdProcesso.save();
