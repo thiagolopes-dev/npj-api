@@ -36,7 +36,7 @@ export class UsuariosController {
       async getPagination(
         @Query('page') page: number,
         @Query('perPage') perPage: number,
-        @Query('descricao') name?: string,
+        @Query('name') name?: string,
         @Query('username') username?: string,
         @Query('status') status?: string,
         @Query('usuariocriacao') usuariocriacao?: string,
