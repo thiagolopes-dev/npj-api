@@ -144,8 +144,7 @@ export class ClientesService {
     const { cpf, ...rest } = cliente;
 
     const [cpfExistente] = await Promise.all([
-      this.findByCpf(cpf),
-      this.findByRg({ rg: { $ne: null } })
+      this.findByCpf(cpf)
     ]);
 
     if (cpfExistente) {
@@ -204,10 +203,8 @@ export class ClientesService {
     return this.clienteModel.findOne({ cpf }).exec();
   }
 
-  // async findByRg(rg: string): Promise<any> {
-  //   return this.clienteModel.findOne({ rg }).exec();
-  // }
-  async findByRg(conditions: any): Promise<ClienteDTO | null> {
-    return this.clienteModel.findOne(conditions).exec();
+  async findByRg(rg: string): Promise<any> {
+    return this.clienteModel.findOne({ rg }).exec();
   }
+
 }
