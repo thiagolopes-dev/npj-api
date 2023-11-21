@@ -10,7 +10,7 @@ import { MotivoDocument } from './schema/motivo.schema';
 export class MotivosService {
   constructor(
     @InjectModel('Motivo') private readonly motivoModel: Model<MotivoDTO>,
-  ) {}
+  ) { }
 
   async getAll() {
     return await this.motivoModel.find({ status: true }).exec();
@@ -31,7 +31,11 @@ export class MotivosService {
   ): Promise<{ data: MotivoDTO[]; totalCount: number; totalPages: number }> {
     const query: any = {};
     if (codigo) {
-      query.codigo = codigo;
+      const parsedCodigo = parseInt(codigo, 10); // Tente converter a string para um número
+      if (!isNaN(parsedCodigo)) {
+        // A conversão foi bem-sucedida, atribua o valor convertido à query
+        query.codigo = parsedCodigo;
+      }
     }
     if (descricao) {
       query.descricao = { $regex: descricao, $options: 'i' };
