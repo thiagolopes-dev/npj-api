@@ -10,23 +10,56 @@ import { AgendamentoDocument } from './schema/agendamento.schema';
 @Injectable()
 export class AgendamentosService {
   constructor(
-    @InjectModel('Agendamento') private readonly agendaModel: Model<AgendamentoDTO>,
+    @InjectModel('Agendamento')
+    private readonly agendaModel: Model<AgendamentoDTO>,
   ) { }
 
   async getAll() {
     return this.agendaModel.find({ status: true }).exec();
   }
 
-  async getPagination(page: number, perPage: number, atendimento: string, desccliente: string, descstatus: string, descmotivo: string,
-    usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
-    Promise<{ data: FlatAgendamentoDTO[], totalCount: number, totalPages: number }> {
+  async getPagination(
+    page: number,
+    perPage: number,
+    atendimento: string,
+    numeroprontuario: string,
+    desccliente: string,
+    descstatus: string,
+    descmotivo: string,
+    usuariocriacao: string,
+    datacriacaode: string,
+    datacriacaoate: string,
+    usuarioalteracao: string,
+    dataalteracaode: string,
+    dataalteracaoate: string,
+  ): Promise<{
+    data: FlatAgendamentoDTO[];
+    totalCount: number;
+    totalPages: number;
+  }> {
     const query: any = {};
     if (atendimento) {
-      query.atendimento = atendimento;
+      const parsedCodigo = parseInt(atendimento, 10); // Tente converter a string para um número
+      if (!isNaN(parsedCodigo)) {
+        // A conversão foi bem-sucedida, atribua o valor convertido à query
+        query.atendimento = parsedCodigo;
+      }
+    }
+    if (numeroprontuario) {
+      const parsedCodigo = parseInt(numeroprontuario, 10); // Tente converter a string para um número
+      if (!isNaN(parsedCodigo)) {
+        // A conversão foi bem-sucedida, atribua o valor convertido à query
+        query.numeroprontuario = parsedCodigo;
+      }
     }
 
+    // if (desccliente) {
+    //   query.desccliente = { $regex: desccliente, $options: 'i' };
+    // }
+
     if (desccliente) {
-      query.desccliente = { $regex: desccliente, $options: 'i' };
+      const descricaoRegex = new RegExp(desccliente, 'i');
+      query['cliente.nome'] = descricaoRegex;
     }
     if (descstatus) {
       query.descstatus = { $regex: descstatus, $options: 'i' };
@@ -49,21 +82,21 @@ export class AgendamentosService {
       endDateTime.setUTCHours(23, 59, 59, 999);
       query.datacriacao = {
         $gte: startDateTime,
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     } else if (datacriacaode) {
       const startDateTime = new Date(datacriacaode);
       startDateTime.setUTCHours(0, 0, 0, 0);
 
       query.datacriacao = {
-        $gte: startDateTime
+        $gte: startDateTime,
       };
     } else if (datacriacaoate) {
       const endDateTime = new Date(datacriacaoate);
       endDateTime.setUTCHours(23, 59, 59, 999);
 
       query.datacriacaoa = {
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     }
 
@@ -75,27 +108,27 @@ export class AgendamentosService {
       endDateTime.setUTCHours(23, 59, 59, 999);
       query.dataalteracao = {
         $gte: startDateTime,
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     } else if (dataalteracaode) {
       const startDateTime = new Date(dataalteracaode);
       startDateTime.setUTCHours(0, 0, 0, 0);
 
       query.dataalteracao = {
-        $gte: startDateTime
+        $gte: startDateTime,
       };
     } else if (dataalteracaoate) {
       const endDateTime = new Date(dataalteracaoate);
       endDateTime.setUTCHours(23, 59, 59, 999);
 
       query.dataalteracao = {
-        $lt: endDateTime
+        $lt: endDateTime,
       };
     }
 
     const totalItems = await this.agendaModel.countDocuments(query).exec();
     const totalPages = Math.ceil(totalItems / perPage);
-    const skip = (page) * perPage;
+    const skip = page * perPage;
     const agendamentoDataArray: AgendamentoDocument[] = await this.agendaModel
       .find(query)
       .sort({ _id: -1 })
@@ -118,24 +151,27 @@ export class AgendamentosService {
         usuariocriacao: agendaData.usuariocriacao,
         datacriacao: agendaData.datacriacao,
         usuarioalteracao: agendaData.usuarioalteracao,
-        dataalteracao: agendaData.dataalteracao
+        dataalteracao: agendaData.dataalteracao,
       };
 
       flatDataArray.push(flatData);
     }
     return { data: flatDataArray, totalCount: totalItems, totalPages };
-    // return { data: agendamentoDataArray, totalCount: totalItems, totalPages };
   }
 
   async getByID(id: string) {
     return await this.agendaModel.findById(id).exec();
   }
 
-  async create(agendaDTO: AgendamentoDTO, user: UsuarioDto): Promise<AgendamentoDocument> {
+  async create(
+    agendaDTO: AgendamentoDTO,
+    user: UsuarioDto,
+  ): Promise<AgendamentoDocument> {
     const { numeroprontuario, ...rest } = agendaDTO;
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
-    const MaxId = await this.agendaModel.findOne({}, 'atendimento')
+    const MaxId = await this.agendaModel
+      .findOne({}, 'atendimento')
       .sort({ atendimento: -1 });
     const nextId = MaxId ? MaxId.atendimento + 1 : 1;
     const createdAgenda = new this.agendaModel({
@@ -143,7 +179,7 @@ export class AgendamentosService {
       atendimento: nextId,
       numeroprontuario: agendaDTO.cliente.codigo,
       usuariocriacao: user.username,
-      datacriacao: utcMinus3
+      datacriacao: utcMinus3,
     });
     return createdAgenda.save();
   }
@@ -156,10 +192,12 @@ export class AgendamentosService {
       ...rest,
       atendimento,
       usuarioalteracao: user.username,
-      dataalteracao: utcMinus3
+      dataalteracao: utcMinus3,
     };
 
-    await this.agendaModel.updateOne({ _id: id }, { $set: updatedAgendamento }).exec();
+    await this.agendaModel
+      .updateOne({ _id: id }, { $set: updatedAgendamento })
+      .exec();
     return this.getByID(id);
   }
 
@@ -167,8 +205,9 @@ export class AgendamentosService {
     return await this.agendaModel.deleteOne({ _id: id }).exec();
   }
 
-  async findByProntuario(numeroprontuario: number): Promise<AgendamentoDocument> {
+  async findByProntuario(
+    numeroprontuario: number,
+  ): Promise<AgendamentoDocument> {
     return this.agendaModel.findOne({ numeroprontuario }).exec();
   }
 }
-

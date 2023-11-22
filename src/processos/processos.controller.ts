@@ -38,12 +38,11 @@ export class ProcessosController {
         @Query('descvara') descvara?: string,
         @Query('descmotivo') descmotivo?: string,
         @Query('descstatus') descstatus?: string,
-        @Query('processoProcesso') processoProcesso?: string,
         @Query('datacriacaode') datacriacaode?: string,
         @Query('datacriacaoate') datacriacaoate?: string,
     ): Promise<{ data: FlatProcessoDTO[], totalCount: number, totalPages: number }> {
         return this.processoService.getPagination(page, perPage, numeroprocesso, desccliente, descvara,
-            descmotivo, descstatus, processoProcesso, datacriacaode, datacriacaoate)
+            descmotivo, descstatus, datacriacaode, datacriacaoate)
     }
 
     @ApiResponse({

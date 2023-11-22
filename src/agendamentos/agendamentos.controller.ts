@@ -36,6 +36,7 @@ export class AgendamentosController {
         @Query('page') page: number,
         @Query('perPage') perPage: number,
         @Query('atendimento') atendimento: string,
+        @Query('numeroprontuario') numeroprontuario: string,
         @Query('deccliente') desccliente: string,
         @Query('descstatus') descstatus: string,
         @Query('descmotivo') descmotivo: string,
@@ -46,7 +47,9 @@ export class AgendamentosController {
         @Query('dataalteracaode') dataalteracaode?: string,
         @Query('dataalteracaoate') dataalteracaoate?: string,
     ): Promise<{ data: FlatAgendamentoDTO[], totalCount: number, totalPages: number }> {
-        return this.agendaService.getPagination(page, perPage, atendimento, desccliente, descstatus, descmotivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+        console.log(page, perPage, atendimento, numeroprontuario, desccliente, descstatus, descmotivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+
+        return this.agendaService.getPagination(page, perPage, atendimento, numeroprontuario, desccliente, descstatus, descmotivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
     }
 
     @ApiResponse({

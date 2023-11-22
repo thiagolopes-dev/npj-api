@@ -11,9 +11,9 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ClientesService } from './clientes.service';
 import { ClienteDTO } from './dto/cliente.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('clientes')
 @Controller('clientes')
@@ -49,7 +49,9 @@ export class ClientesController {
     @Query('rg') rg: string,
     @Query('cep') cep: string,
     @Query('logradouro') logradouro: string,
+    @Query('numero') numero: string,
     @Query('bairro') bairro: string,
+    @Query('complemento') complemento: string,
     @Query('cidade') cidade: string,
     @Query('uf') uf: string,
     @Query('telefone') telefone: string,
@@ -62,10 +64,10 @@ export class ClientesController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: ClienteDTO[], totalCount: number, totalPages: number }> {
-    return this.clienteService.getPagination(page, perPage, codigo, nome, cpf, rg, 
-      cep, logradouro, bairro, cidade, uf, telefone, whatsapp, status, usuariocriacao, 
-      datacriacaode, datacriacaoate, usuarioalteracao, 
-       dataalteracaode, dataalteracaoate);
+    return this.clienteService.getPagination(page, perPage, codigo, nome, cpf, rg,
+      cep, logradouro, numero, bairro, complemento, cidade, uf, telefone, whatsapp, status, usuariocriacao,
+      datacriacaode, datacriacaoate, usuarioalteracao,
+      dataalteracaode, dataalteracaoate);
   }
 
 

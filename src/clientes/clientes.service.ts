@@ -17,7 +17,7 @@ export class ClientesService {
   }
 
   async getPagination(page: number, perPage: number, codigo: string, nome: string, cpf: string, rg: string, cep: string,
-    logradouro: string, bairro: string, cidade: string, uf: string,
+    logradouro: string, numero: string, bairro: string, complemento: string, cidade: string, uf: string,
     telefone: string, whatsapp: string, status: string, usuariocriacao: string,
     datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
     Promise<{ data: ClienteDTO[], totalCount: number, totalPages: number }> {
@@ -25,25 +25,35 @@ export class ClientesService {
     const query: any = {};
 
     if (codigo) {
-      query.codigo = codigo;
+      const parsedCodigo = parseInt(codigo, 10); // Tente converter a string para um número
+      if (!isNaN(parsedCodigo)) {
+        // A conversão foi bem-sucedida, atribua o valor convertido à query
+        query.codigo = parsedCodigo;
+      }
     }
     if (nome) {
       query.nome = { $regex: nome, $options: 'i' };
     }
     if (cpf) {
-      query.cpf = cpf;
+      query.cpf = { $regex: cpf, $options: 'i' };
     }
     if (rg) {
-      query.rg = rg;
+      query.rg = { $regex: rg, $options: 'i' };
     }
     if (cep) {
-      query.cep = cep;
+      query.cep = { $regex: cep, $options: 'i' };
     }
     if (logradouro) {
       query.logradouro = { $regex: logradouro, $options: 'i' };
     }
+    if (numero) {
+      query.numero = { $regex: numero, $options: 'i' };
+    }
     if (bairro) {
       query.bairro = { $regex: bairro, $options: 'i' };
+    }
+    if (complemento) {
+      query.complemento = { $regex: complemento, $options: 'i' };
     }
     if (cidade) {
       query.cidade = { $regex: cidade, $options: 'i' };
@@ -52,10 +62,10 @@ export class ClientesService {
       query.uf = { $regex: uf, $options: 'i' };
     }
     if (telefone) {
-      query.telefone = telefone;
+      query.telefone = { $regex: telefone, $options: 'i' };
     }
     if (whatsapp) {
-      query.whatsapp = whatsapp;
+      query.whatsapp = { $regex: whatsapp, $options: 'i' };
     }
     if (status) {
       query.status = status;

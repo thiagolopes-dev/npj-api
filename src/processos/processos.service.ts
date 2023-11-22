@@ -25,7 +25,6 @@ export class ProcessosService {
     descvara: string,
     descmotivo: string,
     descstatus: string,
-    processoacompanhamento: string,
     datacriacaode: string,
     datacriacaoate: string,
   ): Promise<{
@@ -36,26 +35,34 @@ export class ProcessosService {
     const query: any = {};
 
     if (numeroprocesso) {
-      query.numeroprocesso = { $regex: numeroprocesso, $options: 'i' };
+      const parsedCodigo = parseInt(numeroprocesso, 10); // Tente converter a string para um número
+      if (!isNaN(parsedCodigo)) {
+        // A conversão foi bem-sucedida, atribua o valor convertido à query
+        query.numeroprocesso = parsedCodigo;
+      }
     }
     if (desccliente) {
-      query.desccliente = { $regex: desccliente, $options: 'i' };
+      const descricaoRegex = new RegExp(desccliente, 'i');
+      query['cliente.nome'] = descricaoRegex;
     }
     if (descvara) {
-      query.descvara = { $regex: descvara, $options: 'i' };
+      const descricaoRegex = new RegExp(descvara, 'i');
+      query['vara.descricao'] = descricaoRegex;
     }
     if (descmotivo) {
-      query.descmotivo = { $regex: descmotivo, $options: 'i' };
+      const descricaoRegex = new RegExp(descmotivo, 'i');
+      query['motivo.descricao'] = descricaoRegex;
     }
     if (descstatus) {
-      query.descstatus = { $regex: descstatus, $options: 'i' };
+      const descricaoRegex = new RegExp(descstatus, 'i');
+      query['status.descricao'] = descricaoRegex;
     }
-    if (processoacompanhamento) {
-      query.processoacompanhamento = {
-        $regex: processoacompanhamento,
-        $options: 'i',
-      };
-    }
+    // if (processoacompanhamento) {
+    //   query.processoacompanhamento = {
+    //     $regex: processoacompanhamento,
+    //     $options: 'i',
+    //   };
+    // }
 
     if (datacriacaode && datacriacaoate) {
       const startDateTime = new Date(datacriacaode);
@@ -105,18 +112,18 @@ export class ProcessosService {
         descstatus: processoData.status.descricao,
         usuariocriacao: processoData.usuariocriacao,
         datacriacao: processoData.datacriacao,
-        codigointensproc: null,
-        infoitensproc: '',
-        itemusuariocriacao: '',
-        itemdatacriacao: undefined,
+        // codigointensproc: null,
+        // infoitensproc: '',
+        // itemusuariocriacao: '',
+        // itemdatacriacao: undefined,
       };
 
-      for (const itemProcesso of processoData.itensprocesso) {
-        flatData.codigointensproc = itemProcesso.codigo;
-        flatData.infoitensproc = itemProcesso.informacoes;
-        flatData.itemusuariocriacao = itemProcesso.itemusuariocriacao;
-        flatData.itemdatacriacao = itemProcesso.itemdatacriacao;
-      }
+      // for (const itemProcesso of processoData.itensprocesso) {
+      //   flatData.codigointensproc = itemProcesso.codigo;
+      //   flatData.infoitensproc = itemProcesso.informacoes;
+      //   flatData.itemusuariocriacao = itemProcesso.itemusuariocriacao;
+      //   flatData.itemdatacriacao = itemProcesso.itemdatacriacao;
+      // }
 
       flatDataArray.push(flatData);
     }

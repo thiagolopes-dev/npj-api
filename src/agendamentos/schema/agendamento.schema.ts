@@ -34,14 +34,14 @@ export class Agendamento {
     @Prop({ required: true })
     dataatendimento: Date;
 
-    @Prop({ required: true, })
-    cliente: ClienteAgenda;
+    @Prop({ required: true, type: ClienteAgenda })
+    cliente = new ClienteAgenda();
 
-    @Prop({ required: false })
-    status: StatusAgenda;
+    @Prop({ required: true, type: StatusAgenda })
+    status = new StatusAgenda();
 
-    @Prop({ required: true })
-    motivo: MotivoAgenda;
+    @Prop({ required: true, type: MotivoAgenda })
+    motivo = new MotivoAgenda();
 
     @Prop()
     usuariocriacao?: string;

@@ -1,10 +1,10 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as moment from 'moment-timezone';
 import { Model } from 'mongoose';
+import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
 import { StatusDTO } from './dto/status.dto';
 import { StatusDocument } from './schema/status.schema';
-import { UsuarioDto } from 'src/usuarios/dto/usuario.dto';
-import * as moment from 'moment-timezone';
 
 @Injectable()
 export class StatusService {
@@ -17,91 +17,95 @@ export class StatusService {
   }
 
   async getPagination(page: number, perPage: number, codigo: string, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
-  Promise<{ data: StatusDTO[], totalCount: number, totalPages: number }> {
-  const query: any = {};
-  if(codigo) {
-    query.codigo = codigo
+    Promise<{ data: StatusDTO[], totalCount: number, totalPages: number }> {
+    const query: any = {};
+    if (codigo) {
+      const parsedCodigo = parseInt(codigo, 10); // Tente converter a string para um número
+      if (!isNaN(parsedCodigo)) {
+        // A conversão foi bem-sucedida, atribua o valor convertido à query
+        query.codigo = parsedCodigo;
+      }
+    }
+    if (descricao) {
+      query.descricao = { $regex: descricao, $options: 'i' };
+    }
+    if (usuariocriacao) {
+      query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
+    }
+    if (usuarioalteracao) {
+      query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
+    }
+
+    if (status) {
+      query.status = status;
+    }
+
+
+    if (datacriacaode && datacriacaoate) {
+      const startDateTime = new Date(datacriacaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      const endDateTime = new Date(datacriacaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.datacriacao = {
+        $gte: startDateTime,
+        $lt: endDateTime
+      };
+    } else if (datacriacaode) {
+      const startDateTime = new Date(datacriacaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      query.datacriacao = {
+        $gte: startDateTime
+      };
+    } else if (datacriacaoate) {
+      const endDateTime = new Date(datacriacaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.datacriacaoa = {
+        $lt: endDateTime
+      };
+    }
+
+    if (dataalteracaode && dataalteracaoate) {
+      const startDateTime = new Date(dataalteracaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      const endDateTime = new Date(dataalteracaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.dataalteracao = {
+        $gte: startDateTime,
+        $lt: endDateTime
+      };
+    } else if (dataalteracaode) {
+      const startDateTime = new Date(dataalteracaode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      query.dataalteracao = {
+        $gte: startDateTime
+      };
+    } else if (dataalteracaoate) {
+      const endDateTime = new Date(dataalteracaoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.dataalteracao = {
+        $lt: endDateTime
+      };
+    }
+
+    const totalItems = await this.statusModel.countDocuments(query).exec();
+    const totalPages = Math.ceil(totalItems / perPage);
+    const skip = (page) * perPage;
+    const statusDataArray: StatusDocument[] = await this.statusModel
+      .find(query)
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(perPage)
+      .exec();
+
+
+    return { data: statusDataArray, totalCount: totalItems, totalPages };
   }
-  if (descricao) {
-    query.descricao = { $regex: descricao, $options: 'i' };
-  }
-  if (usuariocriacao) {
-    query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
-  }
-  if (usuarioalteracao) {
-    query.usuarioalteracao = { $regex: usuarioalteracao, $options: 'i' };
-  }
-
-  if (status) {
-    query.status = status;
-  }
-
-
-  if (datacriacaode && datacriacaoate) {
-    const startDateTime = new Date(datacriacaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    const endDateTime = new Date(datacriacaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-    query.datacriacao = {
-      $gte: startDateTime,
-      $lt: endDateTime
-    };
-  } else if (datacriacaode) {
-    const startDateTime = new Date(datacriacaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    query.datacriacao = {
-      $gte: startDateTime
-    };
-  } else if (datacriacaoate) {
-    const endDateTime = new Date(datacriacaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-
-    query.datacriacaoa = {
-      $lt: endDateTime
-    };
-  }
-
-  if (dataalteracaode && dataalteracaoate) {
-    const startDateTime = new Date(dataalteracaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    const endDateTime = new Date(dataalteracaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-    query.dataalteracao = {
-      $gte: startDateTime,
-      $lt: endDateTime
-    };
-  } else if (dataalteracaode) {
-    const startDateTime = new Date(dataalteracaode);
-    startDateTime.setUTCHours(0, 0, 0, 0);
-
-    query.dataalteracao = {
-      $gte: startDateTime
-    };
-  } else if (dataalteracaoate) {
-    const endDateTime = new Date(dataalteracaoate);
-    endDateTime.setUTCHours(23, 59, 59, 999);
-
-    query.dataalteracao = {
-      $lt: endDateTime
-    };
-  }
-
-  const totalItems = await this.statusModel.countDocuments(query).exec();
-  const totalPages = Math.ceil(totalItems / perPage);
-  const skip = (page) * perPage;
-  const statusDataArray: StatusDocument[] = await this.statusModel
-    .find(query)
-    .sort({ _id: -1 })
-    .skip(skip)
-    .limit(perPage)
-    .exec();
-
-
-  return { data: statusDataArray, totalCount: totalItems, totalPages };
-}
 
   async getByID(id: string) {
     return await this.statusModel.findById(id).exec();
@@ -138,7 +142,7 @@ export class StatusService {
     if (descExists) {
       throw new ConflictException('Já existe um status com esta descrição!');
     }
-    
+
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const updatedStatus = {
