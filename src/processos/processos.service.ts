@@ -27,12 +27,17 @@ export class ProcessosService {
     descstatus: string,
     datacriacaode: string,
     datacriacaoate: string,
+    usuariocriacao: string
   ): Promise<{
     data: FlatProcessoDTO[];
     totalCount: number;
     totalPages: number;
   }> {
     const query: any = {};
+
+    if (usuariocriacao) {
+      query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
+    }
 
     if (numeroprocesso) {
       const parsedCodigo = parseInt(numeroprocesso, 10); // Tente converter a string para um número
@@ -57,12 +62,6 @@ export class ProcessosService {
       const descricaoRegex = new RegExp(descstatus, 'i');
       query['status.descricao'] = descricaoRegex;
     }
-    // if (processoacompanhamento) {
-    //   query.processoacompanhamento = {
-    //     $regex: processoacompanhamento,
-    //     $options: 'i',
-    //   };
-    // }
 
     if (datacriacaode && datacriacaoate) {
       const startDateTime = new Date(datacriacaode);
@@ -70,8 +69,7 @@ export class ProcessosService {
 
       const endDateTime = new Date(datacriacaoate);
       endDateTime.setUTCHours(23, 59, 59, 999);
-
-      query.ProcessoAcompanhamento.datacriacao = {
+      query.datacriacao = {
         $gte: startDateTime,
         $lt: endDateTime,
       };
@@ -79,14 +77,14 @@ export class ProcessosService {
       const startDateTime = new Date(datacriacaode);
       startDateTime.setUTCHours(0, 0, 0, 0);
 
-      query.ProcessoAcompanhamento.datacriacao = {
+      query.datacriacao = {
         $gte: startDateTime,
       };
     } else if (datacriacaoate) {
       const endDateTime = new Date(datacriacaoate);
       endDateTime.setUTCHours(23, 59, 59, 999);
 
-      query.ProcessoAcompanhamento.datacriacao = {
+      query.datacriacaoa = {
         $lt: endDateTime,
       };
     }
@@ -112,18 +110,7 @@ export class ProcessosService {
         descstatus: processoData.status.descricao,
         usuariocriacao: processoData.usuariocriacao,
         datacriacao: processoData.datacriacao,
-        // codigointensproc: null,
-        // infoitensproc: '',
-        // itemusuariocriacao: '',
-        // itemdatacriacao: undefined,
       };
-
-      // for (const itemProcesso of processoData.itensprocesso) {
-      //   flatData.codigointensproc = itemProcesso.codigo;
-      //   flatData.infoitensproc = itemProcesso.informacoes;
-      //   flatData.itemusuariocriacao = itemProcesso.itemusuariocriacao;
-      //   flatData.itemdatacriacao = itemProcesso.itemdatacriacao;
-      // }
 
       flatDataArray.push(flatData);
     }

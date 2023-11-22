@@ -23,15 +23,17 @@ export class AgendamentosService {
     perPage: number,
     atendimento: string,
     numeroprontuario: string,
-    desccliente: string,
-    descstatus: string,
-    descmotivo: string,
-    usuariocriacao: string,
-    datacriacaode: string,
-    datacriacaoate: string,
-    usuarioalteracao: string,
+    dataatendimentode: string,
+    dataatendimentoate: string,
     dataalteracaode: string,
     dataalteracaoate: string,
+    desccliente: string,
+    descmotivo: string,
+    descstatus: string,
+    datacriacaode: string,
+    datacriacaoate: string,
+    usuariocriacao: string,
+    usuarioalteracao: string
   ): Promise<{
     data: FlatAgendamentoDTO[];
     totalCount: number;
@@ -52,21 +54,20 @@ export class AgendamentosService {
         query.numeroprontuario = parsedCodigo;
       }
     }
-
-    // if (desccliente) {
-    //   query.desccliente = { $regex: desccliente, $options: 'i' };
-    // }
-
     if (desccliente) {
       const descricaoRegex = new RegExp(desccliente, 'i');
       query['cliente.nome'] = descricaoRegex;
     }
-    if (descstatus) {
-      query.descstatus = { $regex: descstatus, $options: 'i' };
-    }
+
     if (descmotivo) {
-      query.descmotivo = { $regex: descmotivo, $options: 'i' };
+      const descricaoRegex = new RegExp(descmotivo, 'i');
+      query['motivo.descricao'] = descricaoRegex;
     }
+    if (descstatus) {
+      const descricaoRegex = new RegExp(descstatus, 'i');
+      query['status.descricao'] = descricaoRegex;
+    }
+
     if (usuariocriacao) {
       query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
     }
@@ -100,6 +101,31 @@ export class AgendamentosService {
       };
     }
 
+    if (dataatendimentode && dataatendimentoate) {
+      const startDateTime = new Date(dataatendimentode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      const endDateTime = new Date(dataatendimentoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.dataatendimento = {
+        $gte: startDateTime,
+        $lt: endDateTime,
+      };
+    } else if (dataatendimentode) {
+      const startDateTime = new Date(dataatendimentode);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      query.dataatendimento = {
+        $gte: startDateTime,
+      };
+    } else if (dataatendimentoate) {
+      const endDateTime = new Date(dataatendimentoate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.dataatendimento = {
+        $lt: endDateTime,
+      };
+    }
     if (dataalteracaode && dataalteracaoate) {
       const startDateTime = new Date(dataalteracaode);
       startDateTime.setUTCHours(0, 0, 0, 0);
@@ -129,7 +155,7 @@ export class AgendamentosService {
     const totalItems = await this.agendaModel.countDocuments(query).exec();
     const totalPages = Math.ceil(totalItems / perPage);
     const skip = page * perPage;
-    const agendamentoDataArray: AgendamentoDocument[] = await this.agendaModel
+    const agendaDataArray: AgendamentoDocument[] = await this.agendaModel
       .find(query)
       .sort({ _id: -1 })
       .skip(skip)
@@ -137,9 +163,7 @@ export class AgendamentosService {
       .exec();
     const flatDataArray: FlatAgendamentoDTO[] = [];
 
-    // Percorre os dados do XML (NFE e CTE)
-    for (const agendaData of agendamentoDataArray) {
-      // Realiza a junção dos dados em formato FLAT
+    for (const agendaData of agendaDataArray) {
       const flatData: FlatAgendamentoDTO = {
         _id: agendaData._id,
         atendimento: agendaData.atendimento,
@@ -149,13 +173,14 @@ export class AgendamentosService {
         descmotivo: agendaData.motivo.descricao,
         descstatus: agendaData.status.descricao,
         usuariocriacao: agendaData.usuariocriacao,
-        datacriacao: agendaData.datacriacao,
-        usuarioalteracao: agendaData.usuarioalteracao,
         dataalteracao: agendaData.dataalteracao,
+        usuarioalteracao: agendaData.usuarioalteracao,
+        datacriacao: agendaData.datacriacao,
       };
 
       flatDataArray.push(flatData);
     }
+
     return { data: flatDataArray, totalCount: totalItems, totalPages };
   }
 

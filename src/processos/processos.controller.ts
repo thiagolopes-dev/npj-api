@@ -40,9 +40,10 @@ export class ProcessosController {
         @Query('descstatus') descstatus?: string,
         @Query('datacriacaode') datacriacaode?: string,
         @Query('datacriacaoate') datacriacaoate?: string,
+        @Query('usuariocriacao') usuariocriacao?: string,
     ): Promise<{ data: FlatProcessoDTO[], totalCount: number, totalPages: number }> {
         return this.processoService.getPagination(page, perPage, numeroprocesso, desccliente, descvara,
-            descmotivo, descstatus, datacriacaode, datacriacaoate)
+            descmotivo, descstatus, datacriacaode, datacriacaoate, usuariocriacao)
     }
 
     @ApiResponse({

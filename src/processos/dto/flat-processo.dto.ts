@@ -7,8 +7,4 @@ export class FlatProcessoDTO {
     descstatus: string;
     usuariocriacao: string
     datacriacao: Date;
-    // codigointensproc: number;
-    // infoitensproc: string;
-    // itemusuariocriacao: string;
-    // itemdatacriacao: Date;
 }

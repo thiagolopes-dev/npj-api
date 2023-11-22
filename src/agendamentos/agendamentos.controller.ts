@@ -35,21 +35,22 @@ export class AgendamentosController {
     async getPagination(
         @Query('page') page: number,
         @Query('perPage') perPage: number,
-        @Query('atendimento') atendimento: string,
-        @Query('numeroprontuario') numeroprontuario: string,
-        @Query('deccliente') desccliente: string,
-        @Query('descstatus') descstatus: string,
-        @Query('descmotivo') descmotivo: string,
-        @Query('usuariocriacao') usuariocriacao?: string,
-        @Query('datacriacaode') datacriacaode?: string,
-        @Query('datacriacaoate') datacriacaoate?: string,
-        @Query('usuarioalteracao') usuarioalteracao?: string,
+        @Query('atendimento') atendimento?: string,
+        @Query('numeroprontuario') numeroprontuario?: string,
+        @Query('dataatendimentode') dataatendimentode?: string,
+        @Query('dataatendimentoate') dataatendimentoate?: string,
         @Query('dataalteracaode') dataalteracaode?: string,
         @Query('dataalteracaoate') dataalteracaoate?: string,
+        @Query('desccliente') desccliente?: string,
+        @Query('descmotivo') descmotivo?: string,
+        @Query('descstatus') descstatus?: string,
+        @Query('datacriacaode') datacriacaode?: string,
+        @Query('datacriacaoate') datacriacaoate?: string,
+        @Query('usuariocriacao') usuariocriacao?: string,
+        @Query('usuarioalteracao') usuarioalteracao?: string,
     ): Promise<{ data: FlatAgendamentoDTO[], totalCount: number, totalPages: number }> {
-        console.log(page, perPage, atendimento, numeroprontuario, desccliente, descstatus, descmotivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
-
-        return this.agendaService.getPagination(page, perPage, atendimento, numeroprontuario, desccliente, descstatus, descmotivo, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+        return this.agendaService.getPagination(page, perPage, atendimento, numeroprontuario, dataatendimentode, dataatendimentoate, dataalteracaode, dataalteracaoate, desccliente,
+            descmotivo, descstatus, datacriacaode, datacriacaoate, usuariocriacao, usuarioalteracao)
     }
 
     @ApiResponse({
