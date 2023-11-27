@@ -21,7 +21,7 @@ export class AgendamentosController {
     @UseGuards(AccessTokenGuard)
     @Get('all')
     async getAll(): Promise<AgendamentoDTO[]> {
-        return this.agendaService.getAll();
+        return this.agendaService.getAllAprovados();
     }
 
     @ApiResponse({

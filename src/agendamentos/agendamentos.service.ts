@@ -14,9 +14,10 @@ export class AgendamentosService {
     private readonly agendaModel: Model<AgendamentoDTO>,
   ) { }
 
-  async getAll() {
-    return this.agendaModel.find({ status: true }).exec();
+  async getAllAprovados() {
+    return this.agendaModel.find({ 'status.descricao': 'APROVADO' }).exec();
   }
+
 
   async getPagination(
     page: number,
