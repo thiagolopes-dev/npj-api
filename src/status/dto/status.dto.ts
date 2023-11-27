@@ -25,6 +25,10 @@ export class StatusDTO {
     { message: 'O campo status é obrigatório' })
   status: boolean;
 
+
+  @IsNotEmpty()
+  tipo: string;
+
   @IsOptional()
   usuariocriacao?: string;
   @IsOptional()

@@ -12,11 +12,19 @@ export class StatusService {
     @InjectModel('Status') private readonly statusModel: Model<StatusDTO>,
   ) { }
 
-  async getAll() {
-    return this.statusModel.find({ status: true }).exec();
+  // async getAll() {
+  //   return this.statusModel.find({ status: true }).exec();
+  // }
+
+  async getAll(tipo: string) {
+    const query = { status: true };
+    if (tipo) {
+      query['tipo'] = tipo;
+    }
+    return this.statusModel.find(query).exec();
   }
 
-  async getPagination(page: number, perPage: number, codigo: string, descricao: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+  async getPagination(page: number, perPage: number, codigo: string, descricao: string, tipo: string, status: string, usuariocriacao: string, datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
     Promise<{ data: StatusDTO[], totalCount: number, totalPages: number }> {
     const query: any = {};
     if (codigo) {
@@ -28,6 +36,9 @@ export class StatusService {
     }
     if (descricao) {
       query.descricao = { $regex: descricao, $options: 'i' };
+    }
+    if (tipo) {
+      query.tipo = { $regex: tipo, $options: 'i' };
     }
     if (usuariocriacao) {
       query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
@@ -112,25 +123,34 @@ export class StatusService {
   }
 
   async create(statusDTO: StatusDTO, user: UsuarioDto): Promise<StatusDocument> {
-    const { descricao, ...rest } = statusDTO;
-    const descExits = await this.findByDescricao(descricao);
-    if (descExits) {
-      throw new ConflictException('Status já cadastrado !');
+    const { descricao, tipo, ...rest } = statusDTO;
+
+    if (descricao && tipo) {
+      const existingStatus = await this.statusModel.findOne({ descricao, tipo }).exec();
+
+      if (existingStatus) {
+        throw new ConflictException('Status já cadastrado com esta descrição e tipo!');
+      }
     }
+
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
-    const MaxId = await this.statusModel.findOne({}, 'codigo')
-      .sort({ codigo: -1 });
+
+    const MaxId = await this.statusModel.findOne({}, 'codigo').sort({ codigo: -1 });
     const nextId = MaxId ? MaxId.codigo + 1 : 1;
+
     const createdStatus = new this.statusModel({
       ...rest,
       codigo: nextId,
       descricao,
+      tipo,
       usuariocriacao: user.username,
       datacriacao: utcMinus3.toDate(),
     });
+
     return createdStatus.save();
   }
+
 
   async update(id: string, status: StatusDTO, user: UsuarioDto) {
     const { descricao, ...rest } = status;

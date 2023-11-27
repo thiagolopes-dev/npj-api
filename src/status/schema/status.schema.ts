@@ -8,11 +8,15 @@ export class Status {
   @Prop({ required: true, unique: true })
   codigo: number;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   descricao: string;
 
   @Prop({ required: true })
   status: boolean;
+
+
+  @Prop({ required: true })
+  tipo: string;
 
   @Prop()
   usuariocriacao?: string;

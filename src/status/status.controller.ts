@@ -28,10 +28,10 @@ export class StatusController {
   })
   @UseGuards(AccessTokenGuard)
   @Get('all')
-  async getAll(): Promise<StatusDTO[]> {
-    return this.statusService.getAll();
+  async getAll(@Query('tipo') tipo: string) {
+    return this.statusService.getAll(tipo);
   }
-  
+
   @ApiResponse({
     status: 200,
     type: StatusDTO,
@@ -45,6 +45,7 @@ export class StatusController {
     @Query('perPage') perPage: number,
     @Query('codigo') codigo: string,
     @Query('descricao') descricao?: string,
+    @Query('tipo') tipo?: string,
     @Query('status') status?: string,
     @Query('usuariocriacao') usuariocriacao?: string,
     @Query('datacriacaode') datacriacaode?: string,
@@ -53,7 +54,7 @@ export class StatusController {
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
   ): Promise<{ data: StatusDTO[], totalCount: number, totalPages: number }> {
-    return this.statusService.getPagination(page, perPage, codigo, descricao, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
+    return this.statusService.getPagination(page, perPage, codigo, descricao, tipo, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
   }
 
   @ApiResponse({
