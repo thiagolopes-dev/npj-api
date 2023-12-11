@@ -31,4 +31,7 @@ export class AgendamentoDTO {
 
     @IsOptional()
     dataalteracao?: Date;
+
+    @IsOptional()
+    observacao?: string;
 }

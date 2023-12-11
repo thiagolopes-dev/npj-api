@@ -63,11 +63,13 @@ export class ClientesController {
     @Query('usuarioalteracao') usuarioalteracao?: string,
     @Query('dataalteracaode') dataalteracaode?: string,
     @Query('dataalteracaoate') dataalteracaoate?: string,
+    @Query('datanascde') datanascde?: string,
+    @Query('datanascate') datanascate?: string,
   ): Promise<{ data: ClienteDTO[], totalCount: number, totalPages: number }> {
     return this.clienteService.getPagination(page, perPage, codigo, nome, cpf, rg,
       cep, logradouro, numero, bairro, complemento, cidade, uf, telefone, whatsapp, status, usuariocriacao,
       datacriacaode, datacriacaoate, usuarioalteracao,
-      dataalteracaode, dataalteracaoate);
+      dataalteracaode, dataalteracaoate, datanascde, datanascate);
   }
 
 

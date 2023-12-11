@@ -47,7 +47,10 @@ export class ItensProcesso {
 export class Processo {
 
     @Prop({ unique: true })
-    numeroprocesso: number;
+    codigo: number;
+
+    @Prop()
+    numeroprocesso?: string;
 
     @Prop({ required: true, type: ClienteProcesso })
     cliente = new ClienteProcesso();
@@ -67,8 +70,15 @@ export class Processo {
     @Prop()
     datacriacao: Date;
 
+    @Prop()
+    observacao?: string;
+
+    @Prop()
+    aluno?: string;
+
     @Prop({ type: ItensProcesso })
     itensprocesso = new Array<ItensProcesso>();
+
 
 }
 

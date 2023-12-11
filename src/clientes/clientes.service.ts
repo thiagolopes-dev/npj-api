@@ -19,7 +19,7 @@ export class ClientesService {
   async getPagination(page: number, perPage: number, codigo: string, nome: string, cpf: string, rg: string, cep: string,
     logradouro: string, numero: string, bairro: string, complemento: string, cidade: string, uf: string,
     telefone: string, whatsapp: string, status: string, usuariocriacao: string,
-    datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string):
+    datacriacaode: string, datacriacaoate: string, usuarioalteracao: string, dataalteracaode: string, dataalteracaoate: string, datanascde: string, datanascate: string):
     Promise<{ data: ClienteDTO[], totalCount: number, totalPages: number }> {
 
     const query: any = {};
@@ -78,6 +78,31 @@ export class ClientesService {
     }
 
 
+    if (datanascde && datanascate) {
+      const startDateTime = new Date(datanascde);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      const endDateTime = new Date(datanascate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+      query.datanasc = {
+        $gte: startDateTime,
+        $lt: endDateTime
+      };
+    } else if (datanascde) {
+      const startDateTime = new Date(datanascde);
+      startDateTime.setUTCHours(0, 0, 0, 0);
+
+      query.datanasc = {
+        $gte: startDateTime
+      };
+    } else if (datanascate) {
+      const endDateTime = new Date(datanascate);
+      endDateTime.setUTCHours(23, 59, 59, 999);
+
+      query.datanasc = {
+        $lt: endDateTime
+      };
+    }
 
 
     if (datacriacaode && datacriacaoate) {
@@ -164,9 +189,9 @@ export class ClientesService {
     //   throw new ConflictException('RG já cadastrado');
     // }
 
-    if (cliente.cpf.length > 11 || cliente.cpf.length < 11) {
-      throw new ConflictException('CPF deve conter 11 digitos')
-    }
+    // if (cliente.cpf.length > 11 || cliente.cpf.length < 11) {
+    //   throw new ConflictException('CPF deve conter 11 digitos')
+    // }
 
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');

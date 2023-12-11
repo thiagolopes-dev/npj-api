@@ -1,6 +1,7 @@
 export class FlatProcessoDTO {
     _id?: string;
-    numeroprocesso: number;
+    codigo: number;
+    numeroprocesso: string;
     desccliente: string;
     descvara: string;
     descmotivo: string;

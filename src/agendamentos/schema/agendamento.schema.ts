@@ -55,6 +55,9 @@ export class Agendamento {
     @Prop()
     dataalteracao?: Date;
 
+    @Prop()
+    observacao?: string;
+
 }
 
 export const AgendamentoSchema = SchemaFactory.createForClass(Agendamento);

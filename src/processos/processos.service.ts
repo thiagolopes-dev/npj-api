@@ -20,6 +20,7 @@ export class ProcessosService {
   async getPagination(
     page: number,
     perPage: number,
+    codigo: string,
     numeroprocesso: string,
     desccliente: string,
     descvara: string,
@@ -37,6 +38,14 @@ export class ProcessosService {
 
     if (usuariocriacao) {
       query.usuariocriacao = { $regex: usuariocriacao, $options: 'i' };
+    }
+
+    if (codigo) {
+      const parsedCodigo = parseInt(codigo, 10); // Tente converter a string para um número
+      if (!isNaN(parsedCodigo)) {
+        // A conversão foi bem-sucedida, atribua o valor convertido à query
+        query.codigo = parsedCodigo;
+      }
     }
 
     if (numeroprocesso) {
@@ -103,6 +112,7 @@ export class ProcessosService {
     for (const processoData of processoDataArray) {
       const flatData: FlatProcessoDTO = {
         _id: processoData._id,
+        codigo: processoData.codigo,
         numeroprocesso: processoData.numeroprocesso,
         desccliente: processoData.cliente.nome,
         descvara: processoData.vara.descricao,
@@ -122,20 +132,20 @@ export class ProcessosService {
     processoDTO: ProcessoDTO,
     user: UsuarioDto,
   ): Promise<ProcessoDocument> {
-    const { numeroprocesso, ...rest } = processoDTO;
+    const { codigo, ...rest } = processoDTO;
     const currentDate = moment.utc();
     const utcMinus3 = currentDate.clone().subtract(3, 'hours');
     const MaxId = await this.processoModel
-      .findOne({}, 'numeroprocesso')
-      .sort({ numeroprocesso: -1 });
-    const nextId = MaxId ? MaxId.numeroprocesso + 1 : 1;
+      .findOne({}, 'codigo')
+      .sort({ codigo: -1 });
+    const nextId = MaxId ? MaxId.codigo + 1 : 1;
     // Mapear os itens do processo para adicionar o usuário
     const itensprocesso = processoDTO.itensprocesso.map((item) => ({
       ...item,
     }));
     const createdProcesso = new this.processoModel({
       ...rest,
-      numeroprocesso: nextId,
+      codigo: nextId,
       usuariocriacao: user.username,
       datacriacao: utcMinus3,
       itensprocesso: itensprocesso,

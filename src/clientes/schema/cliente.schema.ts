@@ -5,44 +5,47 @@ export type ClienteDocument = Cliente & Document;
 
 @Schema()
 export class Cliente {
+  @Prop({ required: true, unique: true })
+  codigo: number;
+
   @Prop({ required: true })
   nome: string;
 
   @Prop({ required: true })
+  datanasc: Date;
+
+  @Prop()
   cpf: string;
 
-  @Prop({ required: false })
+  @Prop()
   rg: string;
 
-  @Prop({ required: true })
+  @Prop()
   logradouro: string;
 
-  @Prop({ required: true })
+  @Prop()
   cep: string;
 
-  @Prop({ required: true })
+  @Prop()
   bairro: string;
 
-  @Prop({ required: true })
+  @Prop()
   numero: string;
 
   @Prop({})
   complemento: string;
 
-  @Prop({ required: true })
+  @Prop()
   cidade: string;
 
-  @Prop({ required: true })
+  @Prop()
   uf: string;
 
-  @Prop({ required: false })
+  @Prop()
   telefone: string;
 
-  @Prop({ required: false })
+  @Prop()
   whatsapp: string;
-
-  @Prop({ required: true, unique: true })
-  codigo: number;
 
   @Prop({ required: true })
   status: boolean;

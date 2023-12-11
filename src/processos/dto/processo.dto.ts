@@ -3,7 +3,10 @@ import { ClienteProcesso, ItensProcesso, MotivoProcesso, StatusProcesso, VaraPro
 
 export class ProcessoDTO {
 
-    numeroprocesso: number;
+    codigo: number;
+
+    @IsOptional()
+    numeroprocesso?: string;
 
     @IsNotEmpty()
     cliente = new ClienteProcesso();
@@ -21,6 +24,12 @@ export class ProcessoDTO {
     usuariocriacao: string;
     @IsOptional()
     datacriacao: Date;
+
+    @IsOptional()
+    observacao?: string;
+
+    @IsOptional()
+    aluno?: string;
 
     itensprocesso = new Array<ItensProcesso>();
 }

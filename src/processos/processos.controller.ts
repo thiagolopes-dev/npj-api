@@ -33,6 +33,7 @@ export class ProcessosController {
     async getPagination(
         @Query('page') page: number,
         @Query('perPage') perPage: number,
+        @Query('codigo') codigo?: string,
         @Query('numeroprocesso') numeroprocesso?: string,
         @Query('desccliente') desccliente?: string,
         @Query('descvara') descvara?: string,
@@ -42,7 +43,7 @@ export class ProcessosController {
         @Query('datacriacaoate') datacriacaoate?: string,
         @Query('usuariocriacao') usuariocriacao?: string,
     ): Promise<{ data: FlatProcessoDTO[], totalCount: number, totalPages: number }> {
-        return this.processoService.getPagination(page, perPage, numeroprocesso, desccliente, descvara,
+        return this.processoService.getPagination(page, perPage, codigo, numeroprocesso, desccliente, descvara,
             descmotivo, descstatus, datacriacaode, datacriacaoate, usuariocriacao)
     }
 
