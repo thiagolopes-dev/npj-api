@@ -43,6 +43,30 @@ export class ItensProcesso {
     itemdatacriacao: Date;
 }
 
+export class Partes {
+
+    @Prop()
+    nome: string;
+
+    @Prop()
+    cpf: string;
+
+    @Prop()
+    whats: string;
+
+    @Prop()
+    telefone: string;
+
+    @Prop()
+    email: string;
+
+    @Prop()
+    usuariocriacao: string;
+
+    @Prop()
+    datacriacao: Date;
+}
+
 @Schema()
 export class Processo {
 

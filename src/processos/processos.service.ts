@@ -143,12 +143,16 @@ export class ProcessosService {
     const itensprocesso = processoDTO.itensprocesso.map((item) => ({
       ...item,
     }));
+    const partes = processoDTO.partes.map((parte) => ({
+      ...parte,
+    }));
     const createdProcesso = new this.processoModel({
       ...rest,
       codigo: nextId,
       usuariocriacao: user.username,
       datacriacao: utcMinus3,
       itensprocesso: itensprocesso,
+      partes: partes
     });
     return createdProcesso.save();
   }

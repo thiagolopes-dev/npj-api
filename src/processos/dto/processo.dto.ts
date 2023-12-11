@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsOptional } from "class-validator";
-import { ClienteProcesso, ItensProcesso, MotivoProcesso, StatusProcesso, VaraProcesso } from "../schema/processo.schema";
+import { ClienteProcesso, ItensProcesso, MotivoProcesso, Partes, StatusProcesso, VaraProcesso } from "../schema/processo.schema";
 
 export class ProcessoDTO {
 
@@ -32,4 +32,6 @@ export class ProcessoDTO {
     aluno?: string;
 
     itensprocesso = new Array<ItensProcesso>();
+
+    partes = new Array<Partes>();
 }
