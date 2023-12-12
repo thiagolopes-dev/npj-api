@@ -103,6 +103,9 @@ export class Processo {
     @Prop({ type: ItensProcesso })
     itensprocesso = new Array<ItensProcesso>();
 
+    @Prop({ type: Partes })
+    partes = new Array<Partes>();
+
 
 }
 
