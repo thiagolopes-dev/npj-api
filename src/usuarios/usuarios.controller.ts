@@ -18,22 +18,22 @@ export class UsuariosController {
         type: UsuarioDto,
         isArray: true,
         description: 'Lista de Usuarios'
-      })
-      @UseGuards(AccessTokenGuard)
-      @Get('all')
-      async getAll(): Promise<UsuarioDto[]> {
+    })
+    @UseGuards(AccessTokenGuard)
+    @Get('all')
+    async getAll(): Promise<UsuarioDto[]> {
         return this.usuarioService.getAll();
-      }
+    }
 
     @ApiResponse({
         status: 200,
         type: UsuarioDto,
         isArray: true,
         description: 'Lista de Usuários Paginada'
-      })
-      @UseGuards(AccessTokenGuard)
-      @Get()
-      async getPagination(
+    })
+    @UseGuards(AccessTokenGuard)
+    @Get()
+    async getPagination(
         @Query('page') page: number,
         @Query('perPage') perPage: number,
         @Query('name') name?: string,
@@ -45,9 +45,9 @@ export class UsuariosController {
         @Query('usuarioalteracao') usuarioalteracao?: string,
         @Query('dataalteracaode') dataalteracaode?: string,
         @Query('dataalteracaoate') dataalteracaoate?: string,
-      ): Promise<{ data: UsuarioDto[], totalCount: number, totalPages: number }> {
+    ): Promise<{ data: UsuarioDto[], totalCount: number, totalPages: number }> {
         return this.usuarioService.getPagination(page, perPage, name, username, status, usuariocriacao, datacriacaode, datacriacaoate, usuarioalteracao, dataalteracaode, dataalteracaoate);
-      }
+    }
 
     @ApiResponse({
         description: 'Usuário criado com sucesso',
@@ -75,25 +75,27 @@ export class UsuariosController {
         return this.usuarioService.buscarPorId(id);
     }
 
+
+
     @UseGuards(AccessTokenGuard)
     @Put(':id')
     atualizarUsuario(@Param('id') id: string, @Body() atualizarUsuario: AtualizarUsuarioDto) {
         return this.usuarioService.atualizar(id, atualizarUsuario);
     }
 
-    @Put('alterarsenha')
+    @Put('/senha/alterar')
     @UseGuards(AccessTokenGuard) // Protege a rota com o guard de autenticação JWT
     async updatePassword(@Request() req: any, @Body('password') newPassword: string) {
         if (!newPassword) {
             throw new BadRequestException('Nova senha não fornecida.');
         }
+        console.log(req.user);
         try {
             const user = req.user;
-            const updatedUser = await this.usuarioService.atualizarSenha(user.sub, { password: newPassword });
+            const updatedUser = await this.usuarioService.updateUserPassword(user._id, { password: newPassword });
             return updatedUser;
         } catch (error) {
             throw new InternalServerErrorException('Erro ao atualizar a senha do usuário.');
         }
     }
-
 }

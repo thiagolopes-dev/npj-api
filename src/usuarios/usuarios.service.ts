@@ -10,6 +10,7 @@ import { UsuarioDto } from './dto/usuario.dto';
 import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
 
 import * as argon2 from 'argon2';
+import { AtualizarSenhaDto } from './dto/atualizar-senha.dto';
 import { AtualizarUsuarioDto } from './dto/update-usuario.dto';
 
 @Injectable()
@@ -153,31 +154,39 @@ export class UsuariosService {
       .exec();
   }
 
-  async atualizarSenha(sub: string, atualizarUsuarioDto: AtualizarUsuarioDto): Promise<UsuarioDocument> {
-    //Verificar se o ID do usuario existe
+  async updateUserPassword(
+    sub: string,
+    updatePasswordDto: AtualizarSenhaDto,
+  ): Promise<UsuarioDocument> {
+    console.log('no inicio');
+    // Verificar se o ID do usuário (sub) foi fornecido
+    console.log(sub);
     if (!sub) {
-      throw new Error(`ID do usuário não fornecido`);
+      throw new Error('ID do usuário (sub) não fornecido');
     }
-    //Buscar o usuario pelo ID na database
-    const usuario = await this.buscarPorId(sub);
-    if (!usuario) {
-      //Se o usuário não ser encontrado, será lançado a exceção
-      throw new NotFoundException(`Usuário não encontrado`);
+    // Buscar o usuário pelo ID (ou "sub") no banco de dados
+    const user = await this.buscarPorId(sub);
+    console.log(user);
+    if (!user) {
+      // Se o usuário não foi encontrado, lance uma exceção personalizada
+      throw new NotFoundException('Usuário não encontrado');
     }
     try {
-      if (atualizarUsuarioDto.password) {
-        const hashedPassword = await argon2.hash(atualizarUsuarioDto.password);
-        usuario.password = hashedPassword;
-        //Linha abaixo com erro.
-        const atualizaUsuario = await usuario;
-        return atualizaUsuario;
+      if (updatePasswordDto.password) {
+        console.log(updatePasswordDto.password);
+        const hashedPassword = await argon2.hash(updatePasswordDto.password);
+        // console.log('Senha hasheada:', hashedPassword);
+        user.password = hashedPassword;
+        console.log(user.password);
+        const updatedUser = await user.save();
+        return updatedUser;
       } else {
         throw new ConflictException('Nova senha não fornecida');
       }
-    }
-    catch (error) {
+    } catch (error) {
+      // console.error('Erro ao salvar no banco de dados:', error);
       throw new InternalServerErrorException(
-        'Não foi possivel atualizar a senha'
+        'Não foi possível atualizar a senha.',
       );
     }
   }
