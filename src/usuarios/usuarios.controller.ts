@@ -89,7 +89,6 @@ export class UsuariosController {
         if (!newPassword) {
             throw new BadRequestException('Nova senha não fornecida.');
         }
-        console.log(req.user);
         try {
             const user = req.user;
             const updatedUser = await this.usuarioService.updateUserPassword(user._id, { password: newPassword });
