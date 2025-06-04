@@ -72,7 +72,7 @@ export class MotivosService {
       const endDateTime = new Date(datacriacaoate);
       endDateTime.setUTCHours(23, 59, 59, 999);
 
-      query.datacriacaoa = {
+      query.datacriacao = {
         $lt: endDateTime,
       };
     }
